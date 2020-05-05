@@ -32,7 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/post/restore/{id}', ['as' => 'GET_ACTION_RESTORE_POST_ROUTE', 'uses' => 'PostController@getActionRestorePost']);
 
     //delete post
-    Route::get('/post/delete/{id}', ['as' => 'GET_ACTION_DELETE_POST_ROUTE', 'uses' => 'PostController@getActionDeletePost'])->name;
+    Route::get('/post/delete/{id}', ['as' => 'GET_ACTION_DELETE_POST_ROUTE', 'uses' => 'PostController@getActionDeletePost']);
 
     //page
     Route::get('/pages/{status?}', ['as' => 'GET_PAGES_ROUTE', 'uses' => 'PageController@index']);
