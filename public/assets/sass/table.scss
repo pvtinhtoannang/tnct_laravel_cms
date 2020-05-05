@@ -1,0 +1,67 @@
+table tbody tr td .row-actions a {
+    visibility: hidden;
+}
+
+table tbody tr:hover .row-actions a {
+    visibility: visible;
+}
+
+table.tnct-table tbody tr td {
+    vertical-align: top !important;
+}
+
+.categories, .tags {
+    a {
+        &:after {
+            content: ',';
+        }
+
+        &:last-child {
+            &:after {
+                content: none;
+            }
+        }
+    }
+}
+
+table {
+    &.trash {
+        tbody {
+            tr {
+                td {
+                    color: #555555;
+
+                    .edit-btn, .view-btn {
+                        display: none;
+                    }
+
+                    .restore-btn {
+                        display: inline !important;
+                    }
+                }
+            }
+        }
+    }
+
+    &.pending, &.draft {
+        tbody {
+            tr {
+                td {
+                    .view-btn, .restore-btn, .post-status {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+
+    tbody {
+        tr {
+            td {
+                .restore-btn {
+                    display: none !important;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,56 @@
+.pvtinh_khkt_timkhoahoc{
+	padding: 30px 0;
+	background-color: #eef1f2;
+	max-width: 1920px;
+	margin: auto;
+	overflow: hidden;
+	.list-timkhoahoc{
+		.timkhoahoc-item{
+			position: relative;
+			border-radius: 3px;
+			overflow: hidden;
+			.content-item{
+				position: absolute;
+				max-width: 560px;
+				z-index: 2;
+				color: #FFF;
+				//cho nội dung ra giưã
+				top: 50%; 
+				left: 50%;
+				transform: translate(-50%, -50%);
+
+				//light
+				font-weight: 300;
+				font-size: 2rem;
+				line-height: 1.4;
+
+			}
+			.button-tim-khoa-hoc{
+				//do là thẻ a nên có block;
+				display: block;
+				width: 100%;
+				max-width: 150px;
+				background-color: #ef487c;
+				height: 38px;
+				border-radius: calc(38px / 2 + 1px);
+				color: #FFF;
+				line-height: 38px;
+    			margin: 15px auto;
+    			font-size: 1.4rem;
+    		}
+		}
+		.slick-prev, .slick-next {
+			width: 15px;
+			height: 24px;
+			&:before{
+				all: unset;
+			}
+		}
+		.slick-prev{
+			background-image: url(../images/arrows-slick-tim-khoa-hoc-left.png);
+		}
+		.slick-next{
+			background-image: url(../images/arrows-slick-tim-khoa-hoc-right.png);	
+		}
+	}
+}

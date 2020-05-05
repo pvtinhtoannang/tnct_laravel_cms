@@ -1,0 +1,16 @@
+.pvtinh_khkt_partner{
+	padding: 30px 0;
+	.slick-prev, .slick-next {
+		width: 15px;
+		height: 24px;
+		&:before{
+			all: unset;
+		}
+	}
+	.slick-prev{
+		background-image: url(../images/arrows-slick-tim-khoa-hoc-left.png);
+	}
+	.slick-next{
+		background-image: url(../images/arrows-slick-tim-khoa-hoc-right.png);	
+	}		
+}
