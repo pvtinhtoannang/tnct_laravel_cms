@@ -230,15 +230,6 @@
                                 position: relative;
                             }
 
-                            .dd-handle {
-                                display: block;
-                                position: absolute;
-                                left: 10px;
-                                top: 5px;
-                                width: calc(100% - 80px);
-                                height: 100%;
-                            }
-
                             .dd-item button {
                                 background: transparent;
                                 border: magenta;
