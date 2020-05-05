@@ -1,0 +1,181 @@
+
+.reset-container {
+    color: #333;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow: hidden;
+}
+.reset-container h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.reset-container h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.reset-container h3 {
+    display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.reset-container h4 {
+    display: block;
+    margin-block-start: 1.33em;
+    margin-block-end: 1.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.reset-container h5 {
+    display: block;
+    font-size: 0.83em;
+    margin-block-start: 1.67em;
+    margin-block-end: 1.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.reset-container h6 {
+    display: block;
+    font-size: 0.67em;
+    margin-block-start: 2.33em;
+    margin-block-end: 2.33em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.reset-container h1,
+.reset-container h2,
+.reset-container h3,
+.reset-container h4,
+.reset-container h5,
+.reset-container h6 {
+    font-family: inherit;
+    font-weight: bold;
+    line-height: 1.5;
+    color: inherit;
+}
+.reset-container img {
+    max-width: 100%;
+    height: auto !important;
+    display: initial;
+}
+.reset-container .alignright {
+    float: right;
+    margin: 0.5em 0 0.5em 1em;
+}
+.reset-container .aligncenter {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.reset-container iframe {
+    max-width: 100%;
+}
+.reset-container * {
+    max-width: 100%;
+}
+.reset-container table {
+    width: 100%;
+}
+
+.reset-container i, 
+.reset-container cite, 
+.reset-container em, 
+.reset-container var, 
+.reset-container address, 
+.reset-container dfn {
+    font-style: italic;
+}
+.reset-container u {
+    text-decoration: underline;
+}
+.reset-container a {
+    color: #0091ff;
+    text-decoration: underline;
+}
+.reset-container b,
+.reset-container strong {
+    font-weight: bold !important;
+}
+.reset-container ul {
+    padding-left: 20px;
+    list-style-type: disc;
+    list-style-position: outside;
+    margin-bottom: 10px
+}
+.reset-container ul li {
+    list-style: inherit;
+    list-style-position: outside;
+}
+.reset-container ol {
+    padding-left: 20px;
+    list-style-type: decimal;
+    list-style-position: outside;
+    margin-bottom: 10px
+}
+.reset-container ol li {
+    list-style: inherit;
+    list-style-type: decimal;
+    list-style-position: outside;
+}
+.reset-container p {
+    font-size: 16px;
+    line-height: 1.5;
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.reset-container table tr td,
+.reset-container table tr th,
+.reset-container table > tbody > tr > td,
+.reset-container table > tbody > tr > th,
+.reset-container table > tfoot > tr > td,
+.reset-container table > tfoot > tr > th,
+.reset-container table > thead > tr > td,
+.reset-container table > thead > tr > th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+}
+.reset-container table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    border-color: #2c2c2c
+}
+.reset-container td,
+.reset-container th {
+    padding: 0;
+}
+.reset-container table {
+    border-collapse: collapse !important;
+}
+.reset-container table th,
+.reset-container table td {
+    border: 1px solid #2c2c2c !important;
+}
+.reset-container .alignleft {
+    float: left;
+    margin: 0.5em 1em 0.5em 0;
+}

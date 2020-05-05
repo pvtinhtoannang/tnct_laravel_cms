@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+
+body {
+	/*font family chính của website*/
+    font-family: 'Sarabun', sans-serif;
+}
+
+:root{
+	font-size: 10px;
+	@media screen and (max-width: 992px){
+		font-size: 9px;
+	}
+	@media screen and (max-width: 768px){
+		font-size: 8px;
+	}
+	@media screen and (max-width: 580px){
+		font-size: 7px;
+	}
+}
+
+@import '../sass/pvtinh_khkt_timkhoahoc';
+@import '../sass/pvtinh_khkt_khoahochot';
+@import '../sass/pvtinh_khkt_taisaochon';
+@import '../sass/pvtinh_khkt_partner';
+@import '../sass/pvtinh_khkt_footer';

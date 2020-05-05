@@ -1,0 +1,30 @@
+.media-modal {
+
+    .modal-header {
+        border-bottom: none;
+    }
+
+    .modal-dialog {
+        overflow-y: initial !important;
+        max-width: calc(100% - 3.5rem);
+    }
+
+    .modal-body {
+        height: calc(100vh - 15em);
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        border-radius: 0 !important;
+    }
+
+    .attachments {
+        li {
+            cursor: pointer;
+        }
+
+        li.selected {
+            box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #5867dd;
+        }
+    }
+}
