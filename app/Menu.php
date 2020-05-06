@@ -35,10 +35,11 @@ class Menu extends Model
         return self::find($id)->update(['link' => $link, 'label' => $label]);
     }
 
-    public function updateParentMenuItem($id, $parent)
+    public function updateParentMenuItem($id, $parent, $sort)
     {
-
+        return self::find($id)->update(['parent'=>$parent, 'sort'=>$sort]);
     }
+
 
 
 }

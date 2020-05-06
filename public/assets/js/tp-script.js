@@ -1,3 +1,5 @@
+"use strict"
+
 var KTDatatablesPermission = function () {
     var initTablePermission = function () {
         var table = $('#permission');
@@ -327,10 +329,56 @@ var PvtinhMenuManagement = function () {
                 });
         });
     }
+
+    var alertSuccessAddMenuItem = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        toastr.success("Menu đã thêm vào!");
+    }
+
+    var alertErrorAddMenuItem = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        toastr.error("Có lỗi xảy ra rồi!");
+    }
+
     var handleAddMenuItemForPages = function () {
         $('.btn-add-pages-to-menu').click(function () {
             var data = $('#menu_pages').select2('data');
             var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
             $.each(data, function (key, value) {
                 var label = value.text;
                 var link = value.id;
@@ -338,7 +386,7 @@ var PvtinhMenuManagement = function () {
                 $.ajax({
                     method: "POST",
                     url: "/admin/ajax-add-menu",
-                    data: {_token: __token, label: label, link: link, position: 1}
+                    data: {_token: __token, label: label, link: link, position: position}
                 })
                     .done(function (res) {
                         var id_html = res.id;
@@ -347,7 +395,7 @@ var PvtinhMenuManagement = function () {
                         console.log(id_html);
                         if (id_html !== undefined) {
                             html = '<li class="dd-item" data-id="' + id_html + '">\n' +
-                                '    <span class="dd-handle"><i class="fa fa-list"></i></span>\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
                                 '    <span class="dd3-content">\n' +
                                 '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
                                 '        <a class="edit-button" data-id="' + id_html + '"\n' +
@@ -365,33 +413,222 @@ var PvtinhMenuManagement = function () {
             $('#menu_pages').val(null).trigger('change');
 
             if (data !== null) {
-                toastr.options = {
-                    "closeButton": false,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-top-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "300",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
-
-                toastr.success("Menu đã thêm vào!");
+                alertSuccessAddMenuItem();
             }
 
         });
     }
 
     var handleAddMenuItemForPosts = function () {
+        $('.btn-add-post-to-menu').click(function () {
+            var data = $('#menu_posts').select2('data');
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
 
+            $.each(data, function (key, value) {
+                var label = value.text;
+                var link = value.id;
+                var html = '';
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = res.label;
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+            });
+            $('#menu_posts').val(null).trigger('change');
+
+            if (data !== null) {
+                alertSuccessAddMenuItem();
+            }
+
+        });
     }
+
+    var handleAddMenuItemForCategory = function () {
+        $('.btn-add-category-to-menu').click(function () {
+            var data = $('#menu_categories').select2('data');
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
+
+            $.each(data, function (key, value) {
+                var label = value.text;
+                var link = value.id;
+                var html = '';
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = res.label;
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+            });
+            $('#menu_categories').val(null).trigger('change');
+
+            if (data !== null) {
+                alertSuccessAddMenuItem();
+            }
+
+        });
+    }
+
+    var handleAddMenuItemForTags = function () {
+        $('.btn-add-tag-to-menu').click(function () {
+            var data = $('#menu_tags').select2('data');
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
+
+            $.each(data, function (key, value) {
+                var label = value.text;
+                var link = value.id;
+                var html = '';
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = res.label;
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+            });
+            $('#menu_tags').val(null).trigger('change');
+
+            if (data !== null) {
+                alertSuccessAddMenuItem();
+            }
+        });
+    }
+
+    var handleAddMenuItemForCustomLink = function () {
+        $('.btn-add-custom-link-to-menu').click(function () {
+            var label = $.trim($('#custom_link_name').val());
+            var link = $.trim($('#custom_link_url').val());
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var html = '';
+            var position = $('#postion_menu').val();
+
+            if (label.length === 0 || link.length === 0) {
+                alertErrorAddMenuItem();
+            } else {
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = $.text(res.label);
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+
+
+                alertSuccessAddMenuItem();
+                $('#custom_link_name').val('');
+                $('#custom_link_url').val('');
+            }
+        });
+    }
+
+    var redirectToMenuByID = function () {
+        $('.btn-edit-menu').click(function () {
+            var nav_menu = $('#menus_group').val();
+            var url = "/admin/nav-menu/" + nav_menu;
+            $(location).attr('href', url);
+        });
+    }
+
+    var saveMenuItemToMenuPosition = function () {
+        $('.dd').on('change', function () {
+            $("#load").show();
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var data = $('.dd').nestable('serialize');
+            $.ajax({
+                type: "POST",
+                url: "/admin/ajax-save-menu",
+                data:  {_token: __token, data: data},
+                cache: false,
+                success: function (data) {
+
+                }, error: function (xhr, status, error) {
+                    alert(error);
+                },
+            });
+        });
+    }
+
 
     return {
         init: function () {
@@ -403,8 +640,11 @@ var PvtinhMenuManagement = function () {
             handleEditMenuItem();
             handleAddMenuItemForPages();
             handleAddMenuItemForPosts();
-
-
+            handleAddMenuItemForCategory();
+            handleAddMenuItemForTags();
+            handleAddMenuItemForCustomLink();
+            redirectToMenuByID();
+            saveMenuItemToMenuPosition();
         }
     }
 }();

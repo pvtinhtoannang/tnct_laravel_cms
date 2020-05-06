@@ -24,4 +24,9 @@ class PositionMenu extends Model
     {
         return self::create(['name' => $name, 'display_name' => $display_name]);
     }
+
+   public function getPositionMenuByID($id)
+   {
+       return self::find($id);
+   }
 }

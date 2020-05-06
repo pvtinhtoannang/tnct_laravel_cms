@@ -35,10 +35,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('update-user-by-list', ['as' => 'UPDATE_USER_BY_LIST', 'uses'=>'UserController@updateUserByList']);
 
     Route::get('nav-menu', ['as' => 'GET_NAV_MENU', 'uses'=>'NavMenuController@getViewNavMenu']);
+    Route::get('nav-menu/{id}', ['as' => 'GET_NAV_MENU_BY_ID', 'uses'=>'NavMenuController@getViewNavMenuByID']);
     Route::post('add-postion-nav-menu', ['as' => 'POST_ADD_NEW_MENU_POSITION', 'uses'=>'NavMenuController@addPositionMenu']);
 
     Route::POST('ajax-update-menu', ['as' => 'UPDATE_MENU_ITEM' , 'uses'=> 'NavMenuController@updateMenuItem']);
     Route::POST('ajax-add-menu', ['as' => 'ADD_MENU_ITEM' , 'uses'=> 'NavMenuController@addMenuItem']);
+
+    Route::POST('ajax-save-menu', ['as' => 'POST_SAVE_MENU' , 'uses'=> 'NavMenuController@saveMenu']);
 
 });
 

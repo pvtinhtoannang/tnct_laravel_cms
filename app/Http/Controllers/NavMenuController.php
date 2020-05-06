@@ -27,21 +27,48 @@ class NavMenuController extends Controller
 
     public function getViewNavMenu()
     {
+        $postion_menu_first = $this->position_menu->getAllPostionMenu()->first();
         $position_menu = $this->position_menu->getAllPostionMenu();
         $pages = $this->page->latest()->get();
         $posts = $this->post->type('post')->latest()->get();
         $tags = $this->tag->get();
         $category = $this->taxonomy->category()->get();
-        $menus = Menu::where('positions_menu_id', 1)->where('parent', 0)->with('childrenMenus')->get();
+
+        $menus = Menu::where('positions_menu_id', $postion_menu_first->id)->where('parent', 0)->with('childrenMenus')->get();
         return view('admin.appearance.nav-menu', [
             'position_menu' => $position_menu,
             'pages' => $pages,
             'posts' => $posts,
             'tags' => $tags,
             'categories' => $category,
-            'menus' => $menus
+            'menus' => $menus,
+            'menus_editing' => $postion_menu_first
         ]);
     }
+
+    public function getViewNavMenuByID($id)
+    {
+        $postion_menu_first = $this->position_menu->getPositionMenuByID($id);
+        $position_menu = $this->position_menu->getAllPostionMenu();
+        $pages = $this->page->latest()->get();
+        $posts = $this->post->type('post')->latest()->get();
+        $tags = $this->tag->get();
+        $category = $this->taxonomy->category()->get();
+
+        $menus = Menu::where('positions_menu_id', $id)->where('parent', 0)->with('childrenMenus')->get();
+
+
+        return view('admin.appearance.nav-menu', [
+            'position_menu' => $position_menu,
+            'pages' => $pages,
+            'posts' => $posts,
+            'tags' => $tags,
+            'categories' => $category,
+            'menus' => $menus,
+            'menus_editing' => $postion_menu_first,
+        ]);
+    }
+
 
     public function addPositionMenu(Request $request)
     {
@@ -85,10 +112,34 @@ class NavMenuController extends Controller
         $label = $request->label;
         $link = $request->link;
         $position = $request->position;
-        if(!empty($link) && !empty($label)){
-            return $this->menu->addMenuItem($link, $label);
+        if (!empty($link) && !empty($label)) {
+            return $this->menu->addMenuItem($link, $label, 0, 0, $position);
         }
     }
 
+
+    // HÀM ĐỆ QUY
+    function saveMenuItem(array $arrMenu, $parent_id = 0, $sort = 0)
+    {
+        foreach ($arrMenu as $key => $item)
+        {
+            $parent = $item['id'];
+            $sort = $key;
+            $this->menu->updateParentMenuItem($item['id'], $parent_id, $sort);
+            if(!empty($item['children'])){
+                return $this->saveMenuItem($item['children'], $parent, $key);
+            }else{
+                $this->menu->updateParentMenuItem($item['id'], $parent_id, $sort);
+            }
+        }
+    }
+
+
+
+    public function saveMenu(Request $request)
+    {
+        $data = $request->data;
+        return $this->saveMenuItem($request->data);
+    }
 
 }

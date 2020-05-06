@@ -1,7 +1,30 @@
 @extends('admin.dashboard.dashboard-master')
 @section('title', 'Quản lý menu')
 @section('content')
-
+    @if(!empty($menu_id))
+        <input type="hidden" id="postion_menu" value="{{ $menu_id }}">
+    @else
+        <input type="hidden" id="postion_menu" value="{{ $menus_editing->id }}">
+    @endif
+    <div class="row">
+        <div class="col-xs-12 col-md-3">
+            <div class="form-group ">
+                <label for="menus_group">Chọn menu để sửa</label>
+                <div class="input-group">
+                    <select name="#" class="form-control" id="menus_group">
+                        @foreach($position_menu as $menus_item_pos)
+                            <option value="{{$menus_item_pos->id}}"
+                                    @if(!empty($menu_id) && $menu_id == $menus_item_pos->id) selected
+                                @endif>{{$menus_item_pos->display_name}} - {{ $menus_item_pos->name }}</option>
+                        @endforeach
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-primary btn-edit-menu" type="button">Sửa!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <ul class="nav nav-tabs  nav-tabs-line nav-tabs-line-brand" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#menu_tab_1" role="tab"><i
@@ -13,7 +36,13 @@
             <a class="nav-link" data-toggle="tab" href="#menu_tab_2" role="tab"><i class="flaticon-layers"></i>
                 Quản lý vị trí menu</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#menu_tab_2" role="tab"><i class="flaticon-support"></i>
+                Hướng dẫn</a>
+        </li>
     </ul>
+
+
     <div class="tab-content">
         <div class="tab-pane active" id="menu_tab_1" role="tabpanel">
             <div class="row">
@@ -25,7 +54,6 @@
                                 <h3 class="kt-portlet__head-title">
                                     Thêm liên kết
                                 </h3>
-
                             </div>
                         </div>
 
@@ -49,12 +77,14 @@
                                                         name="menu_pages[]">
                                                     <option></option>
                                                     @foreach($pages as $page)
-                                                        <option value="{{ $page->post_name }}">{{ $page->post_title }}</option>
+                                                        <option
+                                                            value="{{ $page->post_name }}">{{ $page->post_title }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-brand btn-elevate btn-elevate-air btn-add-pages-to-menu">Thêm
-                                                vào menu
+                                            <button type="button"
+                                                    class="btn btn-brand btn-elevate btn-elevate-air btn-add-pages-to-menu">
+                                                Thêm vào menu
                                             </button>
                                         </div>
                                     </div>
@@ -79,11 +109,14 @@
                                                         style="width: 100%" id="menu_posts" name="menu_posts[]">
                                                     <option></option>
                                                     @foreach($posts as $post)
-                                                        <option value="{{ $post->post_name }}">{{ $post->post_title }}</option>
+                                                        <option
+                                                            value="{{ $post->post_name }}">{{ $post->post_title }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-brand btn-elevate btn-elevate-air">Thêm
+                                            <button type="button"
+                                                    class="btn btn-brand btn-elevate btn-elevate-air btn-add-post-to-menu">
+                                                Thêm
                                                 vào menu
                                             </button>
                                         </div>
@@ -101,16 +134,20 @@
                                          data-parent="#side-sortables">
                                         <div class="card-body">
                                             <div class="form-group">
-                                                <label for="">URL</label>
-                                                <input type="text" class="form-control" aria-describedby="emailHelp"
+                                                <label for="custom_link_url">URL</label>
+                                                <input id="custom_link_url" name="custom_link_url" type="text"
+                                                       class="form-control" aria-describedby="custom link"
                                                        placeholder="https://">
                                             </div>
                                             <div class="form-group">
-                                                <label for="">Tên đường dẫn</label>
-                                                <input type="text" class="form-control" aria-describedby="emailHelp"
+                                                <label for="custom_link_name">Tên đường dẫn</label>
+                                                <input id="custom_link_name" type="text" name="custom_link_name"
+                                                       class="form-control" aria-describedby="name"
                                                        placeholder="Tên đường dẫn">
                                             </div>
-                                            <button type="button" class="btn btn-brand btn-elevate btn-elevate-air">Thêm
+                                            <button type="button"
+                                                    class="btn btn-brand btn-elevate btn-elevate-air btn-add-custom-link-to-menu">
+                                                Thêm
                                                 vào menu
                                             </button>
                                         </div>
@@ -149,12 +186,14 @@
                                                         name="menu_tags[]">
                                                     <option></option>
                                                     @foreach($tags as $tag)
-                                                        <option value="{{ $tag->term->term_id }}"
-                                                                data-link="{{ $tag->term->slug }}">{{ $tag->term->name }}</option>
+                                                        <option
+                                                            value="{{ $tag->term->slug }}">{{ $tag->term->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-brand btn-elevate btn-elevate-air">Thêm
+                                            <button type="button"
+                                                    class="btn btn-brand btn-elevate btn-elevate-air btn-add-tag-to-menu">
+                                                Thêm
                                                 vào menu
                                             </button>
                                         </div>
@@ -179,12 +218,14 @@
                                                         name="menu_categories[]">
 
                                                     @foreach($categories as $category)
-                                                        <option value="{{ $category->term->term_id }}"
-                                                                data-link="{{ $category->term->slug }}">{{ $category->term->name }}</option>
+                                                        <option
+                                                            value="{{ $category->term->slug }}">{{ $category->term->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <button type="button" class="btn btn-brand btn-elevate btn-elevate-air">Thêm
+                                            <button type="button"
+                                                    class="btn btn-brand btn-elevate btn-elevate-air btn-add-category-to-menu">
+                                                Thêm
                                                 vào menu
                                             </button>
                                         </div>
@@ -205,12 +246,13 @@
                         <div class="kt-portlet__head">
                             <div class="kt-portlet__head-label">
                                 <h3 class="kt-portlet__head-title">
-                                    Cấu trúc menu
+                                    Cấu trúc menu -
+                                    {{ $menus_editing->display_name }}
                                 </h3>
                             </div>
                         </div>
+                        <input type="hidden" id="nestable-output">
                         <style>
-
                             .dd ol {
                                 list-style: none;
                             }
@@ -229,6 +271,7 @@
                                 transition: all .3s ease-in-out;
                                 position: relative;
                                 line-height: 40px;
+                                border-radius: 4px;
                             }
 
                             .dd-handle {
