@@ -83,7 +83,7 @@
     <link href="/assets/demo/default/skins/aside/dark.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
 
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!--end::Layout Skins -->
     <link rel="shortcut icon" href="/assets/media/logos/favicon.png"/>
 
