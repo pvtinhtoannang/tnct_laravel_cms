@@ -35,7 +35,7 @@ class TagController extends Controller
      */
     function addTag(Request $request)
     {
-        $this->term->addCategory($request->tag_name, $request->tag_slug, $request->tag_description, 0, $this->tax);
+        $this->term->addTerm($request->tag_name, $request->tag_slug, $request->tag_description, 0, $this->tax);
         return redirect()->route('GET_TAG_ROUTE');
     }
 }

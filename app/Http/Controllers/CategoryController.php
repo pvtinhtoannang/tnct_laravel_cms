@@ -35,7 +35,34 @@ class CategoryController extends Controller
      */
     function addCategory(Request $request)
     {
-        $this->term->addCategory($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax);
+        $this->term->addTerm($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax);
         return redirect()->route('GET_CATEGORY_ROUTE');
+    }
+
+    function getEditCategory($id)
+    {
+        $responses = array(
+            'title' => 'Lỗi',
+            'sub_title' => '',
+            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
+        );
+        $categoryData = $this->taxonomy->category()->where('term_id', $id)->first();
+        if ($categoryData == null) {
+            return view('admin.errors.admin-error', ['error_responses' => $responses]);
+        } else {
+            return view('admin.taxonomy.category.category-edit', ['categoryData' => $categoryData, 'categories' => $this->taxonomy->fetchCategoryTree(0, '', '', $this->tax)]);
+        }
+    }
+
+    function updateCategory(Request $request, $id)
+    {
+        $this->term->updateTerm($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax, $id);
+        return redirect()->route('GET_CATEGORY_EDIT_ROUTE', [$id])->with('update', 'Chuyên mục đã được cập nhật.');
+    }
+
+    function deleteCategory($id)
+    {
+        $this->term->deleteTerm($id);
+        return redirect()->route('GET_CATEGORY_ROUTE')->with('update', 'Chuyên mục đã được cập nhật.');
     }
 }

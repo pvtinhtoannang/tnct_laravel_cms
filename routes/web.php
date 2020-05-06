@@ -62,6 +62,12 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/category', ['as' => 'GET_CATEGORY_ROUTE', 'uses' => 'CategoryController@getCategory']);
     Route::post('/category', ['as' => 'POST_CATEGORY_ROUTE', 'uses' => 'CategoryController@addCategory']);
 
+    Route::get('/category/edit/{id}', ['as' => 'GET_CATEGORY_EDIT_ROUTE', 'uses' => 'CategoryController@getEditCategory']);
+    Route::post('/category/edit/{id}', ['as' => 'POST_CATEGORY_EDIT_ROUTE', 'uses' => 'CategoryController@updateCategory']);
+
+
+    Route::get('/category/delete/{id}', ['as' => 'CATEGORY_DELETE_ROUTE', 'uses' => 'CategoryController@deleteCategory']);
+
     //tag
     Route::get('/post_tag', ['as' => 'GET_TAG_ROUTE', 'uses' => 'TagController@getTag']);
     Route::post('/post_tag', ['as' => 'POST_TAG_ROUTE', 'uses' => 'TagController@addTag']);

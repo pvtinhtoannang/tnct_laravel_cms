@@ -36,6 +36,14 @@ class Term extends Model
      */
     protected $slugAlias = 1;
 
+    private $taxonomy;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->taxonomy = new Taxonomy();
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -72,7 +80,7 @@ class Term extends Model
      * @param $tax
      * @return void
      */
-    function addCategory($name, $slug, $description, $parent, $tax)
+    function addTerm($name, $slug, $description, $parent, $tax)
     {
         if ($name != null && $slug != null) {
             if ($this->slug($slug)->first() == null) {
@@ -97,6 +105,48 @@ class Term extends Model
                     $term->taxonomy()->create($taxonomyRequest);
                 }
             }
+        }
+    }
+
+    function updateTerm($name, $slug, $description, $parent, $tax, $term_id)
+    {
+        $term = $this->find($term_id);
+        $termRequest = array(
+            'name' => $name,
+            'slug' => $slug,
+            'term_group' => 0
+        );
+        if ($term) {
+            $term->update($termRequest);
+            if ($description === null) {
+                $category_description = '';
+            } else {
+                $category_description = $description;
+            }
+            $taxonomyRequest = array(
+                'taxonomy' => $tax,
+                'description' => $category_description,
+                'parent' => $parent,
+                'count' => 0
+            );
+            $term->taxonomy()->update($taxonomyRequest);
+        }
+    }
+
+    function deleteTerm($term_id)
+    {
+        $term = $this->find($term_id);
+        if ($term) {
+            $child_terms = $this->taxonomy->parent_id($term_id)->get();
+            $taxonomy = $this->taxonomy->where('term_id', $term_id)->first();
+            if ($child_terms->count() > 0) {
+                $parent = $taxonomy->parent;
+                foreach ($child_terms as $child_term) {
+                    $child_term->update(['parent' => $parent]);
+                }
+            }
+            $term->delete();
+            $taxonomy->delete();
         }
     }
 }

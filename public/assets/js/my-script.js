@@ -256,6 +256,29 @@ function ajax_upload() {
     });
 }
 
+function confirmDelete() {
+    $('.delete-term-btn').click(function (e) {
+        let term_id = $(this).attr('data-term');
+        let delete_url = '/admin/category/delete/' + term_id;
+        swal.fire({
+            title: 'Bạn sắp xoá vĩnh viễn những mục này khỏi trang web của bạn.',
+            text: 'Hành động này không thể hoàn tác.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'OK!',
+            cancelButtonText: 'Không, trở lại!',
+            reverseButtons: true
+        }).then(function (result) {
+            if (result.value) {
+         
+                $(location).attr('href', delete_url);
+            } else if (result.dismiss === 'cancel') {
+
+            }
+        });
+    });
+}
+
 jQuery(function ($) {
     try {
         $(document).ready(function () {
@@ -274,6 +297,7 @@ jQuery(function ($) {
             $('#featured-browse-btn').on('click', function () {
                 ajax_upload();
             });
+            confirmDelete();
         });
     } catch (e) {
         console.log(e);

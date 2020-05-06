@@ -48,7 +48,7 @@
                             <tr>
                                 <td class="kt-font-bold">{{$tag->term->name}}
                                     <div class="nowrap row-actions">
-                                        <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
+                                        <a target="_blank" href="{{url('/')."/".$tag->term->slug}}" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
                                             <i class="la la-eye"></i>
                                         </a>
                                         <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
