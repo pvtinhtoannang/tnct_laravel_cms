@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 
 class Term extends Model
 {
@@ -63,6 +64,39 @@ class Term extends Model
         } else {
             $newSlug = $slug . '-' . $this->slugAlias++;
             return $this->slugGenerator($newSlug);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param $tax
+     * @return void
+     */
+    function addCategory($name, $slug, $description, $parent, $tax)
+    {
+        if ($name != null && $slug != null) {
+            if ($this->slug($slug)->first() == null) {
+                $termRequest = array(
+                    'name' => $name,
+                    'slug' => $slug,
+                    'term_group' => 0
+                );
+                $term = $this->create($termRequest);
+                if ($term) {
+                    if ($description === null) {
+                        $category_description = '';
+                    } else {
+                        $category_description = $description;
+                    }
+                    $taxonomyRequest = array(
+                        'taxonomy' => $tax,
+                        'description' => $category_description,
+                        'parent' => $parent,
+                        'count' => 0
+                    );
+                    $term->taxonomy()->create($taxonomyRequest);
+                }
+            }
         }
     }
 }

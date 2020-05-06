@@ -192,5 +192,6 @@ if (isset($post_type)) {
             </div>
         </div>
     </div>
+    <input type="hidden" name="post_type" value="{{$type}}">
     {{ csrf_field() }}
 </form>

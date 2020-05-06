@@ -38,26 +38,7 @@ class PageController extends Controller
         } else if ($status === 'trash') {
             $pages = $this->page->status('trash')->latest()->get();
         }
-        return view('admin.page.page-all', ['pages' => $pages, 'count' => $this->count_post()]);
-    }
-
-    /**
-     * @return array
-     */
-    function count_post()
-    {
-        $all = $this->page->not_status('trash')->latest()->get();
-        $trash = $this->page->status('trash')->latest()->get();
-        $pending = $this->page->status('pending')->latest()->get();
-        $draft = $this->page->status('draft')->latest()->get();
-        $publish = $this->page->status('publish')->latest()->get();
-        return array(
-            'all' => count($all),
-            'publish' => count($publish),
-            'draft' => count($draft),
-            'pending' => count($pending),
-            'trash' => count($trash)
-        );
+        return view('admin.page.page-all', ['pages' => $pages, 'count' => $this->page->count_post($this->post_type)]);
     }
 
     function getActionTrashPage($id)
@@ -142,73 +123,14 @@ class PageController extends Controller
     }
 
     /**
-     * @param $str
-     * @return string|string[]|null
-     */
-    function toSlug($str)
-    {
-        $str = trim(mb_strtolower($str));
-        $str = preg_replace('/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/', 'a', $str);
-        $str = preg_replace('/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/', 'e', $str);
-        $str = preg_replace('/(ì|í|ị|ỉ|ĩ)/', 'i', $str);
-        $str = preg_replace('/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/', 'o', $str);
-        $str = preg_replace('/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/', 'u', $str);
-        $str = preg_replace('/(ỳ|ý|ỵ|ỷ|ỹ)/', 'y', $str);
-        $str = preg_replace('/(đ)/', 'd', $str);
-        $str = preg_replace('/[^a-z0-9-\s]/', '', $str);
-        $str = preg_replace('/([\s]+)/', '-', $str);
-        return $str;
-    }
-
-    /**
-     * @param $request
-     * @return array
-     */
-    function thumbnailRequest($request)
-    {
-        return array(
-            'meta_key' => 'thumbnail_id',
-            'meta_value' => $request->thumbnail_id,
-        );
-    }
-
-    /**
-     * @param $request
-     * @param string $id
-     * @return array
-     */
-    function pageRequest($request, $id = '')
-    {
-        $post_content = '';
-        if (isset($request->post_content)) {
-            $post_content = $request->post_content;
-        }
-        $user_id = Auth::user()->id;
-        if ($id !== '') {
-            $post_name = $request->post_name;
-        } else {
-            $post_name = $this->page->slugGenerator($this->toSlug($request->post_title));
-        }
-        return array(
-            'post_author' => $user_id,
-            'post_content' => $post_content,
-            'post_title' => $request->post_title,
-            'post_excerpt' => '',
-            'post_status' => $request->post_status,
-            'post_name' => $post_name,
-            'post_type' => $this->post_type
-        );
-    }
-
-    /**
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     function createPage(Request $request)
     {
-        $page = $this->page->create($this->pageRequest($request));
+        $page = $this->page->create($this->page->postRequest($request));
         if (isset($request->thumbnail_id)) {
-            $page->meta()->create($this->thumbnailRequest($request));
+            $page->meta()->create($this->page->thumbnailRequest($request));
         }
         return redirect()->route('GET_EDIT_PAGE_ROUTE', $page)->with('create', 'Trang đã được tạo.');
     }
@@ -221,14 +143,14 @@ class PageController extends Controller
     function updatePage(Request $request, $id)
     {
         $page = $this->page->find($id);
-        $page->update($this->pageRequest($request, $id));
+        $page->update($this->page->postRequest($request, $id));
         if ($page->thumbnail === null) {
             if (isset($request->thumbnail_id)) {
-                $page->meta()->create($this->thumbnailRequest($request));
+                $page->meta()->create($this->page->thumbnailRequest($request));
             }
         } else {
             if (isset($request->thumbnail_id)) {
-                $page->meta()->update($this->thumbnailRequest($request));
+                $page->meta()->update($this->page->thumbnailRequest($request));
             } else {
                 $thumbnail = $page->meta()->find($page->thumbnail->meta_id);
                 $thumbnail->delete();

@@ -97,4 +97,31 @@ class Taxonomy extends Model
             parent::newQuery()->where('taxonomy', $this->taxonomy) :
             parent::newQuery();
     }
+
+    /**
+     * @param int $parent
+     * @param string $spacing
+     * @param string $user_tree_array
+     * @param $tax
+     * @return array|string
+     */
+    function fetchCategoryTree($parent, $spacing, $user_tree_array, $tax)
+    {
+        $get_term = $this->parent_id($parent)->name($tax)->get();
+        if (!is_array($user_tree_array))
+            $user_tree_array = array();
+        if (!empty($get_term)) {
+            foreach ($get_term as $term) {
+                $user_tree_array[] = array(
+                    "term_taxonomy_id" => $term->term_taxonomy_id,
+                    "term_id" => $term->term_id,
+                    "name" => $spacing . $term->term->name,
+                    "slug" => $term->term->slug,
+                    "description" => $term->description
+                );
+                $user_tree_array = $this->fetchCategoryTree($term->term_id, $spacing . '— ', $user_tree_array, $tax);
+            }
+        }
+        return $user_tree_array;
+    }
 }

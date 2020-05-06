@@ -35,36 +35,7 @@ class TagController extends Controller
      */
     function addTag(Request $request)
     {
-        if ($request->tag_name != null && $request->tag_slug != null) {
-            if ($this->term->slug($request->tag_slug)->first() == null) {
-                $termRequest = array(
-                    'name' => $request->tag_name,
-                    'slug' => $request->tag_slug,
-                    'term_group' => 0
-                );
-                $term = $this->term->create($termRequest);
-                if ($term) {
-                    if ($request->tag_description == null) {
-                        $tag_description = '';
-                    } else {
-                        $tag_description = $request->tag_description;
-                    }
-                    $taxonomyRequest = array(
-                        'taxonomy' => $this->tax,
-                        'description' => $tag_description,
-                        'parent' => 0,
-                        'count' => 0
-                    );
-                    $term->taxonomy()->create($taxonomyRequest);
-                    return redirect()->route('GET_TAG_ROUTE')->with('messages', 'success');
-                } else {
-                    return redirect()->route('GET_TAG_ROUTE')->with('messages', 'error');
-                }
-            } else {
-                return redirect()->route('GET_TAG_ROUTE')->with('messages', 'error');
-            }
-        } else {
-            return redirect()->route('GET_TAG_ROUTE')->with('messages', 'error');
-        }
+        $this->term->addCategory($request->tag_name, $request->tag_slug, $request->tag_description, 0, $this->tax);
+        return redirect()->route('GET_TAG_ROUTE');
     }
 }
