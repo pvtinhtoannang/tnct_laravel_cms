@@ -330,7 +330,7 @@ var PvtinhMenuManagement = function () {
     var handleAddMenuItemForPages = function () {
         $('.btn-add-pages-to-menu').click(function () {
             var data = $('#menu_pages').select2('data');
-            var __token = $('form#editMenuItem input[name="_token"]').val();
+            var __token = $('meta[name="csrf-token"]').attr('content');
             $.each(data, function (key, value) {
                 var label = value.text;
                 var link = value.id;
@@ -345,7 +345,7 @@ var PvtinhMenuManagement = function () {
                         var label_html = res.label;
                         var label_link = res.link;
                         console.log(id_html);
-                        if(id_html !== undefined){
+                        if (id_html !== undefined) {
                             html = '<li class="dd-item" data-id="' + id_html + '">\n' +
                                 '    <span class="dd-handle"><i class="fa fa-list"></i></span>\n' +
                                 '    <span class="dd3-content">\n' +
@@ -389,6 +389,9 @@ var PvtinhMenuManagement = function () {
         });
     }
 
+    var handleAddMenuItemForPosts = function () {
+
+    }
 
     return {
         init: function () {
@@ -397,8 +400,11 @@ var PvtinhMenuManagement = function () {
             createSelect2MenuTags();
             createSelect2MenuCategories();
             createStructMenu();
-            handleAddMenuItemForPages();
             handleEditMenuItem();
+            handleAddMenuItemForPages();
+            handleAddMenuItemForPosts();
+
+
         }
     }
 }();
