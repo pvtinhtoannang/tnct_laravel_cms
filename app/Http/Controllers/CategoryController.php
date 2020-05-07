@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use App\Term;
 use App\Taxonomy;
+use App\TermRelationships;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private $term, $tax, $taxonomy;
+    private $term, $tax, $taxonomy, $post;
 
     /**
      * CategoryController constructor.
@@ -18,6 +20,7 @@ class CategoryController extends Controller
         $this->tax = 'category';
         $this->term = new Term();
         $this->taxonomy = new Taxonomy();
+        $this->post = new Post();
     }
 
     /**
@@ -62,7 +65,19 @@ class CategoryController extends Controller
 
     function deleteCategory($id)
     {
-        $this->term->deleteTerm($id);
-        return redirect()->route('GET_CATEGORY_ROUTE')->with('update', 'Chuyên mục đã được cập nhật.');
+        $responses = array(
+            'title' => 'Lỗi',
+            'sub_title' => '',
+            'description' => 'Thao tác không hợp lệ.'
+        );
+        if ($this->taxonomy->deleteTermTaxonomyInObject($id)) {
+            if ($this->term->deleteTerm($id)) {
+                return redirect()->route('GET_CATEGORY_ROUTE')->with('update', 'Chuyên mục đã được cập nhật.');
+            } else {
+                return view('admin.errors.admin-error', ['error_responses' => $responses]);
+            }
+        } else {
+            return view('admin.errors.admin-error', ['error_responses' => $responses]);
+        }
     }
 }

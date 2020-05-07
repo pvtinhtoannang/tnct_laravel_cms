@@ -288,4 +288,28 @@ class Post extends Model
         }
         return array_merge($catData, $tagData);
     }
+
+
+    function updatePost($id, $request){
+        $post = self::find($id);
+        $cats = array();
+        foreach ($this->taxonomyRequest($request) as $term_id) {
+            array_push($cats, $term_id['term_taxonomy_id']);
+        }
+        if ($post->thumbnail === null) {
+            if (isset($request->thumbnail_id)) {
+                $post->meta()->create($this->thumbnailRequest($request));
+            }
+        } else {
+            if (isset($request->thumbnail_id)) {
+                $post->meta()->update($this->thumbnailRequest($request));
+            } else {
+                $thumbnail = $post->meta()->find($post->thumbnail->meta_id);
+                $thumbnail->delete();
+            }
+        }
+        $update_post = $post->update($this->postRequest($request, $id));
+        $post->taxonomies()->wherePivot('object_id', $id)->sync($cats);
+    }
+
 }

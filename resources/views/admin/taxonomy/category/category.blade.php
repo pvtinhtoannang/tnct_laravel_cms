@@ -67,11 +67,13 @@
                                            class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
                                             <i class="la la-edit"></i>
                                         </a>
-                                        <a href="javascript:;" data-term="{{ $category['term_id']}}"
-                                           class="btn btn-sm btn-clean btn-icon btn-icon-md delete-term-btn"
-                                           title="View">
-                                            <i class="la la-trash"></i>
-                                        </a>
+                                        @if($category['term_id'] !== 1)
+                                            <a href="javascript:;" data-term="{{ $category['term_id']}}"
+                                               class="btn btn-sm btn-clean btn-icon btn-icon-md delete-term-btn"
+                                               title="View">
+                                                <i class="la la-trash"></i>
+                                            </a>
+                                        @endif
                                     </div>
                                 </td>
                                 <td>

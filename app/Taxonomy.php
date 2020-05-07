@@ -124,4 +124,21 @@ class Taxonomy extends Model
         }
         return $user_tree_array;
     }
+
+    function deleteTermTaxonomyInObject($term_taxonomy_id)
+    {
+        $tax = self::find($term_taxonomy_id);
+        if ($tax) {
+            $objects = $tax->posts()->get();
+            $tax->posts()->wherePivot('term_taxonomy_id', $term_taxonomy_id)->sync($term_taxonomy_id);
+            foreach ($objects as $object) {
+                if ($object->taxonomies()->count() === 0) {
+                    $object->taxonomies()->attach(1);
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

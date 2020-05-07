@@ -52,6 +52,8 @@ class Term extends Model
         return $this->hasOne(Taxonomy::class, 'term_id');
     }
 
+
+
     /**
      * @param $slug
      * @return mixed
@@ -135,18 +137,23 @@ class Term extends Model
 
     function deleteTerm($term_id)
     {
-        $term = $this->find($term_id);
-        if ($term) {
-            $child_terms = $this->taxonomy->parent_id($term_id)->get();
-            $taxonomy = $this->taxonomy->where('term_id', $term_id)->first();
-            if ($child_terms->count() > 0) {
-                $parent = $taxonomy->parent;
-                foreach ($child_terms as $child_term) {
-                    $child_term->update(['parent' => $parent]);
+        if ($term_id === 1 || $term_id === "1") {
+            return false;
+        } else {
+            $term = $this->find($term_id);
+            if ($term) {
+                $child_terms = $this->taxonomy->parent_id($term_id)->get();
+                $taxonomy = $this->taxonomy->where('term_id', $term_id)->first();
+                if ($child_terms->count() > 0) {
+                    $parent = $taxonomy->parent;
+                    foreach ($child_terms as $child_term) {
+                        $child_term->update(['parent' => $parent]);
+                    }
                 }
+                $term->delete();
+                $taxonomy->delete();
             }
-            $term->delete();
-            $taxonomy->delete();
+            return true;
         }
     }
 }

@@ -147,25 +147,7 @@ class PostController extends Controller
      */
     function updatePost(Request $request, $id)
     {
-        $post = $this->post->find($id);
-        $post->update($this->post->postRequest($request, $id));
-        $cats = array();
-        foreach ($this->post->taxonomyRequest($request) as $term_id) {
-            array_push($cats, $term_id['term_taxonomy_id']);
-        }
-        $post->taxonomies()->wherePivot('object_id', $id)->sync($cats);
-        if ($post->thumbnail === null) {
-            if (isset($request->thumbnail_id)) {
-                $post->meta()->create($this->post->thumbnailRequest($request));
-            }
-        } else {
-            if (isset($request->thumbnail_id)) {
-                $post->meta()->update($this->post->thumbnailRequest($request));
-            } else {
-                $thumbnail = $post->meta()->find($post->thumbnail->meta_id);
-                $thumbnail->delete();
-            }
-        }
+        $this->post->updatePost($id, $request);
         return redirect()->route('GET_EDIT_POST_ROUTE', [$id])->with('update', 'Bài viết đã được cập nhật.');
     }
 }

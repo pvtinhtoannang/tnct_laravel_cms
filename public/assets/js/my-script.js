@@ -270,7 +270,7 @@ function confirmDelete() {
             reverseButtons: true
         }).then(function (result) {
             if (result.value) {
-         
+
                 $(location).attr('href', delete_url);
             } else if (result.dismiss === 'cancel') {
 
