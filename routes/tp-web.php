@@ -42,7 +42,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::POST('ajax-add-menu', ['as' => 'ADD_MENU_ITEM' , 'uses'=> 'NavMenuController@addMenuItem']);
 
     Route::POST('ajax-save-menu', ['as' => 'POST_SAVE_MENU' , 'uses'=> 'NavMenuController@saveMenu']);
-
+    Route::POST('ajax-delete-menu-item', ['as'=>'DELETE_MENU_ITEM', 'uses'=>'NavMenuController@deleteMenuItem']);
 });
 
 

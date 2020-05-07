@@ -34,7 +34,7 @@ class NavMenuController extends Controller
         $tags = $this->tag->get();
         $category = $this->taxonomy->category()->get();
 
-        $menus = Menu::where('positions_menu_id', $postion_menu_first->id)->where('parent', 0)->with('childrenMenus')->get();
+        $menus = Menu::where('positions_menu_id', $postion_menu_first->id)->whereNull('parent_id')->orderBy("sort", "ASC")->with('childrenMenus')->get();
         return view('admin.appearance.nav-menu', [
             'position_menu' => $position_menu,
             'pages' => $pages,
@@ -55,7 +55,7 @@ class NavMenuController extends Controller
         $tags = $this->tag->get();
         $category = $this->taxonomy->category()->get();
 
-        $menus = Menu::where('positions_menu_id', $id)->where('parent', 0)->with('childrenMenus')->get();
+        $menus = Menu::where('positions_menu_id', $id)->whereNull('parent_id')->orderBy("sort", "ASC")->get();
 
 
         return view('admin.appearance.nav-menu', [
@@ -113,28 +113,23 @@ class NavMenuController extends Controller
         $link = $request->link;
         $position = $request->position;
         if (!empty($link) && !empty($label)) {
-            return $this->menu->addMenuItem($link, $label, 0, 0, $position);
+            return $this->menu->addMenuItem($link, $label, NULL, 0, $position);
         }
     }
 
-
-    // HÀM ĐỆ QUY
-    function saveMenuItem(array $arrMenu, $parent_id = 0, $sort = 0)
+    function saveMenuItem(array $arrMenu, $parent_id = null, $sort = 0)
     {
-        foreach ($arrMenu as $key => $item)
-        {
+        foreach ($arrMenu as $key => $item) {
             $parent = $item['id'];
             $sort = $key;
             $this->menu->updateParentMenuItem($item['id'], $parent_id, $sort);
-            if(!empty($item['children'])){
+            if (!empty($item['children'])) {
                 return $this->saveMenuItem($item['children'], $parent, $key);
-            }else{
+            } else {
                 $this->menu->updateParentMenuItem($item['id'], $parent_id, $sort);
             }
         }
     }
-
-
 
     public function saveMenu(Request $request)
     {
@@ -142,4 +137,8 @@ class NavMenuController extends Controller
         return $this->saveMenuItem($request->data);
     }
 
+
+    public function deleteMenuItem(Request $request){
+
+    }
 }

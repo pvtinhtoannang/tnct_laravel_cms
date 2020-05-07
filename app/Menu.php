@@ -8,7 +8,7 @@ class Menu extends Model
 {
 
     protected $table = 'menus';
-    protected $fillable = ['label', 'link', 'parent', 'sort', 'positions_menu_id'];
+    protected $fillable = ['label', 'link', 'parent_id', 'sort', 'positions_menu_id'];
 
     public function positionsMenu()
     {
@@ -17,17 +17,25 @@ class Menu extends Model
 
     public function menus()
     {
-        return $this->hasMany('App\Menu', 'parent', 'id');
+        return $this->hasMany('App\Menu', 'parent_id', 'id');
     }
 
     public function childrenMenus()
     {
-        return $this->hasMany('App\Menu', 'parent', 'id')->with('menus');
+        return $this->hasMany('App\Menu', 'parent_id', 'id')->with('menus');
+    }
+
+
+
+    // Specify parent id attribute mutator
+    public function setParentAttribute($value)
+    {
+        $this->setParentIdAttribute($value);
     }
 
     public function addMenuItem($link = '', $label = '', $parent = 0, $sort = 0, $position = 1)
     {
-        return self::create(['label' => $label, 'link' => $link, 'parent' => $parent, 'sort' => $sort, 'positions_menu_id' => $position]);
+        return self::create(['label' => $label, 'link' => $link, 'parent_id' => $parent, 'sort' => $sort, 'positions_menu_id' => $position]);
     }
 
     public function updateInformationMenuItem($id, $link = '', $label = '')
@@ -37,9 +45,7 @@ class Menu extends Model
 
     public function updateParentMenuItem($id, $parent, $sort)
     {
-        return self::find($id)->update(['parent'=>$parent, 'sort'=>$sort]);
+        return self::find($id)->update(['parent_id' => $parent, 'sort' => $sort]);
     }
-
-
 
 }

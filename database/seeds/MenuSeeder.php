@@ -15,7 +15,7 @@ class MenuSeeder extends Seeder
         DB::table('menus')->insert([
             'label' => 'Trang chủ',
             'link' => '/',
-            'parent' => 0,
+            'parent_id' => null,
             'sort' => 0,
             'positions_menu_id' => 1
         ]);
@@ -23,7 +23,7 @@ class MenuSeeder extends Seeder
         DB::table('menus')->insert([
             'label' => 'Trang chủ',
             'link' => '/',
-            'parent' => 0,
+            'parent_id' => null,
             'sort' => 0,
             'positions_menu_id' => 2
         ]);

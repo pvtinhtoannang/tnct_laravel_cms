@@ -17,7 +17,7 @@ class CreateMenusTable extends Migration
             $table->bigIncrements('id');
             $table->string('label')->default('');
             $table->string('link')->default('');
-            $table->bigInteger('parent')->default(0);
+            $table->bigInteger('parent')->default(null)->nullable();
             $table->integer('sort')->default(0);
             $table->bigInteger('positions_menu_id')->unsigned();
             $table->timestamps();

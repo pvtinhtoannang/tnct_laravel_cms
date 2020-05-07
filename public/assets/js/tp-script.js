@@ -294,13 +294,19 @@ var PvtinhMenuManagement = function () {
             var label = $(this).attr('data-label');
             var id = $(this).attr('data-id');
             var link = $(this).attr('data-link');
+
             inputUrlName.val('');
+            inputMenuID.val('');
+            inputMenuUrl.val('');
             inputUrlName.val(label);
             inputMenuID.val(id);
             inputMenuUrl.val(link);
+
+
         });
 
         $('button.btn-save-editMenuItem').click(function () {
+
             var id, label, link, __token;
             id = $('form#editMenuItem #menu-id').val();
             label = $('form#editMenuItem #url-name').val();
@@ -327,6 +333,7 @@ var PvtinhMenuManagement = function () {
                         $('form#editMenuItem input').css('border', '1px solid #F40000');
                     }
                 });
+
         });
     }
 
@@ -350,6 +357,52 @@ var PvtinhMenuManagement = function () {
         };
 
         toastr.success("Menu đã thêm vào!");
+
+        /*reload để có thể chỉnh sửa menu ở dưới cùng*/
+        window.location.reload();
+    }
+    var alertUpdateMenuItem = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        toastr.info("Menu đã được thay đổi!");
+    }
+
+    var alertDeleteMenuItem = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+
+        toastr.warning("Menu đã được xoá thành công!");
     }
 
     var alertErrorAddMenuItem = function () {
@@ -615,20 +668,39 @@ var PvtinhMenuManagement = function () {
             $("#load").show();
             var __token = $('meta[name="csrf-token"]').attr('content');
             var data = $('.dd').nestable('serialize');
+            console.log(data);
             $.ajax({
                 type: "POST",
                 url: "/admin/ajax-save-menu",
                 data:  {_token: __token, data: data},
                 cache: false,
                 success: function (data) {
-
-                }, error: function (xhr, status, error) {
-                    alert(error);
+                    alertUpdateMenuItem();
+                    }, error: function (xhr, status, error) {
+                    alertErrorAddMenuItem();
                 },
             });
         });
     }
 
+    var deleteMenuItem = function () {
+        $('.del-button').click(function () {
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var id = $(this).attr('data-id');
+            $.ajax({
+                type: "POST",
+                url: "/admin/ajax-delete-menu-item",
+                data:  {_token: __token, id: id},
+                cache: false,
+                success: function (data) {
+                    alertDeleteMenuItem();
+                    window.location.reload();
+                }, error: function (xhr, status, error) {
+                    alertErrorAddMenuItem();
+                },
+            });
+        });
+    }
 
     return {
         init: function () {
@@ -645,6 +717,7 @@ var PvtinhMenuManagement = function () {
             handleAddMenuItemForCustomLink();
             redirectToMenuByID();
             saveMenuItemToMenuPosition();
+            deleteMenuItem();
         }
     }
 }();
