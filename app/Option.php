@@ -24,12 +24,19 @@ class Option extends Model
         $option = $this->where('option_name', $option_name)->first()->update(['option_value', $option_value]);
         return $option;
     }
+
     public function addNewOption($option_name = '', $option_value = '', $option_type = '', $option_label = '')
     {
-        return $this->create(['option_name'=>$option_name, 'option_value'=>$option_value, 'option_type'=>$option_type, 'option_label'=>$option_label]);
+        return $this->create(['option_name' => $option_name, 'option_value' => $option_value, 'option_type' => $option_type, 'option_label' => $option_label]);
     }
 
-    public function getOption($option_name){
+    public function getOption($option_name)
+    {
         return $this->where('option_name', $option_name)->first();
+    }
+
+    public function getField($option_name)
+    {
+        return $this->where('option_name', $option_name)->first()->option_value;
     }
 }
