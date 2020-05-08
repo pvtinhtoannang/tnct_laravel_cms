@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Option;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class OptionController extends Controller
 {
@@ -20,7 +22,27 @@ class OptionController extends Controller
     {
         $this->user->authorizeRoles('option_general');
         $option = $this->option->getAllOption();
+        return Carbon::now()->addDays(30);
+        return $this->user->registerPostForUser(Auth::user()->id, 2, strtotime(Carbon::now()));
+
+
         return view('admin.settings.options', ['options' => $option]);
+    }
+
+    public function postAddOptionGeneral(Request $request)
+    {
+        $option_label = $request->option_label;
+        $option_value = $request->option_value;
+        $option_name = $request->option_name;
+        $option_type = $request->option_type;
+
+        if (!empty($option_label) && !empty($option_value) && !empty($option_name) && !empty($option_type)) {
+            if($this->option->addNewOption($option_name, $option_value, $option_type, $option_label)){
+                return redirect()->back()->with('messages', 'Cập nhật thành công!');
+            }else{
+                return redirect()->back()->with('messages', 'Cập nhật không thành công!');
+            }
+        }
     }
 
     public function postUpdateOptionGeneral(Request $request)

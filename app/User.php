@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Role;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
@@ -62,6 +63,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Permission', 'permission_user', 'user_id', 'permission_id');
     }
 
+    public function postsCourses()
+    {
+        return $this->belongsToMany('App\Post', 'permission_post', 'user_id', 'post_id')->withPivot('date_expires');
+    }
+
 
     public function authorizeRoles($permission_name)
     {
@@ -114,6 +120,25 @@ class User extends Authenticatable
             }
         }
         return $permissions;
+    }
+
+
+    public function registerPostForUser($user_id, $post_id, $date_expires)
+    {
+        return $this->find($user_id)->postsCourses()->attach($post_id, ['date_expires' => $date_expires]);
+    }
+
+
+    public function checkPermissionForPost($user_id, $post_id)
+    {
+        $date_expires_data = Option::where('option_name', 'date_expires')->first();
+        if (!empty($date_expires_data)) {
+            $date_expires = (int)$date_expires_data->option_value;
+        } else {
+            $date_expires = 0;
+        }
+
+
     }
 
     public function getNameRole()

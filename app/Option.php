@@ -28,4 +28,8 @@ class Option extends Model
     {
         return $this->create(['option_name'=>$option_name, 'option_value'=>$option_value, 'option_type'=>$option_type, 'option_label'=>$option_label]);
     }
+
+    public function getOption($option_name){
+        return $this->where('option_name', $option_name)->first();
+    }
 }

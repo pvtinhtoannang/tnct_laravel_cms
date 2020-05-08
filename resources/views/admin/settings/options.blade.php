@@ -36,8 +36,8 @@
                             @foreach($options as $option)
                                 <div class="form-group">
                                     <label for="{{ $option['option_name'] }}">{{ $option['option_label'] }}</label>
-                                    @if($option['option_type']=='text' || $option['option_type']=='url' || $option['option_type']=='email' || $option['option_type']=='number')
-                                        <input id="{{ $option['option_name'] }}" type="text"
+                                    @if($option['option_type']==='text' || $option['option_type']==='url' || $option['option_type']==='email' || $option['option_type']==='number')
+                                        <input id="{{ $option['option_name'] }}" type="{{ $option['option_type'] }}"
                                                name="option[][{{ $option['option_name'] }}]" class="form-control"
                                                aria-describedby="{{ $option['option_name'] }}"
                                                value="{{ $option['option_value'] }}"
@@ -83,7 +83,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="option_label">Tiêu đề</label>
-                                <input id="option_label" type="text"
+                                <input required id="option_label" type="text"
                                        name="option_label" class="form-control"
                                        aria-describedby="option_label"
                                        value="{{ old('option_label') }}"
@@ -91,7 +91,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="option_value">Nội dung option</label>
-                                <input id="option_value" type="text"
+                                <input required id="option_value" type="text"
                                        name="option_value" class="form-control"
                                        aria-describedby="option_value"
                                        value="{{ old('option_value') }}"
@@ -99,7 +99,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="option_name">Slug</label>
-                                <input id="option_name" type="text"
+                                <input required id="option_name" type="text"
                                        name="option_name" class="form-control"
                                        aria-describedby="option_name"
                                        value="{{ old('option_name') }}"
@@ -128,15 +128,7 @@
 
                     <!-- begin:: Content -->
                     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
-                        <div class="alert alert-light alert-elevate" role="alert">
-                            <div class="alert-icon"><i class="flaticon-warning kt-font-brand"></i></div>
-                            <div class="alert-text">
-                                The Metronic Datatable component supports local or remote data source. For the local data you can pass javascript array as data source. In this example the grid fetches its
-                                data from a javascript array data source. It also defines
-                                the schema model of the data source. In addition to the visualization, the Datatable provides built-in support for operations over data such as sorting, filtering and
-                                paging performed in user browser(frontend).
-                            </div>
-                        </div>
+
                         <div class="kt-portlet kt-portlet--mobile">
                             <div class="kt-portlet__head kt-portlet__head--lg">
                                 <div class="kt-portlet__head-label">
@@ -144,72 +136,17 @@
 											<i class="kt-font-brand flaticon2-line-chart"></i>
 										</span>
                                     <h3 class="kt-portlet__head-title">
-                                        Local Datasource
+                                        Danh sách các tuỳ chọn
                                     </h3>
                                 </div>
                                 <div class="kt-portlet__head-toolbar">
                                     <div class="kt-portlet__head-wrapper">
-                                        <a href="#" class="btn btn-clean btn-icon-sm">
+                                        <a href="javascript:history.go(-1)" class="btn btn-clean btn-icon-sm">
                                             <i class="la la-long-arrow-left"></i>
-                                            Back
+                                            Quay lại trang trước
                                         </a>
                                         &nbsp;
-                                        <div class="dropdown dropdown-inline">
-                                            <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="flaticon2-plus"></i> Add New
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="kt-nav">
-                                                    <li class="kt-nav__section kt-nav__section--first">
-                                                        <span class="kt-nav__section-text">Choose an action:</span>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon flaticon2-open-text-book"></i>
-                                                            <span class="kt-nav__link-text">Reservations</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon flaticon2-calendar-4"></i>
-                                                            <span class="kt-nav__link-text">Appointments</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon flaticon2-bell-alarm-symbol"></i>
-                                                            <span class="kt-nav__link-text">Reminders</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon flaticon2-contract"></i>
-                                                            <span class="kt-nav__link-text">Announcements</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon flaticon2-shopping-cart-1"></i>
-                                                            <span class="kt-nav__link-text">Orders</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__separator kt-nav__separator--fit">
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon flaticon2-rocket-1"></i>
-                                                            <span class="kt-nav__link-text">Projects</span>
-                                                        </a>
-                                                    </li>
-                                                    <li class="kt-nav__item">
-                                                        <a href="#" class="kt-nav__link">
-                                                            <i class="kt-nav__link-icon flaticon2-chat-1"></i>
-                                                            <span class="kt-nav__link-text">User Feedbacks</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -240,6 +177,7 @@
                                         <th>Tên</th>
                                         <th>Nhãn</th>
                                         <th>Giá trị</th>
+                                        <th>Loại</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -268,6 +206,7 @@
                                             </td>
                                             <td>{{$option->option_label}}</td>
                                             <td>{{$option->option_value}}</td>
+                                            <td>{{$option->option_type}}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

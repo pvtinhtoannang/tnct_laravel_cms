@@ -56,6 +56,11 @@ class Post extends Model
         $this->term = new Term();
     }
 
+    public function usersCourses(){
+        return $this->belongsToMany('App\User', 'permission_post', 'post_id', 'user_id');
+    }
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
