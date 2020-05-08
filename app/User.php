@@ -123,19 +123,38 @@ class User extends Authenticatable
     }
 
 
-    public function registerPostForUser($user_id, $post_id, $date_expires)
+    public function registerPostForUser($user_id, $post_id)
     {
+        $date_expires_data = Option::where('option_name', 'date_expires')->first();
+        if (!empty($date_expires_data)) {
+            $date_expires = strtotime(Carbon::now()->addDays((int)$date_expires_data->option_value));
+        } else {
+            $date_expires = strtotime(Carbon::now()->addDays(30));
+        }
         return $this->find($user_id)->postsCourses()->attach($post_id, ['date_expires' => $date_expires]);
     }
 
 
+    /**
+     * @param $user_id
+     * @param $post_id
+     * cách dùng
+     * $this->user->checkPermissionForPost(Auth::user()->id, 2);
+     */
     public function checkPermissionForPost($user_id, $post_id)
     {
-        $date_expires_data = Option::where('option_name', 'date_expires')->first();
-        if (!empty($date_expires_data)) {
-            $date_expires = (int)$date_expires_data->option_value;
-        } else {
-            $date_expires = 0;
+        $permissions = self::find(Auth::user()->id)->postsCourses()->get();
+        $date_now = strtotime(Carbon::now());
+        foreach ($permissions as $permission) {
+            if($permission->ID !== $post_id){
+                abort(401, 'Bạn không có quyền truy cập hành động này!');
+            }
+            if ((int)$permission->pivot->date_expires < (int)$date_now) {
+                abort(401, 'Quyền truy cập hành động này đã hết hạn!');
+            }
+            else{
+                abort(401, 'Bạn không có quyền truy cập hành động này!');
+            }
         }
 
 

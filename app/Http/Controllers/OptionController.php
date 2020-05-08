@@ -22,8 +22,6 @@ class OptionController extends Controller
     {
         $this->user->authorizeRoles('option_general');
         $option = $this->option->getAllOption();
-        return Carbon::now()->addDays(30);
-        return $this->user->registerPostForUser(Auth::user()->id, 2, strtotime(Carbon::now()));
 
 
         return view('admin.settings.options', ['options' => $option]);
