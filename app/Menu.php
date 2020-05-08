@@ -26,7 +26,6 @@ class Menu extends Model
     }
 
 
-
     // Specify parent id attribute mutator
     public function setParentAttribute($value)
     {
@@ -47,5 +46,11 @@ class Menu extends Model
     {
         return self::find($id)->update(['parent_id' => $parent, 'sort' => $sort]);
     }
+
+    public function deleteMenuItem($id)
+    {
+        return self::find($id)->delete();
+    }
+
 
 }

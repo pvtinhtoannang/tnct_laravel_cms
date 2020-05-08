@@ -702,6 +702,49 @@ var PvtinhMenuManagement = function () {
         });
     }
 
+
+    var updatePositionMenu = function () {
+        $('.btn-edit-menu-position').click(function () {
+            var id = $(this).data('id');
+            var url = '/admin/ajax-get-menu-position/'+id;
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function (data) {
+                    $('#update_name').val(data.name);
+                    $('#update_display_name').val(data.display_name);
+                    $('#update_id').val(data.id);
+
+                }, error: function (xhr, status, error) {
+                    alertErrorAddMenuItem();
+                },
+            });
+        });
+
+        $('.btn-save-menu-position').click(function () {
+            var id = $('#update_id').val();
+            var update_name = $('#update_name').val();
+            var update_display_name = $('#update_display_name').val();
+            var __token = $('meta[name="csrf-token"]').attr('content');
+
+            var url = 'ajax-update-postion-menu';
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:  {_token: __token, id: id, name: update_name, display_name: update_display_name},
+                success: function (res) {
+                    $('#update_name').val(data.name);
+                    $('#update_display_name').val(data.display_name);
+                    $('#update_id').val(data.id);
+
+                }, error: function (xhr, status, error) {
+                    alertErrorAddMenuItem();
+                },
+            });
+        });
+    }
+
     return {
         init: function () {
             createSelect2MenuPages();
@@ -718,6 +761,7 @@ var PvtinhMenuManagement = function () {
             redirectToMenuByID();
             saveMenuItemToMenuPosition();
             deleteMenuItem();
+            updatePositionMenu();
         }
     }
 }();

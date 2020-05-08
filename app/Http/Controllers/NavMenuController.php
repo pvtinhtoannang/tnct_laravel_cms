@@ -46,6 +46,12 @@ class NavMenuController extends Controller
         ]);
     }
 
+    public function getMenuPosition($id)
+    {
+        return $menus = $this->position_menu->getPositionMenuByID($id);
+    }
+
+
     public function getViewNavMenuByID($id)
     {
         $postion_menu_first = $this->position_menu->getPositionMenuByID($id);
@@ -138,7 +144,20 @@ class NavMenuController extends Controller
     }
 
 
-    public function deleteMenuItem(Request $request){
+    public function deleteMenuItem(Request $request)
+    {
+        return $this->menu->deleteMenuItem($request->id);
+    }
 
+    public function updateMenuPosition(Request $request)
+    {
+        $id = $request->update_id;
+        $name = $request->name;
+        $display_name = $request->display_name;
+        if (!empty($name) && !empty($display_name)) {
+            return $this->position_menu->updateMenuPostion($id, $name, $display_name);
+        } else {
+            return false;
+        }
     }
 }

@@ -37,7 +37,7 @@
                 Quản lý vị trí menu</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#menu_tab_2" role="tab"><i class="flaticon-support"></i>
+            <a class="nav-link" data-toggle="tab" href="#menu_tab_3" role="tab"><i class="flaticon-support"></i>
                 Hướng dẫn</a>
         </li>
     </ul>
@@ -275,7 +275,6 @@
                             }
 
                             .dd-handle {
-
                             }
 
                             .dd-item button {
@@ -394,7 +393,7 @@
             <div class="row">
                 <div class="col-xs-12 col-md-4">
                     <h2 class="template-title">Thêm vị trí mới</h2>
-                    <form class="kt-form" method="POST" action="{{route('POST_ADD_USER')}}">
+                    <form class="kt-form" method="POST" action="{{route('POST_ADD_NEW_MENU_POSITION')}}">
                         @csrf
                         <div class="hidden"></div>
                         <div class="kt-portlet__body">
@@ -483,18 +482,18 @@
                                             <td>{{$value->id}}</td>
                                             <td class="kt-font-bold">{{$value->name}}
                                                 <div class="nowrap row-actions">
-                                                    <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                                       title="View">
+                                                    <a href="{{ route('GET_NAV_MENU_BY_ID', $value->id) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                                       title="Xem">
                                                         <i class="la la-eye"></i>
                                                     </a>
                                                     <a href="javascript:;"
-                                                       class="btn btn-edit-user btn-sm btn-clean btn-icon btn-icon-md"
+                                                       class="btn btn-edit-menu-position btn-sm btn-clean btn-icon btn-icon-md"
                                                        title="Chỉnh sửa" data-toggle="modal" data-id="{{ $value->id }}"
                                                        data-target="#kt_modal_update_users">
                                                         <i class="la la-edit"></i>
                                                     </a>
                                                     <a href="#"
-                                                       class="btn btn-sm btn-clean btn-icon btn-icon-md kt_sweetalert_delete_permission"
+                                                       class="btn btn-sm btn-clean btn-icon btn-icon-md "
                                                        title="Xoá">
                                                         <i class="la la-trash"></i>
                                                     </a>
@@ -508,63 +507,133 @@
                             </div>
                         </div>
                         <!--begin::Modal-->
-                        <form class="kt-form" method="POST" action="{{route('UPDATE_USER_BY_LIST')}}">
-                            <div class="modal fade" id="kt_modal_update_users" tabindex="-1" role="dialog"
-                                 aria-labelledby="modalUpdatePermission" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="updateUserLabelHeading">Cập nhật thành viên</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            @csrf
-                                            <div class="hidden"></div>
-                                            <div class="kt-portlet__body">
+                        <div class="modal fade" id="kt_modal_update_users" tabindex="-1" role="dialog"
+                             aria-labelledby="modalUpdatePermission" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="updateUserLabelHeading">Cập nhật vị trí menu</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @csrf
+                                        <div class="hidden"></div>
+                                        <div class="kt-portlet__body">
 
-                                                <div class="form-group">
-                                                    <label for="update_name">Họ và tên</label>
-                                                    <input id="update_name" type="text"
-                                                           name="name" class="form-control"
-                                                           aria-describedby="name"
-                                                           value=""
-                                                           placeholder="Nhập họ và tên, ex: nguyen van a">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="update_email">Email</label>
-                                                    <input id="update_email" type="email"
-                                                           name="email" class="form-control"
-                                                           aria-describedby="email"
-                                                           value=""
-                                                           placeholder="Nhập email, ex: nguyenvana@gmail.com">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="update_password">Mật khẩu: (để trống nếu không cập
-                                                        nhật)</label>
-                                                    <input id="update_password" type="password"
-                                                           name="password" class="form-control"
-                                                           aria-describedby="email"
-                                                           value=""
-                                                           placeholder="Nhập email, ex: nguyenvana@gmail.com">
-                                                </div>
-
+                                            <div class="form-group">
+                                                <label for="update_name">Nhãn</label>
+                                                <input required id="update_name" type="text"
+                                                       name="name" class="form-control"
+                                                       aria-describedby="name"
+                                                       value=""
+                                                       placeholder="Nhập tên, hông có được viết dấu, ex: primary_menu, primary-menu">
                                             </div>
+                                            <div class="form-group">
+                                                <label for="update_display_name">Tên hiển thị</label>
+                                                <input required id="update_display_name" type="text"
+                                                       name="display_name" class="form-control"
+                                                       aria-describedby="display_name"
+                                                       value=""
+                                                       placeholder="Nhập tên, viết dấu cho dễ đọc, ex: Menu chính">
+                                            </div>
+
                                         </div>
-                                        <div class="modal-footer">
-                                            <input type="hidden" value="" id="update_id" name="id">
-                                            <button type="reset" class="btn btn-secondary" data-dismiss="modal">Đóng
-                                            </button>
-                                            <button type="submit" class="btn btn-primary">Lưu lại</button>
-                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="hidden" value="" id="update_id" name="id">
+                                        <button type="reset" class="btn btn-secondary" data-dismiss="modal">Đóng
+                                        </button>
+                                        <button class="btn btn-primary btn-save-menu-position">Lưu lại
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
+
 
                         <!--end::Modal-->
                     </div>
                     <!-- end:: Content -->
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="menu_tab_3" role="tabpanel">
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Chọn menu để sửa
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <ul>
+                                <li>Menu mặc định là menu cuối cùng được tạo</li>
+                                <li>Chọn danh sách menu đang có của website và bấm sửa để sửa lại menu mong muốn</li>
+                                <li>Lưu ý: Mọi hành động sẽ tự động lưu lại</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Sửa menu
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <ul>
+                                <li><strong>Thêm liên kết</strong></li>
+                                <li>
+                                    <ul>
+                                        <li>Trang: Bấm vào input để tìm một hoặc nhiều trang sau đó bấm <strong
+                                                class="kt-font-danger">Thêm vào menu</strong></li>
+                                        <li>Bài viết: Bấm vào input để tìm một hoặc nhiều bài viết sau đó bấm <strong
+                                                class="kt-font-danger">Thêm vào menu</strong></li>
+                                        <li>Thẻ: Bấm vào input để tìm một hoặc nhiều Thẻ sau đó bấm <strong
+                                                class="kt-font-danger">Thêm vào menu</strong></li>
+                                        <li>Chuyên mục: Bấm vào input để tìm một hoặc nhiều chuyên mục sau đó bấm
+                                            <strong class="kt-font-danger">Thêm vào menu</strong></li>
+                                        <li>Liên kết tự tạo: Điền URL và tên đường dẫn sau đó bấm <strong
+                                                class="kt-font-danger">Thêm vào menu</strong></li>
+                                    </ul>
+                                </li>
+                                <li><strong>Cấu trúc menu</strong></li>
+                                <li>
+                                    <ul>
+                                        <li>Cấu trúc menu có thể kéo lên xuống</li>
+                                        <li>Muốn kéo được bạn vui lòng bấm chuột vào muỗi tên 4 góc và bắt đầu kéo</li>
+                                        <li>Kéo 1 menu từ dưới lên trên và qua phải một tí để tạo thành menu cấp 2 và
+                                            cấp 3
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="kt-portlet">
+                        <div class="kt-portlet__head">
+                            <div class="kt-portlet__head-label">
+                                <h3 class="kt-portlet__head-title">
+                                    Quản lý vị trí menu
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="kt-portlet__body">
+                            <ul>
+                                <li>Cột trái có thể thêm vị trí menu mới</li>
+                                <li>Lưu ý các vị trí cần có nhãn và tên hiển thị, các nhãn lập trình viên sẽ dùng</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

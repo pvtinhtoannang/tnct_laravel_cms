@@ -43,6 +43,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     Route::POST('ajax-save-menu', ['as' => 'POST_SAVE_MENU' , 'uses'=> 'NavMenuController@saveMenu']);
     Route::POST('ajax-delete-menu-item', ['as'=>'DELETE_MENU_ITEM', 'uses'=>'NavMenuController@deleteMenuItem']);
+
+    Route::get('ajax-get-menu-position/{id}', ['as'=>'GET_MENU_POSITION', 'uses'=>'NavMenuController@getMenuPosition'])->where('id', '[0-9]+');
+    Route::POST('ajax-update-postion-menu', ['as'=> 'UPDATE_MENU_POSITION_BY_LIST', 'uses'=>'NavMenuController@updateMenuPosition']);
 });
 
 
