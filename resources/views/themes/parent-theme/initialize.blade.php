@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="profile" href="https://gmpg.org/xfn/11"/>
     <?php theme_head() ?>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 <div class="site-container">

@@ -146,13 +146,12 @@ class User extends Authenticatable
         $permissions = self::find(Auth::user()->id)->postsCourses()->get();
         $date_now = strtotime(Carbon::now());
         foreach ($permissions as $permission) {
-            if($permission->ID !== $post_id){
+            if ($permission->ID !== $post_id) {
                 abort(401, 'Bạn không có quyền truy cập hành động này!');
             }
             if ((int)$permission->pivot->date_expires < (int)$date_now) {
                 abort(401, 'Quyền truy cập hành động này đã hết hạn!');
-            }
-            else{
+            } else {
                 abort(401, 'Bạn không có quyền truy cập hành động này!');
             }
         }
@@ -260,8 +259,28 @@ class User extends Authenticatable
         $user->roles()->sync($role_id);
     }
 
+    /**
+     * @param $user_id
+     * @param array $role_id
+     * @return mixed
+     */
     public function updateRoleByUserID($user_id, $role_id = [])
     {
         return self::find($user_id)->roles()->sync($role_id);
+    }
+
+    public static function registerUser($name, $email, $password)
+    {
+        $user = self::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password),
+        ]);
+
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

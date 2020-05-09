@@ -29,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/tai-khoan';
 
     /**
      * Create a new controller instance.
@@ -72,4 +72,39 @@ class RegisterController extends Controller
     }
 
 
+    public function registerForUser(Request $request){
+        $rules = [
+            'name' => ['required', 'string', 'max:190'],
+            'email' => ['required', 'string', 'max:190', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password_confirmation' => 'required|min:8'
+        ];
+        $messages = [
+            'name.required' => 'Vui lòng điền họ và tên của bạn!',
+            'name.string' => 'Tên của bạn phải là ký tự!',
+            'name.max' => 'Tên của bạn quá dài, vui lòng kiểm tra lại!',
+            'email.required' => 'Email không được để trống!',
+            'email.string' => 'Email phải là ký tự!',
+            'email.max' => 'Email quá dài, vui lòng kiểm tra lại!',
+            'email.unique' => 'Email này đã tồn tại',
+            'password.required' => 'Mật khẩu không được để trống',
+            'password.string' => 'Mật khẩu phải bao gồm số, ký tự',
+            'password.min' => 'Mật khẩu phải từ 8 ký tự trở lên',
+            'password.confirmed' => 'Mật khẩu xác nhận chưa đúng',
+
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => $validator->errors()], 500);
+        } else {
+            $name = $request->name; $email = $request->email; $password = $request->password;
+            if(User::registerUser($name, $email, $password)){
+                return 'Ok';
+            }else{
+                return 'False';
+            }
+        }
+    }
 }

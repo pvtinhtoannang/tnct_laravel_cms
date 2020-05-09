@@ -50,6 +50,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 });
 
 
+Route::POST('dang-ky', ['as'=>'register', 'uses'=>'Auth\RegisterController@registerForUser']);
+
 
 
 
