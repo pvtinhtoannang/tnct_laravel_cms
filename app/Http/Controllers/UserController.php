@@ -118,6 +118,8 @@ class UserController extends Controller
                 return redirect()->back()->with('messages', 'Vui lòng nhập thông tin!');
             }
         }
-
     }
+
+
+
 }

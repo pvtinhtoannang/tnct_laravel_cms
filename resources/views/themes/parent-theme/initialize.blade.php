@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="<?php echo str_replace('_', '-', app()->getLocale()); ?>">
 <head>
-    <title> {{$titleWebsite}} </title>
+    <title> {{ $titleWebsite }} </title>
     <meta charset=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="profile" href="https://gmpg.org/xfn/11"/>
