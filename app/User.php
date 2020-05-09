@@ -277,6 +277,8 @@ class User extends Authenticatable
             'password' => Hash::make($password),
         ]);
 
+        $subscriber = Role::find(5);
+        $user->roles()->attach($subscriber);
         if (Auth::attempt(['email' => $email, 'password' => $password])) {
             return true;
         } else {

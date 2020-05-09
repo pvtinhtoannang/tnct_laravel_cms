@@ -22,12 +22,7 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/admin';
+
 
     /**
      * Create a new controller instance.
@@ -43,6 +38,29 @@ class LoginController extends Controller
     public function getLogin()
     {
         return view('admin.login.login');
+    }
+
+    /**
+     * Where to redirect users after login.
+     *
+     *
+     */
+    public function redirectTo()
+    {
+
+        // User role
+        $role = Auth::user()->roles->name;
+
+        // Check user role
+        switch ($role) {
+            case ['administrator', 'editor', 'author', 'contributor', 'shop_manager', 'seo_manager', 'seo_editor']:
+                return '/admin';
+                break;
+            case ['customer', 'subscriber'];
+            default:
+                return '/login';
+                break;
+        }
     }
 
 
