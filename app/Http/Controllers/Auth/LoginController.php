@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -21,8 +22,7 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-
-
+    protected $user;
 
     /**
      * Create a new controller instance.
@@ -33,6 +33,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('guest', ['except' => ['logout', 'getLogout']]);
+        $this->user = new User();
     }
 
     public function getLogin()
@@ -48,15 +49,19 @@ class LoginController extends Controller
     public function redirectTo()
     {
 
-        // User role
-        $role = Auth::user()->roles->name;
-
-        // Check user role
-        switch ($role) {
-            case ['administrator', 'editor', 'author', 'contributor', 'shop_manager', 'seo_manager', 'seo_editor']:
+        $role = $this->user->getNameRole(Auth::user()->id);
+        switch ($role[0]->name) {
+            case 'administrator':
+            case 'editor':
+            case 'author':
+            case 'contributor':
+            case 'shop_manager':
+            case 'seo_manager':
+            case 'seo_editor':
                 return '/admin';
                 break;
-            case ['customer', 'subscriber'];
+            case 'customer':
+            case 'subscriber':
             default:
                 return '/login';
                 break;
@@ -69,7 +74,7 @@ class LoginController extends Controller
         $email = $request->email;
         $password = $request->password;
         if (Auth::attempt(['email' => $email, 'password' => $password], $request->has('remember'))) {
-            return route('GET_ADMIN_DASHBOARD_ROUTE');
+            return $this->redirectTo();
         } else {
             return $data['messages'] = 'error';
         }
