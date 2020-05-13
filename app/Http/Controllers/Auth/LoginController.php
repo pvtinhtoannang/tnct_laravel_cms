@@ -76,7 +76,7 @@ class LoginController extends Controller
         if (Auth::attempt(['email' => $email, 'password' => $password], $request->has('remember'))) {
             return $this->redirectTo();
         } else {
-            return $data['messages'] = 'error';
+            return $data['messages'] = 'Tài khoản hoặc mật khẩu không đúng!';
         }
     }
 

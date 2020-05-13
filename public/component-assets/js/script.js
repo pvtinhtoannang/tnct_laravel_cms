@@ -1,5 +1,7 @@
 jQuery(function ($) {
     try {
+
+
         $('.btn-register').click(function () {
             var name = $('#register-profile #name').val();
             var username = $('#register-profile #username').val();

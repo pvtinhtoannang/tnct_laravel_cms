@@ -13,6 +13,13 @@ return [
     |
     */
 
+    'socialite' => [
+        'drivers' => [
+            'google',
+            'facebook',
+        ],
+    ],
+
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
