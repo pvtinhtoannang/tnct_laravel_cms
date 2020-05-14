@@ -61,6 +61,9 @@ class CourseController extends Controller
         if (isset($request->thumbnail_id)) {
             $course->meta()->create($this->course->thumbnailRequest($request));
         }
+        if (isset($request->course_price)) {
+            $course->meta()->create($this->course->postMeta('course_price', $request->course_price));
+        }
         return redirect()->route('GET_EDIT_COURSE_ROUTE', [$course])->with('create', 'Bài viết đã được tạo.');
     }
 

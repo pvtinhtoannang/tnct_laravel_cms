@@ -251,6 +251,19 @@ class Post extends Model
     }
 
     /**
+     * @param $meta_key
+     * @param $meta_value
+     * @return array
+     */
+    function postMeta($meta_key, $meta_value)
+    {
+        return array(
+            'meta_key' => $meta_key,
+            'meta_value' => $meta_value,
+        );
+    }
+
+    /**
      * @param $request
      * @return array
      */
@@ -317,23 +330,24 @@ class Post extends Model
         }
         if ($post->course === null) {
             if (isset($request->course)) {
-                $post->meta()->create([
-                    'meta_key' => 'course_id',
-                    'meta_value' => $request->course
-                ]);
+                $post->meta()->create($this->postMeta('course_id', $request->course));
             }
         } else {
             if (isset($request->course)) {
-                $post->meta()->update([
-                    'meta_key' => 'course_id',
-                    'meta_value' => $request->course
-                ]);
+                $post->meta()->update($this->postMeta('course_id', $request->course));
             } else {
                 $course = $post->meta()->find($post->course->meta_id);
                 $course->delete();
             }
         }
-        $update_post = $post->update($this->postRequest($request, $id));
+
+        if (isset($request->course_price)) {
+            $post->meta()->update($this->postMeta('course_price', $request->course_price));
+        } else {
+            $post->meta()->update($this->postMeta('course_price', 0));
+        }
+
+        $post->update($this->postRequest($request, $id));
         $post->taxonomies()->wherePivot('object_id', $id)->sync($cats);
     }
 

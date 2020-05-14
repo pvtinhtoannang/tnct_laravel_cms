@@ -12,6 +12,7 @@ $post_status = '';
 $thumbnail_url = '';
 $thumbnail_id = '';
 $uploads_url = url('/contents/uploads');
+$course_price = 0;
 ?>
 
 @isset($postData)
@@ -35,6 +36,7 @@ $uploads_url = url('/contents/uploads');
         $thumbnail_id = $postData->thumbnail->meta_value;
         $thumbnail_url = $uploads_url . '/' . $postData->thumbnail->attachment->meta->meta_value;
     }
+    $course_price = $postData->meta()->where('meta_key', 'course_price')->first()->meta_value;
     ?>
 @endisset
 <?php
@@ -108,6 +110,11 @@ if (isset($post_type)) {
                             </option>
                             <option value="draft" @if($post_status === 'draft') {{'selected'}} @endif>Bản nháp</option>
                         </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label for="course-price">Giá</label>
+                        <input class="form-control" type="number" id="course-price" name="course_price" value="{{$course_price}}">
                     </div>
                 </div>
                 <div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right">
