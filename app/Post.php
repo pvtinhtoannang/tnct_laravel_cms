@@ -316,5 +316,4 @@ class Post extends Model
         $update_post = $post->update($this->postRequest($request, $id));
         $post->taxonomies()->wherePivot('object_id', $id)->sync($cats);
     }
-
 }

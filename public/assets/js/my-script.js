@@ -298,6 +298,9 @@ jQuery(function ($) {
                 ajax_upload();
             });
             confirmDelete();
+            $('#course-select').select2({
+                placeholder: "Select a state"
+            });
         });
     } catch (e) {
         console.log(e);

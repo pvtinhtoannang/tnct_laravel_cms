@@ -72,6 +72,37 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/post_tag', ['as' => 'GET_TAG_ROUTE', 'uses' => 'TagController@getTag']);
     Route::post('/post_tag', ['as' => 'POST_TAG_ROUTE', 'uses' => 'TagController@addTag']);
 
+    //course
+    Route::get('/courses/{status?}', ['as' => 'GET_COURSE_ROUTE', 'uses' => 'CourseController@index']);
+    Route::get('/course/create', ['as' => 'GET_CREATE_COURSE_ROUTE', 'uses' => 'CourseController@getCourseEditor']);
+    Route::post('/course/create', ['as' => 'POST_CREATE_COURSE_ROUTE', 'uses' => 'CourseController@createCourse']);
+
+    //trash course
+    Route::get('/course/trash/{id}', ['as' => 'GET_ACTION_TRASH_COURSE_ROUTE', 'uses' => 'CourseController@getActionTrashCourse']);
+
+    //delete course
+    Route::get('/course/delete/{id}', ['as' => 'GET_ACTION_DELETE_COURSE_ROUTE', 'uses' => 'CourseController@getActionDeleteCourse']);
+
+    //restore course
+    Route::get('/course/restore/{id}', ['as' => 'GET_ACTION_RESTORE_COURSE_ROUTE', 'uses' => 'CourseController@getActionRestoreCourse']);
+
+    //edit course
+    Route::get('/course/edit/{id}', ['as' => 'GET_EDIT_COURSE_ROUTE', 'uses' => 'CourseController@getEditCourse']);
+    Route::post('/course/edit/{id}', ['as' => 'POST_EDIT_COURSE_ROUTE', 'uses' => 'CourseController@updateCourse']);
+
+    //course cat
+    Route::get('/course-cat', ['as' => 'GET_COURSE_CATEGORY_ROUTE', 'uses' => 'CourseCategoryController@getCourseCategory']);
+    Route::post('/course-cat', ['as' => 'POST_COURSE_CATEGORY_ROUTE', 'uses' => 'CourseCategoryController@addCourseCategory']);
+
+    //lesson
+    Route::get('/lessons/{status?}', ['as' => 'GET_LESSON_ROUTE', 'uses' => 'LessonController@index']);
+    Route::get('/lesson/create', ['as' => 'GET_CREATE_LESSON_ROUTE', 'uses' => 'LessonController@getLessonEditor']);
+    Route::post('/lesson/create', ['as' => 'POST_CREATE_LESSON_ROUTE', 'uses' => 'LessonController@createLesson']);
+
+    //edit lesson
+    Route::get('/lesson/edit/{id}', ['as' => 'GET_EDIT_LESSON_ROUTE', 'uses' => 'LessonController@getEditLesson']);
+    Route::post('/lesson/edit/{id}', ['as' => 'POST_EDIT_LESSON_ROUTE', 'uses' => 'LessonController@updateLesson']);
+
     //ajax
     Route::get('/slug-generator/{slug}', 'AdminAjaxController@slugGenerator');
     Route::get('/post-name-generator/{post_name}', 'AdminAjaxController@postNameGenerator');
