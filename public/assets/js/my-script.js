@@ -301,6 +301,20 @@ jQuery(function ($) {
             $('#course-select').select2({
                 placeholder: "Select a state"
             });
+            $.validator.addMethod("check_sale_price", function (value, element, param) {
+                let price = $("#course-price").val();
+                return this.optional(element)
+                    || (value*1 < price*1);
+            }, "Giá khuyến mãi phải thấp hơn giá gốc.");
+            $("#post").validate({
+                rules: {
+                    course_sale_price: {
+                        number: true,
+                        check_sale_price: true,
+                        digits: true
+                    }
+                }
+            });
         });
     } catch (e) {
         console.log(e);

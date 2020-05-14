@@ -13,6 +13,7 @@ $thumbnail_url = '';
 $thumbnail_id = '';
 $uploads_url = url('/contents/uploads');
 $course_price = 0;
+$course_sale_price = '';
 $course_hot = '';
 ?>
 
@@ -38,6 +39,10 @@ $course_hot = '';
         $thumbnail_url = $uploads_url . '/' . $postData->thumbnail->attachment->meta->meta_value;
     }
     $course_price = $postData->meta()->where('meta_key', 'course_price')->first()->meta_value;
+    $sale_price = $postData->meta()->where('meta_key', 'course_sale_price')->first();
+    if (!is_null($sale_price)) {
+        $course_sale_price = $sale_price->meta_value;
+    }
     $course_hot = $postData->meta()->where('meta_key', 'course_hot')->first()->meta_value;
     ?>
 @endisset
@@ -117,7 +122,12 @@ if (isset($post_type)) {
                     <div class="form-group">
                         <label for="course-price">Giá</label>
                         <input class="form-control" type="number" id="course-price" name="course_price"
-                               value="{{$course_price}}">
+                               value="{{$course_price}}" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="course-sale-price">Giá khuyến mãi</label>
+                        <input class="form-control" type="number" id="course-sale-price" name="course_sale_price"
+                               value="{{$course_sale_price}}" min="0">
                     </div>
                     <div class="form-group-last">
                         <label class="kt-checkbox">

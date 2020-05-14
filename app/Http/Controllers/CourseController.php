@@ -64,6 +64,9 @@ class CourseController extends Controller
         if (isset($request->course_price)) {
             $course->meta()->create($this->course->postMeta('course_price', $request->course_price));
         }
+        if (isset($request->course_sale_price)) {
+            $course->meta()->create($this->course->postMeta('course_sale_price', $request->course_sale_price));
+        }
         if (isset($request->course_hot)) {
             $course->meta()->create($this->course->postMeta('course_hot', $request->course_hot));
         }

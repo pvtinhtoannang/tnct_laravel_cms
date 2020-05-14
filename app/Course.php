@@ -23,6 +23,15 @@ class Course extends Post
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+    public function sale_price()
+    {
+        return $this->hasOne(CourseMeta::class, 'post_id')
+            ->where('meta_key', 'course_sale_price');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function hot()
     {
         return $this->hasOne(CourseMeta::class, 'post_id')

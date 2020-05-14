@@ -354,6 +354,19 @@ class Post extends Model
             }
         }
 
+        if ($post->sale_price === null) {
+            if (isset($request->course_sale_price)) {
+                $post->meta()->create($this->postMeta('course_sale_price', $request->course_sale_price));
+            }
+        } else {
+            $course = $post->meta()->find($post->sale_price->meta_id);
+            if (isset($request->course_sale_price)) {
+                $course->update($this->postMeta('course_sale_price', $request->course_sale_price));
+            } else {
+                $course->delete();
+            }
+        }
+
         if ($post->hot === null) {
             if (isset($request->course_hot)) {
                 $post->meta()->create($this->postMeta('course_hot', $request->course_hot));
