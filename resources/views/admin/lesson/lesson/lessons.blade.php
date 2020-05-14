@@ -100,7 +100,7 @@
                         </td>
                         <td>{{$post->author->name}}</td>
                         <td class="course">
-                            <a class="" href="">{{$post->course->courseMeta->post_title}}</a>
+                            <a class="" href="">{{$post->lesson->lessonMeta->post_title}}</a>
                         </td>
                         <td>
                             @if($post->post_status == 'publish')

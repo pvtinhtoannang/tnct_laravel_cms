@@ -116,6 +116,12 @@ if (isset($post_type)) {
                         <label for="course-price">Giá</label>
                         <input class="form-control" type="number" id="course-price" name="course_price" value="{{$course_price}}">
                     </div>
+                    <div class="form-group-last">
+                        <label class="kt-checkbox">
+                            <input name="course_hot" type="checkbox" value="hot"> Dánh dấu nổi bật
+                            <span></span>
+                        </label>
+                    </div>
                 </div>
                 <div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right">
                     <button class="btn btn-primary" type="submit">

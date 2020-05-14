@@ -4,15 +4,15 @@ namespace App\Meta;
 
 use App\Course;
 
-class LessonMeta extends PostMeta
+class CourseMeta extends PostMeta
 {
     /**
      * @var array
      */
-    protected $with = ['lessonMeta'];
+    protected $with = ['courseMeta'];
 
 
-    public function lessonMeta()
+    public function courseMeta()
     {
         return $this->belongsTo(Course::class, 'meta_value');
     }

@@ -10,7 +10,7 @@ class Lesson extends Post
      */
     protected $postType = 'lesson';
 
-    public function course()
+    public function lesson()
     {
         return $this->hasOne(LessonMeta::class, 'post_id')
             ->where('meta_key', 'course_id');

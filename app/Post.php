@@ -321,30 +321,50 @@ class Post extends Model
                 $post->meta()->create($this->thumbnailRequest($request));
             }
         } else {
+            $thumbnail = $post->meta()->find($post->thumbnail->meta_id);
             if (isset($request->thumbnail_id)) {
-                $post->meta()->update($this->thumbnailRequest($request));
+                $thumbnail->update($this->thumbnailRequest($request));
             } else {
-                $thumbnail = $post->meta()->find($post->thumbnail->meta_id);
                 $thumbnail->delete();
             }
         }
-        if ($post->course === null) {
+        if ($post->lesson === null) {
             if (isset($request->course)) {
                 $post->meta()->create($this->postMeta('course_id', $request->course));
             }
         } else {
+            $course = $post->meta()->find($post->lesson->meta_id);
             if (isset($request->course)) {
-                $post->meta()->update($this->postMeta('course_id', $request->course));
+                $course->update($this->postMeta('course_id', $request->course));
             } else {
-                $course = $post->meta()->find($post->course->meta_id);
                 $course->delete();
             }
         }
 
-        if (isset($request->course_price)) {
-            $post->meta()->update($this->postMeta('course_price', $request->course_price));
-        } else {
-            $post->meta()->update($this->postMeta('course_price', 0));
+        if ($post->price === null) {
+            if (isset($request->course_price)) {
+                $post->meta()->create($this->postMeta('course_price', $request->course));
+            }
+        }else{
+            $course = $post->meta()->find($post->price->meta_id);
+            if (isset($request->course_price)) {
+                $course->update($this->postMeta('course_price', $request->course_price));
+            } else {
+                $course->delete();
+            }
+        }
+
+        if ($post->hot === null) {
+            if (isset($request->course_hot)) {
+                $post->meta()->create($this->postMeta('course_hot', $request->course_hot));
+            }
+        }else{
+            $course = $post->meta()->find($post->hot->meta_id);
+            if (isset($request->course_hot)) {
+                $course->update($this->postMeta('course_hot', $request->course_hot));
+            } else {
+                $course->delete();
+            }
         }
 
         $post->update($this->postRequest($request, $id));

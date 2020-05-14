@@ -64,6 +64,9 @@ class CourseController extends Controller
         if (isset($request->course_price)) {
             $course->meta()->create($this->course->postMeta('course_price', $request->course_price));
         }
+        if (isset($request->course_hot)) {
+            $course->meta()->create($this->course->postMeta('course_hot', $request->course_hot));
+        }
         return redirect()->route('GET_EDIT_COURSE_ROUTE', [$course])->with('create', 'Bài viết đã được tạo.');
     }
 
