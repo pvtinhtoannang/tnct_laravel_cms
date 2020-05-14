@@ -163,6 +163,10 @@ class UserController extends Controller
         if ($authUser) {
             return $authUser;
         }
+        $checkEmail = User::where('email', $user->email)->first();
+        if($checkEmail){
+            return $checkEmail;
+        }
         return User::create([
             'name'     => $user->name,
             'email'    => $user->email,
