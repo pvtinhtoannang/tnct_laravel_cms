@@ -24,6 +24,7 @@ class UserController extends Controller
         return view('admin.users.my-profile');
     }
 
+
     public function updateMyProfile(Request $request)
     {
         $password = $request->password;
@@ -47,6 +48,9 @@ class UserController extends Controller
         }
     }
 
+    public function getLoginSocialGuide(){
+        return view('admin.users.login-social-guide');
+    }
 
     /**
      * lấy thông tin user

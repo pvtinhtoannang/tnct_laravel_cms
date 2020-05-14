@@ -14,6 +14,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('add-user', ['as' => 'POST_ADD_USER', 'uses' => 'UserController@addNewUser']);
     Route::get('my-profile', ['as' => 'GET_MY_PROFILE', 'uses' => 'UserController@getMyProfile']);
     Route::post('my-profile', ['as' => 'POST_MY_PROFILE', 'uses' => 'UserController@updateMyProfile']);
+    Route::get('login-social-guide', ['as' => 'GET_LOGIN_SOCIAL_GUIDE', 'uses'=> 'UserController@getLoginSocialGuide']);
+
+
     Route::get('options-general', ['as' => 'GET_OPTION_GENERAL', 'uses' => 'OptionController@getOptionGeneral']);
     Route::post('options-general', ['as' => 'POST_OPTION_GENERAL', 'uses' => 'OptionController@postUpdateOptionGeneral']);
     Route::post('add-options-general', ['as' => 'ADD_OPTION_GENERAL', 'uses' => 'OptionController@postAddOptionGeneral']);
@@ -46,6 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
     Route::get('ajax-get-menu-position/{id}', ['as' => 'GET_MENU_POSITION', 'uses' => 'NavMenuController@getMenuPosition'])->where('id', '[0-9]+');
     Route::POST('ajax-update-postion-menu', ['as' => 'UPDATE_MENU_POSITION_BY_LIST', 'uses' => 'NavMenuController@updateMenuPosition']);
+
 
 });
 
