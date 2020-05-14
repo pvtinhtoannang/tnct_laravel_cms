@@ -20,9 +20,10 @@ class LessonController extends Controller
     }
 
     /**
+     * @param null $status
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    function index()
+    function index($status = null)
     {
         $lessons = array();
         if (!isset($status)) {
@@ -50,14 +51,14 @@ class LessonController extends Controller
 
     function createLesson(Request $request)
     {
-        $course = $this->lesson->create($this->lesson->postRequest($request));
+        $lesson = $this->lesson->create($this->lesson->postRequest($request));
         if (isset($request->course)) {
-            $course->meta()->create([
+            $lesson->meta()->create([
                 'meta_key' => 'course_id',
                 'meta_value' => $request->course
             ]);
         }
-        return redirect()->route('GET_EDIT_LESSON_ROUTE', [$course])->with('create', 'Bài học đã được tạo.');
+        return redirect()->route('GET_EDIT_LESSON_ROUTE', [$lesson])->with('create', 'Bài học đã được tạo.');
     }
 
     /**
@@ -76,6 +77,46 @@ class LessonController extends Controller
             return view('admin.errors.admin-error', ['error_responses' => $responses]);
         } else {
             return view('admin.lesson.lesson.lesson-edit', ['postData' => $postData]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    function updateLesson(Request $request, $id)
+    {
+        $this->lesson->updatePost($id, $request);
+        return redirect()->route('GET_EDIT_LESSON_ROUTE', [$id])->with('update', 'Bài viết đã được cập nhật.');
+    }
+
+    /**
+     * @param $status
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    function updateStatus($status, $id)
+    {
+        $responses = array(
+            'title' => 'Lỗi',
+            'sub_title' => '',
+            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
+        );
+        if ($status !== '') {
+            if ($status === 'restore') {
+                $status = 'draft';
+            } else if ($status === 'trash') {
+                $status = 'trash';
+            } else if ($status === 'delete') {
+                $this->lesson->post_id($id)->delete();
+            } else {
+                return view('admin.errors.admin-error', ['error_responses' => $responses]);
+            }
+            $this->lesson->updateStatus($id, $this->post_type, $status);
+            return redirect()->back();
+        } else {
+            return view('admin.errors.admin-error', ['error_responses' => $responses]);
         }
     }
 }

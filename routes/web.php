@@ -25,14 +25,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/post/edit/{id}', ['as' => 'GET_EDIT_POST_ROUTE', 'uses' => 'PostController@getEditPost']);
     Route::post('/post/edit/{id}', ['as' => 'POST_EDIT_POST_ROUTE', 'uses' => 'PostController@updatePost']);
 
-    //trash post
-    Route::get('/post/trash/{id}', ['as' => 'GET_ACTION_TRASH_POST_ROUTE', 'uses' => 'PostController@getActionTrashPost']);
-
-    //restore post
-    Route::get('/post/restore/{id}', ['as' => 'GET_ACTION_RESTORE_POST_ROUTE', 'uses' => 'PostController@getActionRestorePost']);
-
-    //delete post
-    Route::get('/post/delete/{id}', ['as' => 'GET_ACTION_DELETE_POST_ROUTE', 'uses' => 'PostController@getActionDeletePost']);
+    //update status post
+    Route::get('/post/{status?}/{id}', ['as' => 'GET_ACTION_POST_ROUTE', 'uses' => 'PostController@updateStatus']);
 
     //page
     Route::get('/pages/{status?}', ['as' => 'GET_PAGES_ROUTE', 'uses' => 'PageController@index']);
@@ -44,14 +38,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/page/edit/{id}', ['as' => 'GET_EDIT_PAGE_ROUTE', 'uses' => 'PageController@getEditPage']);
     Route::post('/page/edit/{id}', ['as' => 'POST_EDIT_PAGE_ROUTE', 'uses' => 'PageController@updatePage']);
 
-    //trash page
-    Route::get('/page/trash/{id}', ['as' => 'GET_ACTION_TRASH_PAGE_ROUTE', 'uses' => 'PageController@getActionTrashPage']);
-
-    //restore page
-    Route::get('/page/restore/{id}', ['as' => 'GET_ACTION_RESTORE_PAGE_ROUTE', 'uses' => 'PageController@getActionRestorePage']);
-
-    //delete page
-    Route::get('/page/delete/{id}', ['as' => 'GET_ACTION_DELETE_PAGE_ROUTE', 'uses' => 'PageController@getActionDeletePage']);
+    //update status page
+    Route::get('/page/{status?}/{id}', ['as' => 'GET_ACTION_PAGE_ROUTE', 'uses' => 'PageController@updateStatus']);
 
     //upload
     Route::get('/upload', ['as' => 'GET_UPLOAD_ROUTE', 'uses' => 'UploadController@getUpload']);
@@ -86,6 +74,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     //restore course
     Route::get('/course/restore/{id}', ['as' => 'GET_ACTION_RESTORE_COURSE_ROUTE', 'uses' => 'CourseController@getActionRestoreCourse']);
 
+
     //edit course
     Route::get('/course/edit/{id}', ['as' => 'GET_EDIT_COURSE_ROUTE', 'uses' => 'CourseController@getEditCourse']);
     Route::post('/course/edit/{id}', ['as' => 'POST_EDIT_COURSE_ROUTE', 'uses' => 'CourseController@updateCourse']);
@@ -102,6 +91,9 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     //edit lesson
     Route::get('/lesson/edit/{id}', ['as' => 'GET_EDIT_LESSON_ROUTE', 'uses' => 'LessonController@getEditLesson']);
     Route::post('/lesson/edit/{id}', ['as' => 'POST_EDIT_LESSON_ROUTE', 'uses' => 'LessonController@updateLesson']);
+
+    //update status lesson
+    Route::get('/lesson/{status?}/{id}', ['as' => 'GET_ACTION_LESSON_ROUTE', 'uses' => 'LessonController@updateStatus']);
 
     //ajax
     Route::get('/slug-generator/{slug}', 'AdminAjaxController@slugGenerator');

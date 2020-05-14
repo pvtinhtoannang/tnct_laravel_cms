@@ -56,7 +56,8 @@ class Post extends Model
         $this->term = new Term();
     }
 
-    public function usersCourses(){
+    public function usersCourses()
+    {
         return $this->belongsToMany('App\User', 'permission_post', 'post_id', 'user_id');
     }
 
@@ -295,7 +296,8 @@ class Post extends Model
     }
 
 
-    function updatePost($id, $request){
+    function updatePost($id, $request)
+    {
         $post = self::find($id);
         $cats = array();
         foreach ($this->taxonomyRequest($request) as $term_id) {
@@ -313,7 +315,39 @@ class Post extends Model
                 $thumbnail->delete();
             }
         }
+        if ($post->course === null) {
+            if (isset($request->course)) {
+                $post->meta()->create([
+                    'meta_key' => 'course_id',
+                    'meta_value' => $request->course
+                ]);
+            }
+        } else {
+            if (isset($request->course)) {
+                $post->meta()->update([
+                    'meta_key' => 'course_id',
+                    'meta_value' => $request->course
+                ]);
+            } else {
+                $course = $post->meta()->find($post->course->meta_id);
+                $course->delete();
+            }
+        }
         $update_post = $post->update($this->postRequest($request, $id));
         $post->taxonomies()->wherePivot('object_id', $id)->sync($cats);
+    }
+
+    function updateStatus($id, $post_type, $status)
+    {
+        $postData = $this->post_id($id)->type($post_type)->first();
+        if ($postData === null) {
+            return false;
+        } else {
+            $this->post_id($id)->update(array(
+                    'post_status' => $status
+                )
+            );
+            return true;
+        }
     }
 }

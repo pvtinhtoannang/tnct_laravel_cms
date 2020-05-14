@@ -80,17 +80,17 @@
                                    class="btn btn-sm btn-clean btn-icon btn-icon-md edit-btn" title="Chỉnh sửa">
                                     <i class="la la-edit"></i>
                                 </a>
-                                <a href="{{route('GET_ACTION_RESTORE_POST_ROUTE', $post->ID)}}"
+                                <a href="{{route('GET_ACTION_LESSON_ROUTE', ['restore', $post->ID])}}"
                                    class="btn btn-sm btn-clean btn-icon btn-icon-md restore-btn" title="Phục hồi">
                                     <i class="la la-rotate-left"></i>
                                 </a>
                                 @if($post->post_status != 'trash')
-                                    <a href="{{route('GET_ACTION_TRASH_POST_ROUTE', $post->ID)}}"
+                                    <a href="{{route('GET_ACTION_LESSON_ROUTE', ['trash', $post->ID])}}"
                                        class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Bỏ vào thùng rác">
                                         <i class="la la-trash"></i>
                                     </a>
                                 @else
-                                    <a href="{{route('GET_ACTION_DELETE_POST_ROUTE', $post->ID)}}"
+                                    <a href="{{route('GET_ACTION_LESSON_ROUTE', ['delete', $post->ID])}}"
                                        class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Xoá vĩnh viễn">
                                         <i class="la la-trash"></i>
                                     </a>
