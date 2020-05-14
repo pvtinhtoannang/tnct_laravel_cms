@@ -345,12 +345,12 @@ class Post extends Model
             if (isset($request->course_price)) {
                 $post->meta()->create($this->postMeta('course_price', $request->course));
             }
-        }else{
+        } else {
             $course = $post->meta()->find($post->price->meta_id);
             if (isset($request->course_price)) {
                 $course->update($this->postMeta('course_price', $request->course_price));
             } else {
-                $course->delete();
+                $course->update($this->postMeta('course_price', 0));
             }
         }
 
@@ -358,12 +358,12 @@ class Post extends Model
             if (isset($request->course_hot)) {
                 $post->meta()->create($this->postMeta('course_hot', $request->course_hot));
             }
-        }else{
+        } else {
             $course = $post->meta()->find($post->hot->meta_id);
             if (isset($request->course_hot)) {
                 $course->update($this->postMeta('course_hot', $request->course_hot));
             } else {
-                $course->delete();
+                $course->update($this->postMeta('course_hot', 0));
             }
         }
 

@@ -13,6 +13,7 @@ $thumbnail_url = '';
 $thumbnail_id = '';
 $uploads_url = url('/contents/uploads');
 $course_price = 0;
+$course_hot = '';
 ?>
 
 @isset($postData)
@@ -37,6 +38,7 @@ $course_price = 0;
         $thumbnail_url = $uploads_url . '/' . $postData->thumbnail->attachment->meta->meta_value;
     }
     $course_price = $postData->meta()->where('meta_key', 'course_price')->first()->meta_value;
+    $course_hot = $postData->meta()->where('meta_key', 'course_hot')->first()->meta_value;
     ?>
 @endisset
 <?php
@@ -114,11 +116,13 @@ if (isset($post_type)) {
                     </div>
                     <div class="form-group">
                         <label for="course-price">Giá</label>
-                        <input class="form-control" type="number" id="course-price" name="course_price" value="{{$course_price}}">
+                        <input class="form-control" type="number" id="course-price" name="course_price"
+                               value="{{$course_price}}">
                     </div>
                     <div class="form-group-last">
                         <label class="kt-checkbox">
-                            <input name="course_hot" type="checkbox" value="hot"> Dánh dấu nổi bật
+                            <input name="course_hot" type="checkbox" value="hot"
+                                   @if($course_hot === 'hot') checked @endif> Dánh dấu nổi bật
                             <span></span>
                         </label>
                     </div>
