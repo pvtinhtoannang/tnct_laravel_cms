@@ -2,13 +2,19 @@
   background-image: url(../images/bg-footer.jpg);
   background-position: top;
   background-size: cover;
-  padding: ;
+  padding: 60px 0 65px 0;
+  color: #FFF;
   .footer-logo {
     display: flex;
     display: -webkit-flex;
     align-items: center;
     -webkit-align-items: center;
     color: #FFF;
+    .logo{
+      margin-right: 5px;
+      width: 55px;
+      height: auto;
+    }
 
     h3 {
       font-family: 'UTM Futura Extra', sans-serif;
