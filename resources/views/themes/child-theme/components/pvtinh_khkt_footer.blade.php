@@ -51,8 +51,8 @@
             <div class="col-xs-12 col-sm-6 col-md-3">
                 <div class="box-fanpage">
                     <div id="fb-root"></div>
-                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0"></script>
-                    <div class="fb-page" data-href="https://www.facebook.com/thuegiaminh" data-tabs="timeline" data-width="" data-height="190" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/thuegiaminh" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/thuegiaminh">Đại Lý Thuế Gia Minh</a></blockquote></div>
+{{--                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0"></script>--}}
+{{--                    <div class="fb-page" data-href="https://www.facebook.com/thuegiaminh" data-tabs="timeline" data-width="" data-height="190" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/thuegiaminh" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/thuegiaminh">Đại Lý Thuế Gia Minh</a></blockquote></div>--}}
 
                     <p>Theo dõi chúng tôi</p>
 
