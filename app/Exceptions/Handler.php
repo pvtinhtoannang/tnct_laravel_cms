@@ -56,6 +56,6 @@ class Handler extends ExceptionHandler
         if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
             return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
         }
-        return parent::render($request, $exception); 
+        return parent::render($request, $exception);
     }
 }
