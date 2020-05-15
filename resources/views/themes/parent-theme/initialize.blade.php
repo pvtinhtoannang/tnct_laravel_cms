@@ -15,11 +15,9 @@
     </header><!-- .site-header -->
     <div id="primary" class="content-area">
         <main id="main" class="site-main">
-            <div class="container container-wrapper">
-                <div class="content-wrapper">
-                    @yield('content')
-                </div><!-- .container -->
-            </div><!-- .content-wrapper -->
+            <div class="content-wrapper">
+                @yield('content')
+            </div><!-- .container -->
         </main><!-- #main -->
     </div><!-- #primary -->
     <footer class="site-footer">

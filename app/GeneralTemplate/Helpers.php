@@ -29,24 +29,25 @@ add_action('theme_head', 'theme_styles');
 
 function theme_styles()
 {
-    $component_assets = url('/component-assets');
-    register_style($component_assets . "/lib/bootstrap/css/bootstrap.min.css");
-    register_style($component_assets . "/lib/font-awesome/css/font-awesome.min.css");
-    register_style($component_assets . "/lib/mmenu/jquery.mmenu.all.css");
-    register_style($component_assets . "/lib/slick/slick.css");
-    register_style($component_assets . "/lib/slick/slick-theme.css");
-    register_style($component_assets . "/css/reset.min.css");
-    register_style($component_assets . "/css/style.css");
+    global $cpn_assets;
+    $cpn_assets = url('/component-assets');
+    register_style($cpn_assets . "/lib/bootstrap/css/bootstrap.min.css");
+    register_style($cpn_assets . "/lib/font-awesome/css/font-awesome.min.css");
+    register_style($cpn_assets . "/lib/mmenu/jquery.mmenu.all.css");
+    register_style($cpn_assets . "/lib/slick/slick.css");
+    register_style($cpn_assets . "/lib/slick/slick-theme.css");
+    register_style($cpn_assets . "/css/reset.min.css");
+    register_style($cpn_assets . "/css/style.css");
 }
 
 add_action('theme_footer', 'theme_script_footer');
 
 function theme_script_footer()
 {
-    $component_assets = url('/component-assets');
-    register_script($component_assets . '/lib/jquery/dist/jquery.js');
-    register_script($component_assets . '/lib/bootstrap/js/bootstrap.min.js');
-    register_script($component_assets . '/lib/slick/slick.min.js');
-    register_script($component_assets . '/lib/mmenu/jquery.mmenu.all.min.js');
-    register_script($component_assets . '/js/script.js');
+    global $cpn_assets;
+    register_script($cpn_assets . '/lib/jquery/dist/jquery.js');
+    register_script($cpn_assets . '/lib/bootstrap/js/bootstrap.min.js');
+    register_script($cpn_assets . '/lib/slick/slick.min.js');
+    register_script($cpn_assets . '/lib/mmenu/jquery.mmenu.all.min.js');
+    register_script($cpn_assets . '/js/script.js');
 }

@@ -1,0 +1,27 @@
+.pvtinh_khkt_footer {
+  background-image: url(../images/bg-footer.jpg);
+  background-position: top;
+  background-size: cover;
+  padding: ;
+  .footer-logo {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+    -webkit-align-items: center;
+    color: #FFF;
+
+    h3 {
+      font-family: 'UTM Futura Extra', sans-serif;
+      font-size: 16px;
+    }
+
+    span {
+      font-size: 13.03px;
+      font-weight: 300;
+    }
+  }
+  .address-company{
+    flex-basis: 100%;
+
+  }
+}
