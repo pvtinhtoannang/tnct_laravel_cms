@@ -6,8 +6,10 @@ body {
     background-color: #eef1f2;
 }
 
+@import '../sass/mixin';
 @import '../sass/pvtinh_khkt_timkhoahoc';
 @import '../sass/pvtinh_khkt_khoahochot';
 @import '../sass/pvtinh_khkt_taisaochon';
 @import '../sass/pvtinh_khkt_partner';
 @import '../sass/pvtinh_khkt_footer';
+@import '../sass/mn-khkt-acount.blade';
