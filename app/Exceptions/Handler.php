@@ -51,6 +51,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        
+        $theme = new ThemeController();
+        $titleWebsite = $theme->getTitleWebsite('/');
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
+            return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
+        }
+        return parent::render($request, $exception);
     }
 }
