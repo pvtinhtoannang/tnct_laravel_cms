@@ -58,7 +58,7 @@ class ThemeController extends Controller
         } else if ($term !== null) {
             return view('themes.parent-theme.archive', ['term' => $term, 'titleWebsite' => $titleWebsite]);
         } else {
-            return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
+            return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404); 
         }
     }
 }
