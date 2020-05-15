@@ -31,9 +31,6 @@ class AuthServiceProvider extends ServiceProvider
             if (Auth::check()) {
                 $view->with('users_data', Auth::user());
             }
-            else{
-                $view->with('users_data', null);
-            }
         });
     }
 }
