@@ -45,7 +45,7 @@ class ThemeController extends Controller
 
     function type($slug)
     {
-        global $post;
+        global $post, $term;
         $titleWebsite = $this->getTitleWebsite($slug);
         $post = $this->post->slug($slug)->first();
         $term = $this->term->slug($slug)->first();
