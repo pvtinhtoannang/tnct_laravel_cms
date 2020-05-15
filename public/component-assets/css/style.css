@@ -386,4 +386,14 @@ body {
   flex-basis: 100%;
 }
 
+.mn-khkt-my-courses .sec-heading {
+  background-color: #012f8f;
+  padding: 40px 0;
+}
+.mn-khkt-my-courses .sec-heading .sec-title {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 500;
+}
+
 /*# sourceMappingURL=style.css.map */

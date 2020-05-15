@@ -1,7 +1,9 @@
 @if($users_data)
     <section class="mn-khkt-my-courses">
         <div class="sec-heading">
-            <h1 class=""></h1>
+            <div class="container">
+                <h1 class="sec-title"><?php the_title()?></h1>
+            </div>
         </div>
         <div class="container">
 
