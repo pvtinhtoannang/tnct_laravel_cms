@@ -2,10 +2,8 @@
 
 namespace App\Exceptions;
 
-use App\Http\Controllers\ThemeController;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-use App\Http\Controllers\ThemeController;
 
 class Handler extends ExceptionHandler
 {
@@ -31,7 +29,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param \Throwable $exception
+     * @param  \Throwable  $exception
      * @return void
      *
      * @throws \Exception
@@ -44,19 +42,14 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Throwable $exception
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Throwable  $exception
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @throws \Throwable
      */
     public function render($request, Throwable $exception)
     {
-        $theme = new ThemeController();
-        $titleWebsite = $theme->getTitleWebsite('/');
-        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
-            return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
-        }
         return parent::render($request, $exception);
     }
 }
