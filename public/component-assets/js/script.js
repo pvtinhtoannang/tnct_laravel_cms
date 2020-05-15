@@ -19,6 +19,24 @@ jQuery(function ($) {
             ]
         });
 
+        $('.slider-khkt-item-slick').slick({
+            dots: true,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            arrows: false,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        arrows: false,
+                    }
+                }
+            ]
+        });
+
 
         $('.list-partner').slick({
             slidesToScroll: 1,
