@@ -5,6 +5,8 @@
  * Time: 3:37 CH
  */
 
+use App\Page;
+
 function theme_head()
 {
     do_action('theme_head');
@@ -51,4 +53,19 @@ function theme_script_footer()
     register_script($component_assets . '/lib/mmenu/jquery.mmenu.all.min.js');
     register_script($component_assets . '/lib/sweetalert2/sweetalert2.min.js');
     register_script($component_assets . '/js/script.js');
+}
+
+function is_page($page = '')
+{
+    global $post;
+    $page_model = new Page();
+    if (!is_null($page_model->slug($page)->first()) && $page === $post->post_name) {
+        return $page_model->slug($page)->first();
+    } else if (!is_null($page_model->find($page)) && $page === $post->ID) {
+        return $page_model->find($page);
+    } else if ($page === '' && $post->post_type === 'page') {
+        return $post;
+    } else {
+        return null;
+    }
 }

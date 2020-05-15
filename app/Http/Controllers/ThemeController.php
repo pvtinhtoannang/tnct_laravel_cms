@@ -48,6 +48,7 @@ class ThemeController extends Controller
 
     function type($slug)
     {
+        global $post;
         $titleWebsite = $this->getTitleWebsite($slug);
         $post = $this->post->slug($slug)->first();
         $term = $this->term->slug($slug)->first();
@@ -60,7 +61,7 @@ class ThemeController extends Controller
         } else if ($term !== null) {
             return view('themes.parent-theme.archive', ['term' => $term, 'titleWebsite' => $titleWebsite]);
         } else {
-            return view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite]);
+            return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
         }
     }
 
