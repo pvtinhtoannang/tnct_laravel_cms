@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
                 $view->with('users_data', Auth::user());
             } else {
                 $view->with('users_data', null);
-            }
+            } 
         });
     }
 }
