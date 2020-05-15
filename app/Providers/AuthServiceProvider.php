@@ -33,6 +33,9 @@ class AuthServiceProvider extends ServiceProvider
             }else{
                 $view->with('users_data', null);
             }
+            else{
+                $view->with('users_data', null);
+            }
         });
     }
 }
