@@ -1,0 +1,57 @@
+.pvtinh-khkt-header {
+  background-image: url(../images/bg-header.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .header-content {
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(space-between);
+  }
+
+  .menu-header-content {
+    @include flexbox();
+    @include align-items(center);
+
+    nav.menu-header {
+      > ul {
+        @include flexbox();
+        @include align-items(center);
+
+        ul {
+          li {
+            position: relative;
+
+            a {
+              display: block;
+              color: #000000;
+              font-size: 16px;
+              font-weight: 500;
+
+            }
+
+            ul {
+              background-color: #FFF;
+              min-width: 160px;
+              -webkit-border-radius: 4px;
+              -moz-border-radius: 4px;
+              border-radius: 4px;
+              position: absolute;
+              bottom: 0;
+              height: 100%;
+
+              li {
+                a {
+                  display: block;
+                  color: #000000;
+                  font-size: 14px;
+                  font-weight: 300;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
