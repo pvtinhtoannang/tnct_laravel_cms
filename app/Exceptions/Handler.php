@@ -5,7 +5,6 @@ namespace App\Exceptions;
 use App\Http\Controllers\ThemeController;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-use App\Http\Controllers\ThemeController;
 
 class Handler extends ExceptionHandler
 {
