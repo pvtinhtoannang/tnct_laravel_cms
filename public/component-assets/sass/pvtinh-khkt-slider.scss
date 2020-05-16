@@ -189,5 +189,25 @@
         }
       }
     }
+    .slider-khkt-content{
+      flex-wrap: wrap;
+      -webkit-flex-wrap: wrap;
+    }
+    .slider-left, .slider-right{
+      flex-basis: 50%;
+      -webkit-flex-basis: 50%;
+      order: 3
+    }
+    .slider-center{
+      flex-basis: 100%;
+      -webkit-flex-basis: 100%;
+    }
+  }
+  @media screen and(max-width: 768px) {
+    .slider-left, .slider-right{
+      flex-basis: 100%;
+      -webkit-flex-basis: 100%;
+      order: 3
+    }
   }
 }
