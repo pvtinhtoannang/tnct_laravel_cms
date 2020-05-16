@@ -87,7 +87,7 @@ jQuery(function ($) {
                         'Bạn sẽ được chuyển đến trang tài khoản!',
                         'success'
                     )
-
+                    window.location.reload();
                 }, error: function (xhr, status, error) {
                     console.log(xhr.responseJSON.message);
                     var message = xhr.responseJSON.message;

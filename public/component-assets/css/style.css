@@ -209,7 +209,7 @@ body {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  width: 110px;
+  min-width: 110px;
   height: 42px;
   color: #FFF;
 }
@@ -268,11 +268,15 @@ body {
     flex-basis: calc(100% - 65px);
   }
   .pvtinh-khkt-header .menu-header-content .login-button button {
-    width: auto;
+    min-width: auto;
     height: 35px;
     font-size: 14px;
     margin: auto 2px;
   }
+}
+
+.modal-backdrop {
+  display: none;
 }
 
 .pvtinh_khkt_timkhoahoc {
@@ -1019,6 +1023,95 @@ body {
     -webkit-flex-basis: 100%;
     order: 3;
   }
+}
+
+.account-form {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+  -ms-flex-pack: space-between;
+  width: 100%;
+  position: relative;
+}
+.account-form:before, .account-form:after {
+  border: 1px solid #CCC;
+  color: #CCC;
+  position: absolute;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.account-form:before {
+  width: 1px;
+  height: 100%;
+  top: 50%;
+  content: "";
+}
+.account-form:after {
+  content: "Hoặc";
+  top: 50%;
+  width: 50px;
+  height: 50px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 46px;
+  background-color: #FFF;
+}
+.account-form .left-form, .account-form .right-form {
+  -webkit-flex-basis: 50%;
+  -moz-flex-basis: 50%;
+  -ms-flex-basis: 50%;
+  flex-basis: 50%;
+  max-width: 290px;
+}
+.account-form .left-form {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.account-form .left-form a.btn-link {
+  width: 100%;
+  display: block;
+  color: #FFF;
+  text-align: left;
+  text-decoration: none;
+  margin: 5px 0;
+  padding: 10px 20px;
+}
+.account-form .left-form a.btn-link.btn-facebook {
+  background-color: #4269af;
+}
+.account-form .left-form a.btn-link.btn-google {
+  background-color: #df4930;
+}
+button.btn-custom {
+  background-color: #012f8f;
+  border: 1px solid #012f8f;
+  color: #FFF;
+}
+button.btn-custom:hover {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -195,7 +195,7 @@
       -webkit-border-radius: 3px;
       -moz-border-radius: 3px;
       border-radius: 3px;
-      width: 110px;
+      min-width: 110px;
       height: 42px;
       color: #FFF;
 
@@ -253,7 +253,7 @@
       .login-button {
 
         button {
-          width: auto;
+          min-width: auto;
           height: 35px;
           font-size: 14px;
           margin: auto 2px;
@@ -262,4 +262,7 @@
     }
 
   }
+}
+.modal-backdrop{
+  display: none;
 }
