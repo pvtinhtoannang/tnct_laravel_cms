@@ -433,7 +433,11 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 href="{{ route('GET_MY_PROFILE') }}" class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Hồ sơ của tôi</span></a></li>
-
+                                    <li class="kt-menu__item @if(Request::url() === route('GET_LOGIN_SOCIAL_GUIDE')) kt-menu__item--active @endif"
+                                        aria-haspopup="true"><a
+                                                href="{{ route('GET_LOGIN_SOCIAL_GUIDE') }}" class="kt-menu__link "><i
+                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                                    class="kt-menu__link-text">Hướng dẫn cài đặt đăng nhập</span></a></li>
 
                                 </ul>
                             </div>
