@@ -6,9 +6,6 @@
  */
 
 use App\Page;
-use App\Post;
-use App\Option;
-use App\Term;
 
 function theme_head()
 {
