@@ -48,11 +48,11 @@ class ThemeController extends Controller
 
     function type($slug)
     {
-        global $post;
+        global $post, $term;
         $titleWebsite = $this->getTitleWebsite($slug);
         $post = $this->post->slug($slug)->first();
         $term = $this->term->slug($slug)->first();
-        if ($post !== null) {
+        if ($post !== null && $post->post_status === 'publish') {
             $post_type = $post->post_type;
             if ($post_type === 'post') {
                 $post_type = 'single';
