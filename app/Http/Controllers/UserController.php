@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\User;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+use Laravel\Socialite\Facades\Socialite;
 class UserController extends Controller
 {
     protected $user, $role;
@@ -22,6 +23,7 @@ class UserController extends Controller
 //        $request->user()->authorizeRoles(['administrator']);
         return view('admin.users.my-profile');
     }
+
 
     public function updateMyProfile(Request $request)
     {
@@ -46,6 +48,9 @@ class UserController extends Controller
         }
     }
 
+    public function getLoginSocialGuide(){
+        return view('admin.users.login-social-guide');
+    }
 
     /**
      * lấy thông tin user
@@ -118,6 +123,59 @@ class UserController extends Controller
                 return redirect()->back()->with('messages', 'Vui lòng nhập thông tin!');
             }
         }
+    }
 
+
+    /**
+     * Chuyển hướng người dùng sang OAuth Provider.
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectToProvider($provider)
+    {
+        if(!session()->has('pre_url')){
+            session()->put('pre_url', URL::previous());
+        }else{
+            if(URL::previous() != URL::to('/')) session()->put('pre_url', URL::previous());
+        }
+        return Socialite::driver($provider)->redirect();
+    }
+
+    /**
+     * Lấy thông tin từ Provider, kiểm tra nếu người dùng đã tồn tại trong CSDL
+     * thì đăng nhập, ngược lại nếu chưa thì tạo người dùng mới trong SCDL.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+
+        $authUser = $this->findOrCreateUser($user, $provider);
+        Auth::login($authUser, true);
+        return Redirect::to(session()->get('pre_url'));
+    }
+
+    /**
+     * @param  $user Socialite user object
+     * @param $provider Social auth provider
+     * @return  User
+     */
+    public function findOrCreateUser($user, $provider)
+    {
+        $authUser = User::where('provider_id', $user->id)->first();
+        if ($authUser) {
+            return $authUser;
+        }
+        $checkEmail = User::where('email', $user->email)->first();
+        if($checkEmail){
+            return $checkEmail;
+        }
+        return User::create([
+            'name'     => $user->name,
+            'email'    => $user->email,
+            'provider' => $provider,
+            'provider_id' => $user->id
+        ]);
     }
 }

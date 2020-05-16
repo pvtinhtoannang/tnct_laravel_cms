@@ -22,7 +22,7 @@ class ThemeController extends Controller
 
     public function getTitleWebsite($slug)
     {
-
+        $titleWebsiteBySessionKey = session('getTitleWebsite');
         $post = $this->post->slug($slug)->first();
         $term = $this->term->slug($slug)->first();
         if ($slug === '' || $slug === '/') {
@@ -31,6 +31,8 @@ class ThemeController extends Controller
             $title = $post->post_title . ' - ' . $this->option->getField('blogname');
         } elseif (!empty($term->slug)) {
             $title = $term->name . ' - ' . $this->option->getField('blogname');
+        } elseif (!empty($titleWebsiteBySessionKey)) {
+            $title = $titleWebsiteBySessionKey . ' - ' . $this->option->getField('blogname');
         } else {
             $title = 'Không tìm thấy trang - 404 Not Found';
         }
@@ -40,6 +42,7 @@ class ThemeController extends Controller
     function index()
     {
         $titleWebsite = $this->getTitleWebsite('/');
+
         return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
     }
 
@@ -60,5 +63,11 @@ class ThemeController extends Controller
         } else {
             return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
         }
+    }
+
+    public function getPageAccount()
+    {
+        $value = 'Tài khoản' . ' - ' .  $this->option->getField('blogname');
+        return view('themes.child-theme.page', ['titleWebsite' => $value]);
     }
 }
