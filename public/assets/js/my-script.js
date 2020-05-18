@@ -279,6 +279,66 @@ function confirmDelete() {
     });
 }
 
+function updatePosition() {
+    $("#course-builder .course-builder-item").each(function (i, el) {
+        $(el).find('.course-builder-title').attr('data-position', i);
+    });
+}
+
+function positionGeneral() {
+    let positionArray = [];
+    $("#course-builder .course-builder-item").each(function (i, el) {
+        let item = $(el).find('.course-builder-title');
+        let position = item.attr('data-position');
+        let title = item.val();
+        let type = item.attr('data-type');
+        let id = item.attr('data-id');
+        if (typeof id !== typeof undefined && id !== false) {
+            positionArray.push({
+                "order": position,
+                "ID": id,
+                "post_title": title,
+                "type": type,
+            });
+        }
+    });
+    return positionArray;
+}
+
+function notification(messenger) {
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    };
+
+    toastr.success(messenger);
+}
+
+function saveCourseBuilder() {
+    let course = $('#course_id').val();
+    $.ajax({
+        url: '/admin/save-course-builder',
+        type: 'post',
+        data: {course: course, meta_value: positionGeneral(), _token: $('meta[name="csrf-token"]').attr('content')},
+        success: function (response) {
+            notification('Cấu trúc khoá học đã được lưu.');
+        }
+    });
+}
+
 jQuery(function ($) {
     try {
         $(document).ready(function () {
@@ -304,7 +364,7 @@ jQuery(function ($) {
             $.validator.addMethod("check_sale_price", function (value, element, param) {
                 let price = $("#course-price").val();
                 return this.optional(element)
-                    || (value*1 < price*1);
+                    || (value * 1 < price * 1);
             }, "Giá khuyến mãi phải thấp hơn giá gốc.");
             $("#post").validate({
                 rules: {
@@ -316,6 +376,243 @@ jQuery(function ($) {
                 }
             });
         });
+
+        $('#save-builder').click(function () {
+            saveCourseBuilder();
+        });
+
+        $(document).on('click', '.save-section-heading', function () {
+            // console.log($(this).parent().parent().find('.course-builder-title').val());
+            let current = $(this).parent().parent().find('.course-builder-title');
+            let id = current.attr('data-id');
+            let post_title = current.val();
+            let author = $('meta[name=admin-id]').attr("content");
+            let post_name = current.attr('data-post-name');
+            let course = $('#course_id').val();
+            if (typeof id === typeof undefined || id === false) {
+                // alert('create section heading');
+                let post_data = {
+                    'post_author': author,
+                    'post_content': '',
+                    'post_title': post_title,
+                    'post_excerpt': '',
+                    'post_status': 'inherit',
+                    'post_name': '',
+                    'post_type': 'section_heading'
+                };
+                $.ajax({
+                    url: '/admin/create-section-heading',
+                    type: 'post',
+                    data: {course: course, post_data: post_data, _token: $('meta[name="csrf-token"]').attr('content')},
+                    success: function (response) {
+                        current.attr({
+                            'data-id': response.ID,
+                            'data-post-name': response.post_name
+                        });
+                        notification('Chương đã được tạo.');
+                        saveCourseBuilder();
+                    }
+                });
+            } else {
+                // alert('update section heading');
+                let post_data = {
+                    'post_author': author,
+                    'post_content': '',
+                    'post_title': post_title,
+                    'post_excerpt': '',
+                    'post_status': 'inherit',
+                    'post_name': post_name,
+                    'post_type': 'section_heading'
+                };
+                $.ajax({
+                    url: '/admin/update-section-heading',
+                    type: 'post',
+                    data: {id: id, post_data: post_data, _token: $('meta[name="csrf-token"]').attr('content')},
+                    success: function (response) {
+                        current.attr({
+                            'data-id': response.ID,
+                            'data-post-name': response.post_name
+                        });
+                        notification('Chương đã được cập nhật.');
+                        saveCourseBuilder();
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.delete-section-heading', function () {
+            let current = $(this).parent().parent().parent();
+            let id = current.find('.course-builder-title').attr('data-id');
+            // console.log(id);
+            $.ajax({
+                url: '/admin/delete-section-heading',
+                type: 'post',
+                data: {id: id, _token: $('meta[name="csrf-token"]').attr('content')},
+                success: function (response) {
+                    notification('Chương đã được xoá.');
+                    current.remove();
+                    saveCourseBuilder();
+                }
+            });
+        });
+
+        $(document).on('click', '.delete-lesson', function () {
+            let current = $(this).parent().parent().parent();
+            let id = current.find('.course-builder-title').attr('data-id');
+            // console.log(id);
+            $.ajax({
+                url: '/admin/delete-lesson',
+                type: 'post',
+                data: {id: id, _token: $('meta[name="csrf-token"]').attr('content')},
+                success: function (response) {
+                    notification('Bài học đã được xoá.');
+                    current.remove();
+                    saveCourseBuilder();
+                }
+            });
+        });
+
+        $(document).on('click', '.save-lesson', function () {
+            // console.log($(this).parent().parent().find('.course-builder-title').val());
+            let current = $(this).parent().parent().find('.course-builder-title');
+            let id = current.attr('data-id');
+            let post_title = current.val();
+            let author = $('meta[name=admin-id]').attr("content");
+            let post_name = current.attr('data-post-name');
+            let course = $('#course_id').val();
+            if (typeof id === typeof undefined || id === false) {
+                // alert('create lesson');
+                let post_data = {
+                    'post_author': author,
+                    'post_content': '',
+                    'post_title': post_title,
+                    'post_excerpt': '',
+                    'post_status': 'publish',
+                    'post_name': '',
+                    'post_type': 'lesson'
+                };
+                $.ajax({
+                    url: '/admin/create-lesson',
+                    type: 'post',
+                    data: {course: course, post_data: post_data, _token: $('meta[name="csrf-token"]').attr('content')},
+                    success: function (response) {
+                        current.attr({
+                            'data-id': response.ID,
+                            'data-post-name': response.post_name
+                        });
+                        notification('Bài học đã được tạo.');
+                        saveCourseBuilder();
+                    }
+                });
+            } else {
+                // alert('update lesson');
+                let post_data = {
+                    'post_author': author,
+                    'post_content': '',
+                    'post_title': post_title,
+                    'post_excerpt': '',
+                    'post_status': 'publish',
+                    'post_name': post_name,
+                    'post_type': 'lesson'
+                };
+                $.ajax({
+                    url: '/admin/update-lesson',
+                    type: 'post',
+                    data: {id: id, post_data: post_data, _token: $('meta[name="csrf-token"]').attr('content')},
+                    success: function (response) {
+                        current.attr({
+                            'data-id': response.ID,
+                            'data-post-name': response.post_name
+                        });
+                        notification('Bài học đã được cập nhật.');
+                        saveCourseBuilder();
+                    }
+                });
+            }
+        });
+
+        $('#add-section-heading').click(function () {
+            $('#course-builder').append(
+                '<div class="rkt-margin-b-10 course-builder-item">\n' +
+                '                                    <div class="form-group row">\n' +
+                '                                        <div class="col-lg-12">\n' +
+                '                                            <label>Chương</label>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="col-lg-10">\n' +
+                '                                            <input name="section_heading" type="text"\n' +
+                '                                                   class="form-control form-control-danger course-builder-title"\n' +
+                '                                                   placeholder="Nhập tiêu đề" data-type="section-heading">\n' +
+                '                                        </div>\n' +
+                '                                        <div class="col-lg-2">\n' +
+                '                                            <span class="btn btn-danger btn-icon save-section-heading">\n' +
+                '                                                        <i class="la la-save"></i>\n' +
+                '                                                        </span>\n' +
+                '                                            <span class="btn btn-danger btn-icon sort-action">\n' +
+                '                                                        <i class="la la-arrows-alt"></i>\n' +
+                '                                                        </span>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </div>'
+            );
+            updatePosition();
+        });
+
+        $('#add-lesson').click(function () {
+            $('#course-builder').append(
+                '<div class="rkt-margin-b-10 course-builder-item">\n' +
+                '                                    <div class="form-group row">\n' +
+                '                                        <div class="col-lg-12">\n' +
+                '                                            <label>Bài học</label>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="col-lg-10">\n' +
+                '                                            <input name="lesson" type="text"\n' +
+                '                                                   class="form-control form-control-danger course-builder-title"\n' +
+                '                                                   placeholder="Nhập tiêu đề" data-type="lesson">\n' +
+                '                                        </div>\n' +
+                '                                        <div class="col-lg-2">\n' +
+                '                                            <span class="btn btn-danger btn-icon save-lesson">\n' +
+                '                                                        <i class="la la-save"></i>\n' +
+                '                                                        </span>\n' +
+                '                                            <span class="btn btn-danger btn-icon sort-action">\n' +
+                '                                                        <i class="la la-arrows-alt"></i>\n' +
+                '                                                        </span>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                </div>'
+            );
+            updatePosition();
+        });
+        $("#course-builder").sortable({
+            connectWith: "#course-builder",
+            items: ".course-builder-item",
+            opacity: 0.8,
+            handle: '.sort-action',
+            coneHelperSize: true,
+            placeholder: 'course-builder-sortable',
+            forcePlaceholderSize: true,
+            tolerance: "pointer",
+            helper: "clone",
+            tolerance: "pointer",
+            forcePlaceholderSize: !0,
+            helper: "clone",
+            cancel: ".course-builder-sortable-empty", // cancel dragging if portlet is in fullscreen mode
+            revert: 250, // animation in milliseconds
+            start: function (event, ui) {
+                console.log('start: ' + ui.item.index())
+            },
+            update: function (event, ui) {
+                if (ui.item.prev().hasClass("course-building-sortable-empty")) {
+                    ui.item.prev().before(ui.item);
+                }
+                console.log('update: ' + ui.item.index())
+            },
+            stop: function (event, ui) {
+                $("#course-builder .course-builder-item").each(function (i, el) {
+                    $(el).find('.course-builder-title').attr('data-position', $(el).index());
+                });
+            }
+        });
+        updatePosition();
     } catch (e) {
         console.log(e);
     }

@@ -6,7 +6,6 @@ use App\User;
 use App\Post;
 use App\Term;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {

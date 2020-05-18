@@ -2,7 +2,7 @@
     <section class="mn-khkt-my-courses">
         <div class="sec-heading">
             <div class="container">
-                <h1 class="sec-title"><?php the_title()?></h1>
+                <h1 class="sec-title">{{$post->post_title}}</h1>
             </div>
         </div>
         <div class="container">

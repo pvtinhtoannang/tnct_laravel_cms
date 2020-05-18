@@ -1,6 +1,15 @@
 form#post #post-title {
   font-size: 1.7rem;
 }
+form#post .btn {
+  cursor: pointer;
+}
+form#post .row-actions a {
+  visibility: hidden;
+}
+form#post .course-builder-item:hover .row-actions a {
+  visibility: visible;
+}
 
 table tbody tr td .row-actions a {
   visibility: hidden;

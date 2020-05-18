@@ -84,6 +84,7 @@
     <link href="/assets/css/bootstrap-tagsinput.css" rel="stylesheet" type="text/css"/>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="admin-id" content="{{ $users_data['id'] }}">
     <!--end::Layout Skins -->
     <link rel="shortcut icon" href="/assets/media/logos/favicon.png"/>
 

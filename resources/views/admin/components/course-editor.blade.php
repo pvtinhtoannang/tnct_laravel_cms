@@ -1,5 +1,6 @@
 @inject('term_relationships', 'App\TermRelationships')
 @inject('taxonomy', 'App\Taxonomy')
+@inject('post', 'App\Post')
 <?php
 $post_title = '';
 $post_content = '';
@@ -15,6 +16,7 @@ $uploads_url = url('/contents/uploads');
 $course_price = 0;
 $course_sale_price = '';
 $course_hot = '';
+$post_id = '';
 ?>
 
 @isset($postData)
@@ -43,7 +45,7 @@ $course_hot = '';
     if (!is_null($sale_price)) {
         $course_sale_price = $sale_price->meta_value;
     }
-    $course_hot = $postData->meta()->where('meta_key', 'course_hot')->first()->meta_value;
+    //    $course_hot = $postData->meta()->where('meta_key', 'course_hot')->first()->meta_value;
     ?>
 @endisset
 <?php
@@ -84,17 +86,89 @@ if (isset($post_type)) {
                 <textarea class="summernote-post-content" id="post_content"
                           name="post_content">{{$post_content}}</textarea>
             </div>
-            @if($type === 'post')
+            @isset($postData)
                 <div class="kt-portlet">
                     <div class="kt-portlet__head kt-bg-primary">
                         <div class="kt-portlet__head-label">
-                            <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Mô tả ngắn</h3>
+                            <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Xây dựng khoá học</h3>
                         </div>
                     </div>
                     <div class="kt-portlet__body">
-                        <div class="form-group form-group-last">
-                            <label for="excerpt" hidden>Mô tả ngắn</label>
-                            <textarea class="form-control" id="excerpt" name="excerpt" rows="4">{{$excerpt}}</textarea>
+                        <div class="ui-sortable" id="course-builder">
+                            <?php
+                            $course_builder = $postData->meta()->where('meta_key', 'course_builder')->first();
+                            ?>
+                            @if($course_builder)
+                                <?php
+                                $builderArray = json_decode($course_builder->meta_value, true);
+                                ?>
+                                @if(!is_null($builderArray))
+                                    @foreach($builderArray as $builder)
+                                        <?php
+                                        /** @var $builder */
+                                        $post_data = $post->find($builder['ID']);
+                                        ?>
+                                        <div class="rkt-margin-b-10 course-builder-item">
+                                            <div class="form-group row">
+                                                <div class="col-lg-12">
+                                                    <label>
+                                                        @if($post_data->post_type === 'lesson')
+                                                            {{'Bài học'}}
+                                                        @else
+                                                            {{'Chương'}}
+                                                        @endif
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                    <input name="@if($post_data->post_type === 'lesson'){{'lesson'}}@else{{'section_heading'}}@endif"
+                                                           type="text"
+                                                           class="form-control form-control-danger course-builder-title"
+                                                           placeholder="Nhập tiêu đề" data-type="lesson"
+                                                           data-post-name="{{$post_data->post_name}}"
+                                                           data-id="{{$post_data->ID}}"
+                                                           value="{{$post_data->post_title}}">
+                                                </div>
+                                                <div class="col-lg-2">
+                                                         <span class="btn btn-danger btn-icon  @if($post_data->post_type === 'lesson') save-lesson @else save-section-heading @endif">
+                                                            <i class="la la-save"></i>
+                                                         </span>
+                                                    <span class="btn btn-danger btn-icon sort-action">
+                                                                   <i class="la la-arrows-alt"></i>
+                                                        </span>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="nowrap row-actions">
+                                                        @if($post_data->post_type === 'lesson')
+                                                            <a target="_blank"
+                                                               href="{{url('/')."/".$post_data->post_name}}"
+                                                               class="btn btn-sm btn-clean btn-icon btn-icon-md view-btn"
+                                                               title="Xem">
+                                                                <i class="la la-eye"></i>
+                                                            </a>
+                                                            <a target="_blank"
+                                                               href="{{route('GET_EDIT_LESSON_ROUTE', $post_data->ID)}}"
+                                                               class="btn btn-sm btn-clean btn-icon btn-icon-md edit-btn"
+                                                               title="Chỉnh sửa">
+                                                                <i class="la la-edit"></i>
+                                                            </a>
+                                                        @endif
+                                                        <a href="javascript:;"
+                                                           class="btn btn-sm btn-clean btn-icon btn-icon-md @if($post_data->post_type === 'lesson') delete-lesson @else delete-section-heading @endif"
+                                                           title="Xoá">
+                                                            <i class="la la-trash"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            @endif
+                        </div>
+                        <div class="d-block">
+                            <div class="d-inline-block btn btn-primary" id="add-section-heading">Thêm chương</div>
+                            <div class="d-inline-block btn btn-primary" id="add-lesson">Thêm bài học</div>
+                            <div class="d-inline-block btn btn-success" id="save-builder">Lưu cấu trúc</div>
                         </div>
                     </div>
                 </div>
@@ -202,5 +276,6 @@ if (isset($post_type)) {
         </div>
     </div>
     <input type="hidden" name="post_type" value="{{$type}}">
+    <input type="hidden" id="course_id" value="{{$post_id}}">
     {{ csrf_field() }}
 </form>

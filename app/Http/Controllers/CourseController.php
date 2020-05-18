@@ -126,6 +126,10 @@ class CourseController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     function getActionRestoreCourse($id)
     {
         $responses = array(
@@ -145,6 +149,10 @@ class CourseController extends Controller
         }
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     function getActionDeleteCourse($id)
     {
         $responses = array(
@@ -160,4 +168,5 @@ class CourseController extends Controller
             return redirect()->back();
         }
     }
+
 }

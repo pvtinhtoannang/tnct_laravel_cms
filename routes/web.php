@@ -100,6 +100,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/post-name-generator/{post_name}', 'AdminAjaxController@postNameGenerator');
     Route::get('/get-attached-file/{id}', 'AdminAjaxController@getAttachedFile');
     Route::get('/get-attachment', 'AdminAjaxController@getAttachment');
+    Route::post('/create-section-heading', 'AdminAjaxController@createSectionHeading');
+    Route::post('/update-section-heading', 'AdminAjaxController@updateSectionHeading');
+    Route::post('/save-course-builder', 'AdminAjaxController@saveCourseBuilder');
+    Route::post('/create-lesson', 'AdminAjaxController@createLesson');
+    Route::post('/update-lesson', 'AdminAjaxController@updateLesson');
+    Route::post('/delete-section-heading', 'AdminAjaxController@deleteSectionHeading');
+    Route::post('/delete-lesson', 'AdminAjaxController@deleteLesson');
 });
 
 Route::get('/', 'ThemeController@index');
