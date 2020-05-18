@@ -64,6 +64,49 @@ jQuery(function ($) {
         });
 
 
+        $('.btn-login').click(function () {
+            var email = $('#loginEmail').val();
+            var password = $('#loginPassword').val();
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var remember = $('#remember').val();
+
+            var url = '/login';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    _token: __token,
+                    email: email,
+                    password: password,
+                    remember: remember,
+                },
+                success: function (res) {
+                    if (res === 'Tài khoản hoặc mật khẩu không đúng!') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: 'Tài khoản hoặc mật khẩu chưa đúng!'
+                        });
+                    } else {
+                        Swal.fire(
+                            'Đăng nhập thành công',
+                            'Chào mừng quay trở lại! Đang chuyển hướng ....',
+                            'success'
+                        )
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 3000);
+
+                    }
+                }, error: function (xhr, status, error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tài khoản hoặc mật khẩu chưa đúng...',
+                    });
+                },
+            });
+        });
+
         $('.btn-register').click(function () {
             var name = $('#register-profile #name').val();
             var username = $('#register-profile #username').val();
@@ -87,7 +130,7 @@ jQuery(function ($) {
                         'Bạn sẽ được chuyển đến trang tài khoản!',
                         'success'
                     )
-
+                    window.location.reload();
                 }, error: function (xhr, status, error) {
                     console.log(xhr.responseJSON.message);
                     var message = xhr.responseJSON.message;

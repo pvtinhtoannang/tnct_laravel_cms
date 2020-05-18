@@ -51,10 +51,28 @@
                     </ul>
                 </nav>
                 <div class="login-button">
-                    <button class="">Đăng nhập</button>
-                    <button class="">Đăng ký</button>
+                @if(!empty($users_data) || $users_data !== null)
+                    <!-- Example single danger button -->
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                Tài khoản: {{ $users_data->name  }}
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Tài khoản</a>
+                                <a class="dropdown-item" href="#">Khoá học của tôi</a>
+                                <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+                                <a class="dropdown-item" href="{{ route('getLogout') }}">Đăng xuất</a>
+                            </div>
+                        </div>
+                    @else
+                        <button class="" data-toggle="modal" data-target="#loginModal">Đăng nhập</button>
+                        <button class="" data-toggle="modal" data-target="#registerModal">Đăng ký</button>
+                    @endif
+
                     <button class="menu-mobile"><i class="fa fa-bars"></i> Menu</button>
                 </div>
+                @include ('themes.child-theme.login')
             </div>
         </div>
     </div>

@@ -1,0 +1,77 @@
+#loginModal {
+
+}
+
+.account-form {
+  @include flexbox();
+  @include flex-wrap(wrap);
+  @include justify-content(space-between);
+  width: 100%;
+
+  position: relative;
+  &:before, &:after{
+    border: 1px solid #CCC;
+    color: #CCC;
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  &:before{
+    width: 1px;
+    height: 100%;
+    top: 50%;
+    content: '';
+  }
+  &:after{
+    content: "Hoặc";
+    top: 50%;
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 46px;
+    background-color: #FFF;
+  }
+  .left-form, .right-form {
+    @include flex-basis(50%);
+    max-width: 290px;
+  }
+
+  .left-form {
+    @include flexbox();
+    @include flex-direction(column);
+
+    a.btn-link{
+      width: 100%;
+      display: block;
+      color: #FFF;
+      text-align: left;
+      text-decoration: none;
+      margin: 5px 0;
+      padding: 10px 20px;
+      &.btn-facebook{
+        background-color: #4269af;
+      }
+      &.btn-google{
+        background-color: #df4930;
+      }
+    }
+  }
+  .right-form {
+  }
+
+}
+button.btn-custom{
+  background-color: #012f8f;
+  border: 1px solid #012f8f;
+  color: #FFF;
+  &:hover{
+    color: rgba(255, 255, 255, .7);
+  }
+}

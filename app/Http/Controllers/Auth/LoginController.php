@@ -63,7 +63,7 @@ class LoginController extends Controller
             case 'customer':
             case 'subscriber':
             default:
-                return '/login';
+                return '/';
                 break;
         }
     }
@@ -83,6 +83,6 @@ class LoginController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect('/');
     }
 }

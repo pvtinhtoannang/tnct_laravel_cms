@@ -51,6 +51,7 @@ function theme_script_footer()
 
     $component_assets = url('/component-assets');
     register_script($component_assets . '/lib/jquery/dist/jquery.js');
+    register_script($component_assets . '/lib/bootstrap/js/popper.min.js');
     register_script($component_assets . '/lib/bootstrap/js/bootstrap.min.js');
     register_script($component_assets . '/lib/slick/slick.min.js');
     register_script($component_assets . '/lib/mmenu/jquery.mmenu.all.min.js');
