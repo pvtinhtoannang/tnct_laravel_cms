@@ -281,11 +281,60 @@ function confirmDelete() {
 
 function updatePosition() {
     $("#course-builder .course-builder-item").each(function (i, el) {
-        $(el).find('.course-builder-title').attr('data-position', i);
+        let item = $(el).find('.course-builder-title');
+        item.attr('data-position', i);
     });
 }
 
 function positionGeneral() {
+    let positionArray = [];
+    let lessonArray = [];
+    let lessonArrayNew = [];
+    $("#course-builder .course-builder-item").each(function (i, el) {
+        let item = $(el).find('.course-builder-title');
+        let position = item.attr('data-position');
+        let title = item.val();
+        let type = item.attr('data-type');
+        let id = item.attr('data-id');
+        let data_section = item.attr('data-section');
+        if (typeof id !== typeof undefined && id !== false) {
+
+            if (type === 'lesson') {
+                lessonArray.push({
+                    "order": position,
+                    "ID": id,
+                    "post_title": title,
+                    "type": type,
+                    "section": data_section
+                });
+            }
+
+            if (type === 'section_heading') {
+                positionArray.push({
+                    "order": position,
+                    "ID": id,
+                    "post_title": title,
+                    "type": type,
+                    "lessons": []
+                });
+            }
+        }
+    });
+
+    positionArray.forEach(function (item, index, array) {
+        lessonArray.forEach(function (les_item, les_index, les_array) {
+            if (item.ID === les_item.section) {
+                lessonArrayNew = item.lessons;
+                lessonArrayNew.push(les_item);
+                item.lessons = lessonArrayNew;
+            }
+        });
+    });
+
+    return positionArray;
+}
+
+function positionEditorGeneral() {
     let positionArray = [];
     $("#course-builder .course-builder-item").each(function (i, el) {
         let item = $(el).find('.course-builder-title');
@@ -298,7 +347,7 @@ function positionGeneral() {
                 "order": position,
                 "ID": id,
                 "post_title": title,
-                "type": type,
+                "type": type
             });
         }
     });
@@ -329,10 +378,16 @@ function notification(messenger) {
 
 function saveCourseBuilder() {
     let course = $('#course_id').val();
+    // console.log(positionGeneral());
     $.ajax({
         url: '/admin/save-course-builder',
         type: 'post',
-        data: {course: course, meta_value: positionGeneral(), _token: $('meta[name="csrf-token"]').attr('content')},
+        data: {
+            course: course,
+            positionUser: positionGeneral(),
+            positionAdmin: positionEditorGeneral(),
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
         success: function (response) {
             notification('Cấu trúc khoá học đã được lưu.');
         }
@@ -541,7 +596,7 @@ jQuery(function ($) {
                 '                                        <div class="col-lg-10">\n' +
                 '                                            <input name="section_heading" type="text"\n' +
                 '                                                   class="form-control form-control-danger course-builder-title"\n' +
-                '                                                   placeholder="Nhập tiêu đề" data-type="section-heading">\n' +
+                '                                                   placeholder="Nhập tiêu đề" data-type="section_heading">\n' +
                 '                                        </div>\n' +
                 '                                        <div class="col-lg-2">\n' +
                 '                                            <span class="btn btn-danger btn-icon save-section-heading">\n' +
@@ -598,13 +653,13 @@ jQuery(function ($) {
             cancel: ".course-builder-sortable-empty", // cancel dragging if portlet is in fullscreen mode
             revert: 250, // animation in milliseconds
             start: function (event, ui) {
-                console.log('start: ' + ui.item.index())
+                // console.log('start: ' + ui.item.index())
             },
             update: function (event, ui) {
                 if (ui.item.prev().hasClass("course-building-sortable-empty")) {
                     ui.item.prev().before(ui.item);
                 }
-                console.log('update: ' + ui.item.index())
+                // console.log('update: ' + ui.item.index())
             },
             stop: function (event, ui) {
                 $("#course-builder .course-builder-item").each(function (i, el) {

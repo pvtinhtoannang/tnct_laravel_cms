@@ -112,6 +112,14 @@ if (isset($post_type)) {
                             <option value="draft" @if($post_status === 'draft') {{'selected'}} @endif>Bản nháp</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <?php
+                        $in_course = $course->find($course_id);
+                        if ($in_course) { ?>
+                            <label>Khoá học: </label>
+                            <h6 class="d-inline-block">{{$in_course->post_title}}</h6>
+                        <?php } ?>
+                    </div>
                 </div>
                 <div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right">
                     <button class="btn btn-primary" type="submit">
@@ -121,26 +129,6 @@ if (isset($post_type)) {
                             Cập nhật
                         @endif
                     </button>
-                </div>
-            </div>
-            <div class="kt-portlet">
-                <div class="kt-portlet__head kt-bg-primary">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Khoá học</h3>
-                    </div>
-                </div>
-                <div class="kt-portlet__body">
-                    <label for="course-select" hidden>Khoá học: </label>
-                    <select class="form-control m-select2" id="course-select" name="course" required>
-                        <option></option>
-                        @foreach($course->type('course')->latest()->get() as $course_item)
-                            <option value="{{$course_item->ID}}"
-                                    @if($course_id !== '')
-                                        @if($course_id*1 === $course_item->ID*1) selected @endif
-                                    @endif
-                            >{{$course_item->post_title}}</option>
-                        @endforeach
-                    </select>
                 </div>
             </div>
         </div>

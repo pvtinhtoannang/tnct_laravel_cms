@@ -328,22 +328,10 @@ class Post extends Model
                 $thumbnail->delete();
             }
         }
-        if ($post->lesson === null) {
-            if (isset($request->course)) {
-                $post->meta()->create($this->postMeta('course_id', $request->course));
-            }
-        } else {
-            $course = $post->meta()->find($post->lesson->meta_id);
-            if (isset($request->course)) {
-                $course->update($this->postMeta('course_id', $request->course));
-            } else {
-                $course->delete();
-            }
-        }
 
         if ($post->price === null) {
             if (isset($request->course_price)) {
-                $post->meta()->create($this->postMeta('course_price', $request->course));
+                $post->meta()->create($this->postMeta('course_price', $request->course_price));
             }
         } else {
             $course = $post->meta()->find($post->price->meta_id);

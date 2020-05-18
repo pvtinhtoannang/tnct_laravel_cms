@@ -125,8 +125,8 @@ License: You must have a valid license purchased only from themeforest(the above
                         <li class="kt-menu__item  kt-menu__item--submenu @if(
     Request::route()->getName() === 'GET_COURSE_ROUTE' ||
     Request::route()->getName() === 'GET_COURSE_CATEGORY_ROUTE' ||
+     Request::route()->getName() === 'GET_CREATE_COURSE_ROUTE' ||
     Request::route()->getName() === 'GET_EDIT_COURSE_ROUTE' ||
-    Request::route()->getName() === 'GET_LESSON_ROUTE' ||
     Request::route()->getName() === 'GET_EDIT_LESSON_ROUTE') kt-menu__item--submenu kt-menu__item--open kt-menu__item--here @endif"
                             aria-haspopup="true"
                             data-ktmenu-submenu-toggle="hover"><a href="javascript:;"
@@ -154,18 +154,20 @@ License: You must have a valid license purchased only from themeforest(the above
                                                     class="kt-menu__link-text">Khoá học</span></span></li>
                                     <li class="kt-menu__item @if(
                                         Request::route()->getName() === 'GET_COURSE_ROUTE' ||
-                                        Request::route()->getName() === 'GET_EDIT_COURSE_ROUTE') kt-menu__item--active @endif"
+                                        Request::route()->getName() === 'GET_EDIT_COURSE_ROUTE' ||
+                                        Request::route()->getName() === 'GET_CREATE_COURSE_ROUTE' ||
+                                        Request::route()->getName() === 'GET_EDIT_LESSON_ROUTE') kt-menu__item--active @endif"
                                         aria-haspopup="true"><a
                                                 href="{{route('GET_COURSE_ROUTE')}}" class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                     class="kt-menu__link-text">Khoá học</span></a></li>
-                                    <li class="kt-menu__item @if(
-                                        Request::route()->getName() === 'GET_LESSON_ROUTE' ||
-                                        Request::route()->getName() === 'GET_EDIT_LESSON_ROUTE') kt-menu__item--active @endif"
-                                        aria-haspopup="true"><a
-                                                href="{{route('GET_LESSON_ROUTE')}}" class="kt-menu__link "><i
-                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                                                    class="kt-menu__link-text">Bài học</span></a></li>
+                                    {{--                                    <li class="kt-menu__item @if(--}}
+                                    {{--                                        Request::route()->getName() === 'GET_LESSON_ROUTE' ||--}}
+                                    {{--                                        Request::route()->getName() === 'GET_EDIT_LESSON_ROUTE') kt-menu__item--active @endif"--}}
+                                    {{--                                        aria-haspopup="true"><a--}}
+                                    {{--                                                href="{{route('GET_LESSON_ROUTE')}}" class="kt-menu__link "><i--}}
+                                    {{--                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span--}}
+                                    {{--                                                    class="kt-menu__link-text">Bài học</span></a></li>--}}
                                     <li class="kt-menu__item @if(
                                         Request::route()->getName() === 'GET_COURSE_CATEGORY_ROUTE') kt-menu__item--active @endif"
                                         aria-haspopup="true"><a
@@ -437,7 +439,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                         aria-haspopup="true"><a
                                                 href="{{ route('GET_LOGIN_SOCIAL_GUIDE') }}" class="kt-menu__link "><i
                                                     class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
-                                                    class="kt-menu__link-text">Hướng dẫn cài đặt đăng nhập</span></a></li>
+                                                    class="kt-menu__link-text">Hướng dẫn cài đặt đăng nhập</span></a>
+                                    </li>
 
                                 </ul>
                             </div>

@@ -14,7 +14,7 @@ $thumbnail_url = '';
 $thumbnail_id = '';
 $uploads_url = url('/contents/uploads');
 $course_price = 0;
-$course_sale_price = '';
+$course_sale_price = 0;
 $course_hot = '';
 $post_id = '';
 ?>
@@ -40,12 +40,18 @@ $post_id = '';
         $thumbnail_id = $postData->thumbnail->meta_value;
         $thumbnail_url = $uploads_url . '/' . $postData->thumbnail->attachment->meta->meta_value;
     }
-    $course_price = $postData->meta()->where('meta_key', 'course_price')->first()->meta_value;
+    $price = $postData->meta()->where('meta_key', 'course_price')->first();
+    if (!is_null($price)) {
+        $course_price = $price->meta_value;
+    }
     $sale_price = $postData->meta()->where('meta_key', 'course_sale_price')->first();
     if (!is_null($sale_price)) {
         $course_sale_price = $sale_price->meta_value;
     }
-    //    $course_hot = $postData->meta()->where('meta_key', 'course_hot')->first()->meta_value;
+    $hot = $postData->meta()->where('meta_key', 'course_hot')->first();
+    if (!is_null($hot)) {
+        $course_hot = $hot->meta_value;
+    }
     ?>
 @endisset
 <?php
@@ -96,7 +102,7 @@ if (isset($post_type)) {
                     <div class="kt-portlet__body">
                         <div class="ui-sortable" id="course-builder">
                             <?php
-                            $course_builder = $postData->meta()->where('meta_key', 'course_builder')->first();
+                            $course_builder = $postData->meta()->where('meta_key', 'course_builder_admin')->first();
                             ?>
                             @if($course_builder)
                                 <?php
@@ -107,6 +113,9 @@ if (isset($post_type)) {
                                         <?php
                                         /** @var $builder */
                                         $post_data = $post->find($builder['ID']);
+                                        if ($post_data->post_type === 'section_heading') {
+                                            $section_id = $post_data->ID;
+                                        }
                                         ?>
                                         <div class="rkt-margin-b-10 course-builder-item">
                                             <div class="form-group row">
@@ -123,7 +132,11 @@ if (isset($post_type)) {
                                                     <input name="@if($post_data->post_type === 'lesson'){{'lesson'}}@else{{'section_heading'}}@endif"
                                                            type="text"
                                                            class="form-control form-control-danger course-builder-title"
-                                                           placeholder="Nhập tiêu đề" data-type="lesson"
+                                                           placeholder="Nhập tiêu đề"
+                                                           @if($post_data->post_type === 'lesson')
+                                                           data-section="{{$section_id}}"
+                                                           @endif
+                                                           data-type="@if($post_data->post_type === 'lesson'){{'lesson'}}@else{{'section_heading'}}@endif"
                                                            data-post-name="{{$post_data->post_name}}"
                                                            data-id="{{$post_data->ID}}"
                                                            value="{{$post_data->post_title}}">
