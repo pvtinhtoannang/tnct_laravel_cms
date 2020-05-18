@@ -80,11 +80,9 @@
                             <input class="form-control" id="confirm_password" type="password"
                                    name="password_confirm" placeholder="Xác nhận mật khẩu mới">
                         </div>
-
                         <button type="button" class="btn btn-custom btn-register">Đăng ký</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -106,7 +104,8 @@
                         <input class="form-control" id="lostPasswordUsername" type="email" name="email"
                                placeholder="Nhập email để nhận mã xác thực">
                     </div>
-                    <button type="button" class="btn btn-custom">Gửi xác thực</button>
+                    <button type="button" class="btn btn-custom btn-lost-password-send-email">Gửi xác thực </button>
+                    <button type="button" class="close-form-reset-password">Đóng</button>
                 </div>
             </div>
         </div>

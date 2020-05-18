@@ -101,7 +101,8 @@ jQuery(function ($) {
                 }, error: function (xhr, status, error) {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Tài khoản hoặc mật khẩu chưa đúng...',
+                        title: 'Oops...',
+                        html: 'Tài khoản hoặc mật khẩu chưa đúng!...',
                     });
                 },
             });
@@ -170,6 +171,61 @@ jQuery(function ($) {
                     })
                 },
             });
+        });
+
+
+
+
+        $('.btn-lost-password-send-email').click(function () {
+            var email = $('#lostPasswordUsername').val();
+            if (email === null || email === '') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: 'Vui lòng điền email!...',
+                });
+            } else {
+                var __token = $('meta[name="csrf-token"]').attr('content');
+                var url = '/reset-password';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        _token: __token,
+                        email: email,
+                    },
+                    beforeSend: function () {
+                        $('.btn-lost-password-send-email').append('<i class="fa fa-spin fa-spinner"></i>');
+                        $('.btn-lost-password-send-email').attr('disabled', 'disabled');
+                    },
+                    success: function (res) {
+                        if (res * 1 === 1) {
+                            swalWithBootstrapButtons = Swal.mixin({
+                                customClass: {
+                                    confirmButton: 'btn btn-success',
+                                    cancelButton: 'btn btn-danger'
+                                },
+                                buttonsStyling: false
+                            });
+                            $('#lostPasswordModal').modal().hide();
+                            $('#lostPasswordModal .btn-lost-password-send-email').removeAttr('disabled');
+                            swalWithBootstrapButtons.fire({
+                                title: 'Đã gửi?',
+                                text: "Email khôi phục đã được gửi đi, nếu không nhận được vui lòng kiểm tra thư mục spam!",
+                                icon: 'success',
+                                confirmButtonText: 'Vâng! Tôi sẽ kiểm tra email',
+                                reverseButtons: true
+                            })
+                        }
+                    }, error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: 'Đã xảy ra lỗi, vui lòng kiểm tra kỹ thuật!...',
+                        });
+                    },
+                });
+            }
         });
 
 
