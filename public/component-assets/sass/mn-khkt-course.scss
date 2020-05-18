@@ -1,3 +1,32 @@
 .mn-khkt-course {
+    background-color: #ffffff;
 
+    .course-content-wrapper {
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+
+        .section-heading {
+            background-color: rgba(0, 0, 0, 0.08);
+            padding: 10px 15px;
+
+            .section-heading-text {
+                font-weight: 700;
+                cursor: pointer;
+                font-size: 15px;
+                color: rgba(0, 0, 0, 0.9);
+                line-height: 1.4;
+            }
+        }
+
+        .lessons-wrapper {
+            padding: 10px 15px;
+
+            .lesson-item {
+                &:first-child {
+                    padding-top: 0;
+                }
+
+                padding: 10px 0;
+            }
+        }
+    }
 }
