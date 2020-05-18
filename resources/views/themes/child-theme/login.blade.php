@@ -23,22 +23,19 @@
                             khẩu?</a>
                     </div>
                     <div class="right-form">
-                        <form action="{{route('postLogin')}}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <input class="form-control" id="emailandnumberphone" type="text" name="email"
-                                       placeholder="Email hoặc số điện thoại">
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" id="loginPassword" type="password" name="password"
-                                       placeholder="Nhập mật khẩu">
-                            </div>
-                            <div class="form-group">
-                                <label for="remember">Lưu đăng nhập</label>
-                                <input type="checkbox" name="remember" id="remember">
-                            </div>
-                            <button type="submit" class="btn btn-custom">Đăng nhập</button>
-                        </form>
+                        <div class="form-group">
+                            <input class="form-control" id="loginEmail" type="text" name="email"
+                                   placeholder="Email hoặc số điện thoại">
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" id="loginPassword" type="password" name="password"
+                                   placeholder="Nhập mật khẩu">
+                        </div>
+                        <div class="form-group">
+                            <label for="remember">Lưu đăng nhập</label>
+                            <input type="checkbox" name="remember" id="remember">
+                        </div>
+                        <button type="submit" class="btn btn-custom btn-login">Đăng nhập</button>
                     </div>
                 </div>
 
@@ -98,7 +95,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Quên mật khẩu</h5>
+                <h5 class="modal-title" id="idForgotPassword">Quên mật khẩu</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

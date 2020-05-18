@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Carbon\Carbon;
 use App\PasswordReset;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -80,5 +81,21 @@ class ResetPasswordController extends Controller
         return response()->json([
             'success' => $updatePasswordUser,
         ]);
+    }
+
+    
+    //Kiểm tra email, tạo token
+    public function getForgotPassword(Request $request)
+    {
+        //Tạo token và gửi đường link reset vào email nếu email tồn tại
+        $result = User::where('email', $request->email)->first();
+        if($result){
+            $resetPassword = ResetPassword::firstOrCreate(['email'=>$request->email, 'token'=>Str::random(60)]);
+            $token = ResetPassword::where('email', $request->email)->first();
+            echo $link = url('resetPassword')."/".$token->token; //send it to email
+        } else {
+            echo 'Email không có trong hệ thống, vui lòng kiểm tra lại';
+        }
+
     }
 }
