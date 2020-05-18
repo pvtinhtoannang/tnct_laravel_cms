@@ -26,14 +26,17 @@
                         <form action="{{route('postLogin')}}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <input class="form-control" id="emailandnumberphone" type="text" name="username"
+                                <input class="form-control" id="emailandnumberphone" type="text" name="email"
                                        placeholder="Email hoặc số điện thoại">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" id="loginPassword" type="password" name="username"
+                                <input class="form-control" id="loginPassword" type="password" name="password"
                                        placeholder="Nhập mật khẩu">
                             </div>
-
+                            <div class="form-group">
+                                <label for="remember">Lưu đăng nhập</label>
+                                <input type="checkbox" name="remember" id="remember">
+                            </div>
                             <button type="submit" class="btn btn-custom">Đăng nhập</button>
                         </form>
                     </div>

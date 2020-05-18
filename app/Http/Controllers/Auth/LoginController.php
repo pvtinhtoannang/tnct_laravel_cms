@@ -63,7 +63,7 @@ class LoginController extends Controller
             case 'customer':
             case 'subscriber':
             default:
-                return '/login';
+                return '/';
                 break;
         }
     }
