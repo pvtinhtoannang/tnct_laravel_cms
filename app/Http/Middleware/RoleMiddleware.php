@@ -25,9 +25,8 @@ class RoleMiddleware
             if ($role === 'customer' || $role === 'subscriber') {
                 return redirect('/');
             }
-
         }
         //default redirect
-        return redirect()->route();
+        return redirect('/');
     }
 }
