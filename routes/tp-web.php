@@ -9,12 +9,12 @@ Route::post('reset-password', 'Auth\ResetPasswordController@postForgotPassword')
 Route::get('reset-password/{token}', 'Auth\ResetPasswordController@getForgotPassword');
 Route::post('new-reset-password', ['as' => 'postNewPassWordReset', 'uses' => 'Auth\ResetPasswordController@newPassword']);
 
-Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => 'admin','middleware' => 'user-role'], function () {
     Route::get('list-users', ['as' => 'GET_ALL_USERS', 'uses' => 'UserController@getAllUser']);
     Route::post('add-user', ['as' => 'POST_ADD_USER', 'uses' => 'UserController@addNewUser']);
     Route::get('my-profile', ['as' => 'GET_MY_PROFILE', 'uses' => 'UserController@getMyProfile']);
     Route::post('my-profile', ['as' => 'POST_MY_PROFILE', 'uses' => 'UserController@updateMyProfile']);
-    Route::get('login-social-guide', ['as' => 'GET_LOGIN_SOCIAL_GUIDE', 'uses'=> 'UserController@getLoginSocialGuide']);
+    Route::get('login-social-guide', ['as' => 'GET_LOGIN_SOCIAL_GUIDE', 'uses' => 'UserController@getLoginSocialGuide']);
 
 
     Route::get('options-general', ['as' => 'GET_OPTION_GENERAL', 'uses' => 'OptionController@getOptionGeneral']);
