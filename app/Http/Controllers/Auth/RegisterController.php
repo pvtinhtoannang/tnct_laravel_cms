@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\RegisterEmail;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -101,7 +103,11 @@ class RegisterController extends Controller
         } else {
             $name = $request->name; $email = $request->email; $password = $request->password;
             if(User::registerUser($name, $email, $password)){
-                return 'Ok';
+                $objEmail = new \stdClass();
+                $objEmail->name = $name;
+                if(Mail::to($email)->send(new RegisterEmail($objEmail))){
+                    return 'Ok';
+                }
             }else{
                 return 'False';
             }

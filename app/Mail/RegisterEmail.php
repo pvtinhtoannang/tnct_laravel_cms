@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ForgotPasswordEmail extends Mailable
+class RegisterEmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $requestEmail;
@@ -29,11 +29,7 @@ class ForgotPasswordEmail extends Mailable
     public function build()
     {
         return $this->from('smtp.toannangcantho@gmail.com')
-            ->view('themes.child-theme.emails.forgot-password')
-            ->text('themes.child-theme.emails.forgot-password-plain');
-//            ->attach(public_path('/images').'/demo.jpg', [
-//                'as' => 'demo.jpg',
-//                'mime' => 'image/jpeg',
-//            ]);
+            ->view('themes.child-theme.emails.register')
+            ->text('themes.child-theme.emails.register-plain');
     }
 }
