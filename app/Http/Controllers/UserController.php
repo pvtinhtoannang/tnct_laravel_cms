@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
 use App\Role;
 use Illuminate\Http\Request;
@@ -8,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Laravel\Socialite\Facades\Socialite;
+
 class UserController extends Controller
 {
     protected $user, $role;
@@ -48,7 +50,8 @@ class UserController extends Controller
         }
     }
 
-    public function getLoginSocialGuide(){
+    public function getLoginSocialGuide()
+    {
         return view('admin.users.login-social-guide');
     }
 
@@ -96,8 +99,6 @@ class UserController extends Controller
         $role_id = $request->role_id;
         $email_old = $this->user->getUserbyID($id)->email;
         $this->user->updateRoleByUserID($id, $role_id);
-
-
         if (!empty($password) && !empty($name) && !empty($email_new)) {
             $this->user->updatePassword($request->password, $id, '');
             if (!$email_old !== $email_new) {
@@ -133,10 +134,10 @@ class UserController extends Controller
      */
     public function redirectToProvider($provider)
     {
-        if(!session()->has('pre_url')){
+        if (!session()->has('pre_url')) {
             session()->put('pre_url', URL::previous());
-        }else{
-            if(URL::previous() != URL::to('/')) session()->put('pre_url', URL::previous());
+        } else {
+            if (URL::previous() != URL::to('/')) session()->put('pre_url', URL::previous());
         }
         return Socialite::driver($provider)->redirect();
     }
@@ -150,7 +151,6 @@ class UserController extends Controller
     public function handleProviderCallback($provider)
     {
         $user = Socialite::driver($provider)->user();
-
         $authUser = $this->findOrCreateUser($user, $provider);
         Auth::login($authUser, true);
         return Redirect::to(session()->get('pre_url'));
@@ -168,14 +168,46 @@ class UserController extends Controller
             return $authUser;
         }
         $checkEmail = User::where('email', $user->email)->first();
-        if($checkEmail){
+        if ($checkEmail) {
             return $checkEmail;
         }
         return User::create([
-            'name'     => $user->name,
-            'email'    => $user->email,
+            'name' => $user->name,
+            'email' => $user->email,
             'provider' => $provider,
             'provider_id' => $user->id
         ]);
+    }
+
+
+    public function getMyAccountPage()
+    {
+        $titleWebsite = new ThemeController();
+        $title = $titleWebsite->getTitleWebsite('tai-khoan');
+        if (Auth::check()) {
+            $name_avatar_text = explode(' ', Auth::user()->name);
+            $name_last = $name_avatar_text[sizeof($name_avatar_text) - 1];
+            return view('themes.child-theme.components.mn-khkt-my-account', ['titleWebsite' => $title, 'avatar_text' => substr($name_last, 0, 1)]);
+        } else {
+            abort('401');
+        }
+    }
+
+
+    public function updatePasswordForFrontEnd(Request $request)
+    {
+        $email = $request->email;
+        $password = $request->password;
+        $password_confirm = $request->password_confirm;
+        $authUser = User::where('email', $email)->first();
+
+        if ($authUser) {
+            if ($password === $password_confirm && !empty($password_confirm) && !empty($password)) {
+                $this->user->updatePassword($password, 0, $email);
+                return redirect()->back()->with('messages', 'Đã cập nhật mật khẩu mới');
+            } else {
+                return redirect()->back()->with('errors', 'Đã có lỗi xảy ra, vui lòng kiểm tra lại thông tin!');
+            }
+        }
     }
 }

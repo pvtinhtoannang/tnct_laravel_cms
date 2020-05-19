@@ -56,12 +56,12 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
-                                Tài khoản: {{ $users_data->name  }}
+                                {{ $users_data->name  }}
                             </button>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Tài khoản</a>
-                                <a class="dropdown-item" href="#">Khoá học của tôi</a>
-                                <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+                                <a class="dropdown-item" href="{{ route('GET_MY_ACCOUNT') }}">Tài khoản</a>
+                                <a class="dropdown-item" href="#">Khoá học</a>
+                                <a class="dropdown-item"  data-toggle="modal" data-target="#updatePasswordModal" href="#">Đổi mật khẩu</a>
                                 <a class="dropdown-item" href="{{ route('getLogout') }}">Đăng xuất</a>
                             </div>
                         </div>

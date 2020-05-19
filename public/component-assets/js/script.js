@@ -173,7 +173,6 @@ jQuery(function ($) {
             });
         });
 
-
         $('.btn-lost-password-send-email').click(function () {
             var email = $('#lostPasswordUsername').val();
             if (email === null || email === '') {
@@ -279,7 +278,10 @@ jQuery(function ($) {
             }
         });
 
-
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
     } catch (e) {
         // console.log(e);
     }

@@ -55,8 +55,14 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
 
 
 Route::POST('dang-ky', ['as' => 'register', 'uses' => 'Auth\RegisterController@registerForUser']);
-Route::get('tai-khoan', ['as' => 'account', 'uses' => 'ThemeController@getPageAccount']);
+
 Route::get('/auth/{provider}', 'UserController@redirectToProvider');
 Route::get('/auth/{provide}/callback', 'UserController@handleProviderCallback');
+
+
+Route::group(['prefix'=> 'tai-khoan'], function (){
+    Route::get('/', ['as' => 'GET_MY_ACCOUNT', 'uses' => 'UserController@getMyAccountPage']);
+    Route::post('update-password', ['as'=>'UPDATE_PASSWORD', 'uses'=>'UserController@updatePasswordForFrontEnd']);
+});
 
 

@@ -73,6 +73,7 @@ class LoginController extends Controller
     {
         $email = $request->email;
         $password = $request->password;
+
         if (Auth::attempt(['email' => $email, 'password' => $password], $request->has('remember'))) {
             return $this->redirectTo();
         } else {

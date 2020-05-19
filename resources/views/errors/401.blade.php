@@ -21,7 +21,7 @@
             <p class="kt-error_description">
                 Có gì đó chưa đúng!<br>
                 bạn không thể truy cập vào tính năng này.<br>
-                Bạn có thể liên hệ đến bộ phận kỹ thuật nếu gặp phải tình trạng này. <a href="javascript:history.go(-1)"> Quay lại</a>
+                Nếu lạc đường, xin hãy <a href="javascript:history.go(-1)"> Quay lại</a>
             </p>
         </div>
     </div>

@@ -37,6 +37,9 @@ class ThemeController extends Controller
         elseif($slug === 'reset-password'){
             $title = 'Mật khẩu mới';
         }
+        elseif($slug === 'tai-khoan'){
+            $title = 'Tài khoản';
+        }
         else {
             $title = 'Không tìm thấy trang - 404 Not Found';
         }
@@ -66,11 +69,5 @@ class ThemeController extends Controller
         } else {
             return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
         }
-    }
-
-    public function getPageAccount()
-    {
-        $value = 'Tài khoản' . ' - ' . $this->option->getField('blogname');
-        return view('themes.child-theme.page', ['titleWebsite' => $value]);
     }
 }
