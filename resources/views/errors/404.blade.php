@@ -4,28 +4,27 @@
 <!-- begin::Head -->
 @include ('admin.layouts.head-tags')
 <!-- end::Head -->
-<link href="/assets/app/custom/error/error-v5.default.css" rel="stylesheet" type="text/css" />
+
 <!-- begin::Body -->
 <body class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
 
+<link href="/assets/app/custom/error/error-v2.default.css" rel="stylesheet" type="text/css"/>
 <!-- begin:: Page -->
 <div class="kt-grid kt-grid--ver kt-grid--root">
-    <div class="kt-grid__item kt-grid__item--fluid kt-grid  kt-error-v5" style="background-image: url(/assets/media//error/bg5.jpg);">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid  kt-error-v2"
+         style="background-image: url({{url().'/assets/media/error/bg2.jpg'}});">
         <div class="kt-error_container">
-					<span class="kt-error_title">
-						<h1>Oops!</h1>
+					<span class="kt-error_title2 kt-font-light">
+						<h1>Lỗi 404!</h1>
 					</span>
-            <p class="kt-error_subtitle">
-               Xin lỗi!.
-            </p>
-            <p class="kt-error_description">
-                Có gì đó chưa đúng!<br>
-                bạn không thể truy cập vào tính năng này.<br>
-                Bạn có thể liên hệ đến bộ phận kỹ thuật nếu gặp phải tình trạng này. <a href="javascript:history.go(-1)"> Quay lại</a>
-            </p>
+            <span class="kt-error_desc kt-font-light">
+						Không tìm thấy trang này, nếu lạc đường xin hãy <a
+                        href="javascript:history.go(-1)"> Quay lại</a>
+					</span>
         </div>
     </div>
 </div>
+
 
 <!-- end:: Page -->
 

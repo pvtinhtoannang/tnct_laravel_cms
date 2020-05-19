@@ -33,7 +33,11 @@ class ThemeController extends Controller
             $title = $term->name . ' - ' . $this->option->getField('blogname');
         } elseif (!empty($titleWebsiteBySessionKey)) {
             $title = $titleWebsiteBySessionKey . ' - ' . $this->option->getField('blogname');
-        } else {
+        }
+        elseif($slug === 'reset-password'){
+            $title = 'Mật khẩu mới';
+        }
+        else {
             $title = 'Không tìm thấy trang - 404 Not Found';
         }
         return $title;
@@ -42,7 +46,6 @@ class ThemeController extends Controller
     function index()
     {
         $titleWebsite = $this->getTitleWebsite('/');
-
         return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
     }
 
@@ -67,7 +70,7 @@ class ThemeController extends Controller
 
     public function getPageAccount()
     {
-        $value = 'Tài khoản' . ' - ' .  $this->option->getField('blogname');
+        $value = 'Tài khoản' . ' - ' . $this->option->getField('blogname');
         return view('themes.child-theme.page', ['titleWebsite' => $value]);
     }
 }

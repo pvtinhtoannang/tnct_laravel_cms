@@ -7,7 +7,7 @@ Route::get('logout', ['as' => 'getLogout', 'uses' => 'Auth\LoginController@logou
 
 Route::post('reset-password', 'Auth\ResetPasswordController@postForgotPassword');
 Route::get('reset-password/{token}', 'Auth\ResetPasswordController@getForgotPassword');
-Route::put('resetPassword/{token}', 'Auth\ResetPasswordController@reset');
+Route::post('new-reset-password', ['as' => 'postNewPassWordReset', 'uses' => 'Auth\ResetPasswordController@newPassword']);
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('list-users', ['as' => 'GET_ALL_USERS', 'uses' => 'UserController@getAllUser']);

@@ -5,14 +5,15 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Carbon\Carbon;
 use App\PasswordReset;
-use App\Mail\TNCTEmail;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\ForgotPasswordEmail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\ResetPasswordRequest;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use App\Http\Controllers\ThemeController;
 
 class ResetPasswordController extends Controller
 {
@@ -98,7 +99,7 @@ class ResetPasswordController extends Controller
             $objEmail->email = $request->email;
             $objEmail->link = $link;
             $objEmail->token = $token->token;
-            Mail::to($request->email)->send(new TNCTEmail($objEmail));
+            Mail::to($request->email)->send(new ForgotPasswordEmail($objEmail));
             return true;
         } else {
             return false;
@@ -107,28 +108,31 @@ class ResetPasswordController extends Controller
 
     public function getForgotPassword($token)
     {
-        return $token;
-        return view('themes.child-theme.components.pvtinh-new-password');
+        $titleWebsite = new ThemeController();
+        $title = $titleWebsite->getTitleWebsite('reset-password');
+        $result = PasswordReset::where('token', $token)->first();
+        if (!empty($result)) {
+            return view('themes.child-theme.components.pvtinh-new-password', ['titleWebsite' => $title, 'token' => $token]);
+        } else {
+            abort(403);
+        }
     }
 
 
-
-    public function newPass(Request $request)
+    public function newPassword(Request $request)
     {
-        // Check password confirm
-        if ($request->password == $request->confirm) {
-            // Check email with token
-            $result = ResetPassword::where('token', $request->token)->first();
 
+        // Check password confirm
+        if ($request->password == $request->password_confirm) {
+            // Check email with token
+            $result = PasswordReset::where('token', $request->token)->first();
             // Update new password
             User::where('email', $result->email)->update(['password' => bcrypt($request->password)]);
-
             // Delete token
-            ResetPassword::where('token', $request->token)->delete();
-
-            return redirect()->route('login');
+            PasswordReset::where('token', $request->token)->delete();
+            return true;
         } else {
-            echo "Password doesn't match";
+            return false;
         }
 
     }

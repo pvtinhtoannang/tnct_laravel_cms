@@ -105,7 +105,7 @@
                                placeholder="Nhập email để nhận mã xác thực">
                     </div>
                     <button type="button" class="btn btn-custom btn-lost-password-send-email">Gửi xác thực </button>
-                    <button type="button" class="close-form-reset-password">Đóng</button>
+                    <button type="button" class="close-form-reset-password btn btn-warning">Huỷ bỏ</button>
                 </div>
             </div>
         </div>

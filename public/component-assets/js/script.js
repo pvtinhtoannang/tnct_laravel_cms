@@ -174,8 +174,6 @@ jQuery(function ($) {
         });
 
 
-
-
         $('.btn-lost-password-send-email').click(function () {
             var email = $('#lostPasswordUsername').val();
             if (email === null || email === '') {
@@ -222,6 +220,59 @@ jQuery(function ($) {
                             icon: 'error',
                             title: 'Oops...',
                             html: 'Đã xảy ra lỗi, vui lòng kiểm tra kỹ thuật!...',
+                        });
+                    },
+                });
+            }
+        });
+
+        $('.close-form-reset-password').click(function () {
+            $('.btn-lost-password-send-email i').removeClass('fa fa-spin fa-spinner');
+            $('.btn-lost-password-send-email').removeAttr('disabled', 'disabled');
+        });
+
+        $('.btn-new-password').click(function () {
+            var new_password = $('#new_password').val();
+            var new_password_confirm = $('#new_password_confirm').val();
+            var token = $('input[name="token"]').val();
+            if (new_password !== new_password_confirm) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    html: 'Mật khẩu xác nhận không đúng!...',
+                });
+            } else {
+                var __token = $('meta[name="csrf-token"]').attr('content');
+                var url = '/new-reset-password';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        _token: __token,
+                        token: token,
+                        password: new_password,
+                        password_confirm: new_password_confirm,
+                    },
+                    beforeSend: function () {
+                        $('.btn-new-password').append('<i class="fa fa-spin fa-spinner"></i>');
+                        $('.btn-new-password').attr('disabled', 'disabled');
+                    },
+                    success: function (res) {
+                        if (res * 1 === 1) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thành công!!...',
+                                html: 'Mật khẩu đã được thay đổi!...',
+                            });
+                            $('.btn-new-password i').removeClass('fa fa-spin fa-spinner');
+                            $('#loginModal').modal().show();
+
+                        }
+                    }, error: function (xhr, status, error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            html: 'Đã xảy ra lỗi, có vẻ bạn đã đổi mật khẩu hoặc liên kết hết hạn!...',
                         });
                     },
                 });
