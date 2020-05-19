@@ -47,5 +47,13 @@
   .col-left-account, .col-right-account{
     padding: 30px 15px;
     border: 1px solid #CCC;
+    label{
+      margin-bottom: 5px;
+    }
+  }
+  .title-account{
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 15px;
   }
 }
