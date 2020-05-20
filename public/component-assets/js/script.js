@@ -1,3 +1,26 @@
+function lesson_activity() {
+    let activity = [];
+    $(".section-list .lesson-item").each(function (i, el) {
+        let checkbox = $(el).find(".lesson-completed");
+        let lesson = checkbox.attr('data-id');
+        if (checkbox.is(":checked")) {
+            // console.log(lesson, 1);
+            activity.push({
+                "id": lesson,
+                "type": "lesson",
+                "status": 1,
+            });
+        } else {
+            activity.push({
+                "id": lesson,
+                "type": "lesson",
+                "status": 0
+            });
+        }
+    });
+    return console.log(activity);
+}
+
 jQuery(function ($) {
     try {
         //slick dùng để tạo slide
@@ -281,6 +304,11 @@ jQuery(function ($) {
         $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+
+
+        $('.lesson-completed').on("change", function () {
+            lesson_activity();
         });
     } catch (e) {
         // console.log(e);

@@ -14,7 +14,7 @@ class AddPermissionMetaPermissionPostTable extends Migration
     public function up()
     {
         Schema::table('permission_post', function (Blueprint $table) {
-            $table->longText('activity')->after('date_expires');
+            $table->longText('activity')->after('date_expires')->nullable();
         });
     }
 

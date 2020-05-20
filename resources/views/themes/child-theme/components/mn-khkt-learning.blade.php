@@ -72,7 +72,7 @@
                                                 <li class="lesson-item {{$current_class}}">
                                                     <div class="item-link">
                                                         <label class="checkbox-label">
-                                                            <input type="checkbox" aria-label="Lecture completed">
+                                                            <input type="checkbox" class="lesson-completed" aria-label="Lesson completed" data-id="{{$lesson['post_data']->ID}}">
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         <div class="item-container">
