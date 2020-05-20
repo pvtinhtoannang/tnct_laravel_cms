@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(PositionMenuSeeder::class);
         $this->call(MenuSeeder::class);
+        $this->call(FormSeeder::class);
     }
 }

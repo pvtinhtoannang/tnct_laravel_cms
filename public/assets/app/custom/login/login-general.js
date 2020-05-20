@@ -109,8 +109,12 @@ var KTLoginGeneral = function () {
                     setTimeout(function () {
                         btn.removeClass('kt-spinner kt-spinner--right kt-spinner--sm kt-spinner--light').attr('disabled', false);
                         if(response !== 'error'){
-                            showErrorMsg(form, 'success', 'Đăng nhập thành công. Bắt đầu chuyển hướng');
-                            window.location.replace(response);
+                            if(response !== 'Tài khoản hoặc mật khẩu không đúng!'){
+                                showErrorMsg(form, 'success', 'Đăng nhập thành công. Bắt đầu chuyển hướng');
+                                window.location.replace(response);
+                            }else{
+                                showErrorMsg(form, 'danger', 'Xin lỗi, tài khoản hoặc mật khẩu của bạn chưa đúng!');
+                            }
                         }else{
                             showErrorMsg(form, 'danger', 'Xin lỗi, tài khoản hoặc mật khẩu của bạn chưa đúng!');
                         }
