@@ -123,7 +123,9 @@ class User extends Authenticatable
         return $permissions;
     }
 
-
+    /*
+     * Đăng ký post cho user
+     * **/
     public function registerPostForUser($user_id, $post_id)
     {
         $date_expires_data = Option::where('option_name', 'date_expires')->first();
@@ -135,6 +137,10 @@ class User extends Authenticatable
         return $this->find($user_id)->postsCourses()->attach($post_id, ['date_expires' => $date_expires]);
     }
 
+
+    /*
+     * kiểm tra truy cập của post cho user
+     * **/
 
     public function checkPostForUser($user_id, $post_id)
     {

@@ -51,9 +51,8 @@ class ThemeController extends Controller
 
     function index()
     {
-        return $this->user->checkPostForUser(Auth::user()->id, 3);
-//        $titleWebsite = $this->getTitleWebsite('/');
-//        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
+        $titleWebsite = $this->getTitleWebsite('/');
+        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
     }
 
     function type($slug)
