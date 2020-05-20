@@ -336,6 +336,11 @@ License: You must have a valid license purchased only from themeforest(the above
                                             href="{{ route('GET_NAV_MENU') }}" class="kt-menu__link "><i
                                                 class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
                                                 class="kt-menu__link-text">Menu</span></a></li>
+                                    <li class="kt-menu__item @if(Request::url() === route('GET_NAV_MENU')) kt-menu__item--active @endif"
+                                        aria-haspopup="true"><a
+                                                href="{{ route('GET_NAV_MENU') }}" class="kt-menu__link "><i
+                                                    class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span
+                                                    class="kt-menu__link-text">Slider</span></a></li>
                                 </ul>
                             </div>
                         </li>
