@@ -178,9 +178,21 @@ class User extends Authenticatable
                 abort(401, 'Bạn không có quyền truy cập hành động này!');
             }
         }
-
-
     }
+
+
+    public function updateInforRegisterPostForUser($user_id, $post_id, $activity)
+    {
+        $information = self::find($user_id)->postsCourses()->where('post_id', $post_id)->first();
+        if (!empty($information)) {
+            $this->find($user_id)->postsCourses()->detach($post_id);
+            return $this->find($user_id)->postsCourses()->attach($post_id, ['date_expires' => $information->pivot->date_expires, 'activity' => $activity]);
+        } else {
+            return false;
+        }
+    }
+
+
 
     public function getNameRole()
     {

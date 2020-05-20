@@ -7,6 +7,8 @@
  */
 ?>
 @if($builder !== null)
+    @dump($activity)
+    <input type="hidden" name="course_id" value="{{ $course->ID }}">
     <section class="mn-khkt-learning">
         <div class="learning-container">
             <div class="left-content">

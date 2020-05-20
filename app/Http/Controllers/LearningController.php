@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Course;
 use App\Lesson;
+use App\PermissionPost;
 use App\Post;
 use App\SectionHeading;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ThemeController;
+use Illuminate\Support\Facades\Auth;
 
 class LearningController extends Controller
 {
 
-    private $theme_controller, $course, $lesson, $section_heading, $builder, $post, $video_type;
+    private $theme_controller, $course, $lesson, $section_heading, $builder, $post, $video_type, $user, $permission_post;
 
     public function __construct()
     {
@@ -23,6 +26,8 @@ class LearningController extends Controller
         $this->post = new Post();
         $this->builder = [];
         $this->video_type = 'unknown';
+        $this->user = new User();
+        $this->permission_post = new PermissionPost();
     }
 
     function index($course, $lesson = null)
@@ -39,12 +44,14 @@ class LearningController extends Controller
                         if ($lesson_data->video !== null) {
                             $this->video_type = $this->videoType($lesson_data->video->meta_value);
                         }
+
                         return view('themes.parent-theme.learning', [
                             'course' => $course_data,
                             'current_lesson' => $lesson_data,
                             'builder' => $this->courseBuilder($this->builder),
                             'titleWebsite' => $lesson_data->post_title,
-                            'video_type' => $this->video_type
+                            'video_type' => $this->video_type,
+                            'activity'=>$this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID)
                         ]);
                     } else {
                         return 0;
@@ -99,6 +106,15 @@ class LearningController extends Controller
             return 'drive';
         } else {
             return 'unknown';
+        }
+    }
+
+    public function updateActivity(Request $request)
+    {
+        if ($this->user->updateInforRegisterPostForUser(Auth::user()->id, $request->post_id, json_encode($request->activity))) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

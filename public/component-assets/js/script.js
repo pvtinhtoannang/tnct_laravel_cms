@@ -18,7 +18,7 @@ function lesson_activity() {
             });
         }
     });
-    return console.log(activity);
+    return activity;
 }
 
 jQuery(function ($) {
@@ -308,7 +308,27 @@ jQuery(function ($) {
 
 
         $('.lesson-completed').on("change", function () {
-            lesson_activity();
+            let __token = $('meta[name="csrf-token"]').attr('content');
+            let course_id = $('input[name="course_id"]').val();
+            let url = '/ajax-update-permission-post-activity';
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    _token: __token,
+                    activity: lesson_activity(),
+                    post_id: course_id,
+                },
+                beforeSend: function () {
+
+                },
+                success: function (res) {
+                    console.log(res);
+                }, error: function (xhr, status, error) {
+
+                },
+            });
+
         });
     } catch (e) {
         // console.log(e);

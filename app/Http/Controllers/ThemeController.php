@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Option;
+use App\PermissionPost;
 use App\Post;
 use App\Term;
 use App\User;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
-    private $post, $term, $option, $user;
+    private $post, $term, $option, $user, $permission_post;
 
     /**
      * ThemeController constructor.
@@ -21,6 +22,7 @@ class ThemeController extends Controller
         $this->term = new Term();
         $this->option = new Option();
         $this->user = new User();
+        $this->permission_post = new PermissionPost();
     }
 
     public function getTitleWebsite($slug)
@@ -36,14 +38,11 @@ class ThemeController extends Controller
             $title = $term->name . ' - ' . $this->option->getField('blogname');
         } elseif (!empty($titleWebsiteBySessionKey)) {
             $title = $titleWebsiteBySessionKey . ' - ' . $this->option->getField('blogname');
-        }
-        elseif($slug === 'reset-password'){
+        } elseif ($slug === 'reset-password') {
             $title = 'Mật khẩu mới';
-        }
-        elseif($slug === 'tai-khoan'){
+        } elseif ($slug === 'tai-khoan') {
             $title = 'Tài khoản';
-        }
-        else {
+        } else {
             $title = 'Không tìm thấy trang - 404 Not Found';
         }
         return $title;
@@ -51,9 +50,9 @@ class ThemeController extends Controller
 
     function index()
     {
-        return $this->user->registerPostForUser(Auth::user()->id, 1);
-//        $titleWebsite = $this->getTitleWebsite('/');
-//        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
+
+        $titleWebsite = $this->getTitleWebsite('/');
+        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
     }
 
     function type($slug)

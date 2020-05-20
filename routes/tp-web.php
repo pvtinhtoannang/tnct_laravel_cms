@@ -80,4 +80,4 @@ Route::group(['prefix' => 'tai-khoan'], function () {
     Route::post('update-password', ['as' => 'UPDATE_PASSWORD', 'uses' => 'UserController@updatePasswordForFrontEnd']);
 });
 
-
+Route::post('ajax-update-permission-post-activity', ['as'=>'UPDATE_ACTIVITY', 'uses'=>'LearningController@updateActivity']);
