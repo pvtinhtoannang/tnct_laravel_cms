@@ -34,6 +34,7 @@ class LearningController extends Controller
     {
         if ($this->course->slug($course)->first()) {
             $course_data = $this->course->slug($course)->first();
+            $activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
             if (isset($course_data->builder->meta_value)) {
                 $this->builder = json_decode($course_data->builder->meta_value, true);
             }
@@ -44,7 +45,6 @@ class LearningController extends Controller
                         if ($lesson_data->video !== null) {
                             $this->video_type = $this->videoType($lesson_data->video->meta_value);
                         }
-                        $activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
                         return view('themes.parent-theme.learning', [
                             'course' => $course_data,
                             'current_lesson' => $lesson_data,
@@ -61,7 +61,14 @@ class LearningController extends Controller
                 }
             } else {
                 $titleWebsite = $this->theme_controller->getTitleWebsite($course);
-                return view('themes.parent-theme.learning', ['course' => $course_data, 'lesson' => null, 'titleWebsite' => $titleWebsite]);
+                return view('themes.parent-theme.learning', [
+                    'course' => $course_data,
+                    'current_lesson' => null,
+                    'builder' => $this->courseBuilder($this->builder),
+                    'titleWebsite' => $titleWebsite,
+                    'video_type' => $this->video_type,
+                    'activity' => json_decode($activity)
+                ]);
             }
         } else {
             return 0;
