@@ -9,7 +9,7 @@ Route::post('reset-password', 'Auth\ResetPasswordController@postForgotPassword')
 Route::get('reset-password/{token}', 'Auth\ResetPasswordController@getForgotPassword');
 Route::post('new-reset-password', ['as' => 'postNewPassWordReset', 'uses' => 'Auth\ResetPasswordController@newPassword']);
 
-Route::group(['prefix' => 'admin','middleware' => 'user-role'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
 
 
     Route::get('list-users', ['as' => 'GET_ALL_USERS', 'uses' => 'UserController@getAllUser']);
@@ -67,20 +67,17 @@ Route::group(['prefix' => 'admin','middleware' => 'user-role'], function () {
     Route::POST('ajax-update-postion-menu', ['as' => 'UPDATE_MENU_POSITION_BY_LIST', 'uses' => 'NavMenuController@updateMenuPosition']);
 
 
-
     Route::get('form/{id}', ['as' => 'GET_FORM_DATA', 'uses' => 'FormController@getFormData'])->where('id', '[0-9]+');
 });
 Route::post('add-data-form/{id}', ['as' => 'ADD_FORM_DATA', 'uses' => 'FormController@addDataForm'])->where('id', '[0-9]+');
-
 Route::POST('dang-ky', ['as' => 'register', 'uses' => 'Auth\RegisterController@registerForUser']);
-
 Route::get('/auth/{provider}', 'UserController@redirectToProvider');
 Route::get('/auth/{provide}/callback', 'UserController@handleProviderCallback');
 
 
-Route::group(['prefix'=> 'tai-khoan'], function (){
+Route::group(['prefix' => 'tai-khoan'], function () {
     Route::get('/', ['as' => 'GET_MY_ACCOUNT', 'uses' => 'UserController@getMyAccountPage']);
-    Route::post('update-password', ['as'=>'UPDATE_PASSWORD', 'uses'=>'UserController@updatePasswordForFrontEnd']);
+    Route::post('update-password', ['as' => 'UPDATE_PASSWORD', 'uses' => 'UserController@updatePasswordForFrontEnd']);
 });
 
 

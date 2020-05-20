@@ -301,8 +301,6 @@ var PvtinhMenuManagement = function () {
             inputUrlName.val(label);
             inputMenuID.val(id);
             inputMenuUrl.val(link);
-
-
         });
 
         $('button.btn-save-editMenuItem').click(function () {
