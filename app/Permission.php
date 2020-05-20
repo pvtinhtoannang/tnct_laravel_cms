@@ -67,5 +67,4 @@ class Permission extends Model
         return self::find($id)->update(['name' => $request_name, 'display_name' => $request_display_name, 'group_id' => $request_group_id]);
     }
 
-
 }

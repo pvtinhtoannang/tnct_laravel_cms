@@ -5,6 +5,7 @@ namespace App;
 use App\Role;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -132,6 +133,22 @@ class User extends Authenticatable
             $date_expires = strtotime(Carbon::now()->addDays(30));
         }
         return $this->find($user_id)->postsCourses()->attach($post_id, ['date_expires' => $date_expires]);
+    }
+
+
+    public function checkPostForUser($user_id, $post_id)
+    {
+        $dateNow = strtotime(Date::now());
+        $postCourses = $this->find($user_id)->postsCourses()->where('post_id', $post_id)->first();
+        if ($postCourses !== null) {
+            if ($dateNow > $postCourses->pivot->date_expires) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
 

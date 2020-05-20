@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Option;
 use App\Post;
 use App\Term;
+use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
-    private $post, $term, $option;
+    private $post, $term, $option, $user;
 
     /**
      * ThemeController constructor.
@@ -18,6 +20,7 @@ class ThemeController extends Controller
         $this->post = new Post();
         $this->term = new Term();
         $this->option = new Option();
+        $this->user = new User();
     }
 
     public function getTitleWebsite($slug)
@@ -48,8 +51,9 @@ class ThemeController extends Controller
 
     function index()
     {
-        $titleWebsite = $this->getTitleWebsite('/');
-        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
+        return $this->user->checkPostForUser(Auth::user()->id, 3);
+//        $titleWebsite = $this->getTitleWebsite('/');
+//        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
     }
 
     function type($slug)
