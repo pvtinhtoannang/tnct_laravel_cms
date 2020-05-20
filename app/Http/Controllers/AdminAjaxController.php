@@ -94,33 +94,33 @@ class AdminAjaxController extends Controller
     function saveCourseBuilder(Request $request)
     {
         $course = $this->course->find($request->course);
-        $course_builder = $course->builder;
-//        $course_builder_admin = $course->builder_admin;
+        $course_builder_user = $course->meta()->where('meta_key', 'course_builder_user')->first();
+        $course_builder_admin = $course->meta()->where('meta_key', 'course_builder_admin')->first();
+        dump($request->positionAdmin);
 
-
-        if ($course_builder) {
-            $course_builder->update([
-                'meta_key' => 'course_builder',
-                'meta_value' => json_encode($request->position)
+        if ($course_builder_user) {
+            $course_builder_user->update([
+                'meta_key' => 'course_builder_user',
+                'meta_value' => json_encode($request->positionUser)
             ]);
         } else {
             $course->meta()->create([
-                'meta_key' => 'course_builder',
-                'meta_value' => json_encode($request->position)
+                'meta_key' => 'course_builder_user',
+                'meta_value' => json_encode($request->positionUser)
             ]);
         }
-//        if ($course_builder_admin) {
-//            $course_builder_admin->update([
-//                'meta_key' => 'course_builder_admin',
-//                'meta_value' => json_encode($request->positionAdmin)
-//            ]);
-//
-//        } else {
-//            $course->meta()->create([
-//                'meta_key' => 'course_builder_admin',
-//                'meta_value' => json_encode($request->positionAdmin)
-//            ]);
-//        }
+        if ($course_builder_admin) {
+            $course_builder_admin->update([
+                'meta_key' => 'course_builder_admin',
+                'meta_value' => json_encode($request->positionAdmin)
+            ]);
+
+        } else {
+            $course->meta()->create([
+                'meta_key' => 'course_builder_admin',
+                'meta_value' => json_encode($request->positionAdmin)
+            ]);
+        }
     }
 
     function deleteSectionHeading(Request $request)

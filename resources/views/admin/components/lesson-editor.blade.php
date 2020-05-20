@@ -14,7 +14,6 @@ $thumbnail_url = '';
 $thumbnail_id = '';
 $course_id = '';
 $uploads_url = url('/contents/uploads');
-$video_link = '';
 ?>
 
 @isset($postData)
@@ -39,10 +38,6 @@ $video_link = '';
         $thumbnail_url = $uploads_url . '/' . $postData->thumbnail->attachment->meta->meta_value;
     }
     $course_id = $postData->meta()->where('meta_key', 'course_id')->first()->meta_value;
-    $video = $postData->meta()->where('meta_key', 'video_link')->first();
-    if (!is_null($video)) {
-        $video_link = $video->meta_value;
-    }
     ?>
 @endisset
 <?php
@@ -83,20 +78,21 @@ if (isset($post_type)) {
                 <textarea class="summernote-post-content" id="post_content"
                           name="post_content">{{$post_content}}</textarea>
             </div>
-            <div class="kt-portlet">
-                <div class="kt-portlet__head kt-bg-primary">
-                    <div class="kt-portlet__head-label">
-                        <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Dữ liệu bài học</h3>
+            @if($type === 'post')
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head kt-bg-primary">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Mô tả ngắn</h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="form-group form-group-last">
+                            <label for="excerpt" hidden>Mô tả ngắn</label>
+                            <textarea class="form-control" id="excerpt" name="excerpt" rows="4">{{$excerpt}}</textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="kt-portlet__body">
-                    <div class="form-group form-group-last">
-                        <label for="video-link">Liên kết video</label>
-                        <input class="form-control" type="text" id="video-link" name="video_link"
-                               value="{{$video_link}}">
-                    </div>
-                </div>
-            </div>
+            @endif
         </div>
         <div class="col-md-3">
             <div class="kt-portlet">
@@ -120,8 +116,8 @@ if (isset($post_type)) {
                         <?php
                         $in_course = $course->find($course_id);
                         if ($in_course) { ?>
-                        <label>Khoá học: </label>
-                        <h6 class="d-inline-block">{{$in_course->post_title}}</h6>
+                            <label>Khoá học: </label>
+                            <h6 class="d-inline-block">{{$in_course->post_title}}</h6>
                         <?php } ?>
                     </div>
                 </div>

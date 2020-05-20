@@ -2,7 +2,7 @@
 
 namespace App\Meta;
 
-use App\Lesson;
+use App\Course;
 
 class LessonMeta extends PostMeta
 {
@@ -14,6 +14,6 @@ class LessonMeta extends PostMeta
 
     public function lessonMeta()
     {
-        return $this->belongsTo(Lesson::class, 'meta_value');
+        return $this->belongsTo(Course::class, 'meta_value');
     }
 }

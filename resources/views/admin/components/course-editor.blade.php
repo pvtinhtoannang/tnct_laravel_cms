@@ -133,6 +133,9 @@ if (isset($post_type)) {
                                                            type="text"
                                                            class="form-control form-control-danger course-builder-title"
                                                            placeholder="Nhập tiêu đề"
+                                                           @if($post_data->post_type === 'lesson')
+                                                           data-section="{{$section_id}}"
+                                                           @endif
                                                            data-type="@if($post_data->post_type === 'lesson'){{'lesson'}}@else{{'section_heading'}}@endif"
                                                            data-post-name="{{$post_data->post_name}}"
                                                            data-id="{{$post_data->ID}}"

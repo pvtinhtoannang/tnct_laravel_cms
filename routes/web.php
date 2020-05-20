@@ -109,9 +109,5 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     Route::post('/delete-lesson', 'AdminAjaxController@deleteLesson');
 });
 
-Route::group(['prefix' => 'khoa-hoc'], function () {
-    Route::get('/{course}/{lesson?}', 'LearningController@index');
-});
-
 Route::get('/', 'ThemeController@index');
 Route::get('/{slug}', 'ThemeController@type');

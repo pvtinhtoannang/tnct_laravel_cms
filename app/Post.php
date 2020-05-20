@@ -368,20 +368,6 @@ class Post extends Model
             }
         }
 
-        if ($post->video === null) {
-            if (isset($request->video_link)) {
-                $post->meta()->create($this->postMeta('video_link', $request->video_link));
-            }
-        } else {
-            $lesson = $post->meta()->find($post->video->meta_id);
-            if (isset($request->video_link)) {
-                $lesson->update($this->postMeta('video_link', $request->video_link));
-            } else {
-                $lesson->delete();
-            }
-        }
-
-
         $post->update($this->postRequest($request, $id));
         $post->taxonomies()->wherePivot('object_id', $id)->sync($cats);
     }

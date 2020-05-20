@@ -280,69 +280,16 @@ function confirmDelete() {
 }
 
 function updatePosition() {
-    let new_data_section = 0;
     $("#course-builder .course-builder-item").each(function (i, el) {
         let item = $(el).find('.course-builder-title');
-        let section = $(el).find('[name ="section_heading"]');
-        let data_section = section.attr('data-id');
-        if (typeof data_section !== typeof undefined && data_section !== false) {
-            new_data_section = data_section;
-        }
         item.attr('data-position', i);
-        item.attr('data-section', new_data_section);
     });
 }
 
-// function positionGeneral() {
-//     let positionArray = [];
-//     let lessonArray = [];
-//     let lessonArrayNew = [];
-//     $("#course-builder .course-builder-item").each(function (i, el) {
-//         let item = $(el).find('.course-builder-title');
-//         let position = item.attr('data-position');
-//         let title = item.val();
-//         let type = item.attr('data-type');
-//         let id = item.attr('data-id');
-//         let data_section = item.attr('data-section');
-//         if (typeof id !== typeof undefined && id !== false) {
-//
-//             if (type === 'lesson') {
-//                 lessonArray.push({
-//                     "order": position,
-//                     "ID": id,
-//                     "post_title": title,
-//                     "type": type,
-//                     "section": data_section
-//                 });
-//             }
-//
-//             if (type === 'section_heading') {
-//                 positionArray.push({
-//                     "order": position,
-//                     "ID": id,
-//                     "post_title": title,
-//                     "type": type,
-//                     "lessons": []
-//                 });
-//             }
-//         }
-//     });
-//
-//     positionArray.forEach(function (item, index, array) {
-//         lessonArray.forEach(function (les_item, les_index, les_array) {
-//             if (item.ID === les_item.section) {
-//                 lessonArrayNew = item.lessons;
-//                 lessonArrayNew.push(les_item);
-//                 item.lessons = lessonArrayNew;
-//             }
-//         });
-//     });
-//
-//     return positionArray;
-// }
-
 function positionGeneral() {
     let positionArray = [];
+    let lessonArray = [];
+    let lessonArrayNew = [];
     $("#course-builder .course-builder-item").each(function (i, el) {
         let item = $(el).find('.course-builder-title');
         let position = item.attr('data-position');
@@ -351,12 +298,56 @@ function positionGeneral() {
         let id = item.attr('data-id');
         let data_section = item.attr('data-section');
         if (typeof id !== typeof undefined && id !== false) {
+
+            if (type === 'lesson') {
+                lessonArray.push({
+                    "order": position,
+                    "ID": id,
+                    "post_title": title,
+                    "type": type,
+                    "section": data_section
+                });
+            }
+
+            if (type === 'section_heading') {
+                positionArray.push({
+                    "order": position,
+                    "ID": id,
+                    "post_title": title,
+                    "type": type,
+                    "lessons": []
+                });
+            }
+        }
+    });
+
+    positionArray.forEach(function (item, index, array) {
+        lessonArray.forEach(function (les_item, les_index, les_array) {
+            if (item.ID === les_item.section) {
+                lessonArrayNew = item.lessons;
+                lessonArrayNew.push(les_item);
+                item.lessons = lessonArrayNew;
+            }
+        });
+    });
+
+    return positionArray;
+}
+
+function positionEditorGeneral() {
+    let positionArray = [];
+    $("#course-builder .course-builder-item").each(function (i, el) {
+        let item = $(el).find('.course-builder-title');
+        let position = item.attr('data-position');
+        let title = item.val();
+        let type = item.attr('data-type');
+        let id = item.attr('data-id');
+        if (typeof id !== typeof undefined && id !== false) {
             positionArray.push({
                 "order": position,
                 "ID": id,
                 "post_title": title,
-                "type": type,
-                "section": data_section
+                "type": type
             });
         }
     });
@@ -387,12 +378,14 @@ function notification(messenger) {
 
 function saveCourseBuilder() {
     let course = $('#course_id').val();
+    // console.log(positionGeneral());
     $.ajax({
         url: '/admin/save-course-builder',
         type: 'post',
         data: {
             course: course,
-            position: positionGeneral(),
+            positionUser: positionGeneral(),
+            positionAdmin: positionEditorGeneral(),
             _token: $('meta[name="csrf-token"]').attr('content')
         },
         success: function (response) {
