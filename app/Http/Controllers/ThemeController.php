@@ -50,7 +50,6 @@ class ThemeController extends Controller
 
     function index()
     {
-
         $titleWebsite = $this->getTitleWebsite('/');
         return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
     }

@@ -32,46 +32,52 @@ class LearningController extends Controller
 
     function index($course, $lesson = null)
     {
+
         if ($this->course->slug($course)->first()) {
             $course_data = $this->course->slug($course)->first();
-            $activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
             if (isset($course_data->builder->meta_value)) {
                 $this->builder = json_decode($course_data->builder->meta_value, true);
             }
-            if (isset($lesson)) {
-                if ($this->lesson->post_id($lesson)->first()) {
-                    $lesson_data = $this->lesson->post_id($lesson)->first();
-                    if (isset($lesson_data->course->meta_value) && $lesson_data->course->meta_value * 1 === $course_data->ID * 1) {
-                        if ($lesson_data->video !== null) {
-                            $this->video_type = $this->videoType($lesson_data->video->meta_value);
+
+            if ($this->user->checkPermissionForPost($course_data->ID) === true) {
+                $activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
+                if (isset($lesson)) {
+                    if ($this->lesson->post_id($lesson)->first()) {
+                        $lesson_data = $this->lesson->post_id($lesson)->first();
+                        if (isset($lesson_data->course->meta_value) && $lesson_data->course->meta_value * 1 === $course_data->ID * 1) {
+                            if ($lesson_data->video !== null) {
+                                $this->video_type = $this->videoType($lesson_data->video->meta_value);
+                            }
+                            return view('themes.parent-theme.learning', [
+                                'course' => $course_data,
+                                'current_lesson' => $lesson_data,
+                                'builder' => $this->courseBuilder($this->builder),
+                                'titleWebsite' => $lesson_data->post_title,
+                                'video_type' => $this->video_type,
+                                'activity' => json_decode($activity)
+                            ]);
+                        } else {
+                            return 0;
                         }
-                        return view('themes.parent-theme.learning', [
-                            'course' => $course_data,
-                            'current_lesson' => $lesson_data,
-                            'builder' => $this->courseBuilder($this->builder),
-                            'titleWebsite' => $lesson_data->post_title,
-                            'video_type' => $this->video_type,
-                            'activity' => json_decode($activity)
-                        ]);
                     } else {
                         return 0;
                     }
                 } else {
-                    return 0;
+                    $titleWebsite = $this->theme_controller->getTitleWebsite($course);
+                    return view('themes.parent-theme.learning', [
+                        'course' => $course_data,
+                        'current_lesson' => null,
+                        'builder' => $this->courseBuilder($this->builder),
+                        'titleWebsite' => $titleWebsite,
+                        'video_type' => $this->video_type,
+                        'activity' => json_decode($activity)
+                    ]);
                 }
             } else {
-                $titleWebsite = $this->theme_controller->getTitleWebsite($course);
-                return view('themes.parent-theme.learning', [
-                    'course' => $course_data,
-                    'current_lesson' => null,
-                    'builder' => $this->courseBuilder($this->builder),
-                    'titleWebsite' => $titleWebsite,
-                    'video_type' => $this->video_type,
-                    'activity' => json_decode($activity)
-                ]);
+                abort(404);
             }
         } else {
-            return 0;
+            abort(404);
         }
     }
 
