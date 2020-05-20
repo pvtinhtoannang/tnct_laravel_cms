@@ -41,7 +41,7 @@ function theme_styles()
     register_style($component_assets . "/lib/sweetalert2/sweetalert2.min.css");
     register_style($component_assets . "/css/reset.min.css");
     register_style($component_assets . "/css/style.css");
-
+    register_script($component_assets . '/lib/jquery/dist/jquery.js');
 }
 
 add_action('theme_footer', 'theme_script_footer');
@@ -50,7 +50,6 @@ function theme_script_footer()
 {
 
     $component_assets = url('/component-assets');
-    register_script($component_assets . '/lib/jquery/dist/jquery.js');
     register_script($component_assets . '/lib/bootstrap/js/popper.min.js');
     register_script($component_assets . '/lib/bootstrap/js/bootstrap.min.js');
     register_script($component_assets . '/lib/slick/slick.min.js');

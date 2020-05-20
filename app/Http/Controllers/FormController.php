@@ -33,9 +33,9 @@ class FormController extends Controller
         $course = $request->course;
         $content = $request->content_form;
         if ($this->form_meta->addDataForm($name, $email, $phone, $company_name, $position, $address, $course, $content, $id)) {
-            return true;
+            return redirect()->back()->with('messages', 'Cảm ơn, yêu cầu của bạn đã được gửi đi!');
         } else {
-            return false;
+            return redirect()->back()->with('messages', 'Đã có lỗi xảy ra, vui lòng kiểm tra lại');
         }
     }
 }

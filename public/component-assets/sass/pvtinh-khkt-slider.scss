@@ -1,6 +1,4 @@
 .pvtinh-khkt-slider {
-
-
   .slider-khkt-content {
     display: flex;
     display: -ms-flex;
@@ -16,7 +14,6 @@
       -webkit-border-radius: 3px;
       -moz-border-radius: 3px;
       border-radius: 3px;
-
     }
   }
 
@@ -28,7 +25,7 @@
 
   .slider-left {
     background-color: #FFF;
-    padding: 25px 0;
+    padding: 22px 0;
     height: 100%;
   }
 
@@ -37,7 +34,7 @@
     background-position: center;
     background-repeat: repeat;
     background-size: cover;
-    padding: 25px 15px;
+    padding: 20px 15px;
   }
 
   .slider-left, .slider-right {
@@ -155,13 +152,14 @@
       text-align: center;
       color: #ffffff;
       font-style: italic;
-      margin: 15px auto;
+      margin: 0px auto 10px auto;
     }
   }
 
   form.contact-form-home {
     font-size: 15px;
     font-weight: 300;
+    text-align: center;
 
     input, .input-group-text, select {
       background-color: #e6edf7;
@@ -171,40 +169,54 @@
       border: none;
     }
 
-    .input-group{
-      input{
+    .input-group {
+      input {
         border-left: 0;
       }
     }
-    input:focus{
+
+    input:focus {
       box-shadow: none;
+    }
+    .input-group-prepend, input{
+      height: 35px;
+    }
+    .btn-custom-form {
+      background-color: #ef487c;
+      height: 38px;
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      border-radius: 20px;
+      margin: auto;
+      min-width: 120px;
+      color: #FFF;
     }
   }
 
   @media screen and(max-width: 1024px) {
-    .category-home{
-      ul{
-        li{
+    .category-home {
+      ul {
+        li {
           padding: 8px 0 8px 10px;
         }
       }
     }
-    .slider-khkt-content{
+    .slider-khkt-content {
       flex-wrap: wrap;
       -webkit-flex-wrap: wrap;
     }
-    .slider-left, .slider-right{
+    .slider-left, .slider-right {
       flex-basis: 50%;
       -webkit-flex-basis: 50%;
       order: 3
     }
-    .slider-center{
+    .slider-center {
       flex-basis: 100%;
       -webkit-flex-basis: 100%;
     }
   }
   @media screen and(max-width: 768px) {
-    .slider-left, .slider-right{
+    .slider-left, .slider-right {
       flex-basis: 100%;
       -webkit-flex-basis: 100%;
       order: 3
