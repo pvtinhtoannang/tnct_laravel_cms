@@ -11,12 +11,12 @@ class FormSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('menus')->insert([
-            'label' => 'Trang chủ',
-            'link' => '/',
-            'parent_id' => null,
-            'sort' => 0,
-            'positions_menu_id' => 1
+        DB::table('forms')->insert([
+            'name' => 'Form đăng ký'
+        ]);
+
+        DB::table('forms')->insert([
+            'name' => 'Form liên hệ'
         ]);
     }
 }

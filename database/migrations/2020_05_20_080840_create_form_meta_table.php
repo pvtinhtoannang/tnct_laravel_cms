@@ -22,6 +22,7 @@ class CreateFormMetaTable extends Migration
             $table->string('position')->nullable();
             $table->string('address')->nullable();
             $table->string('course')->nullable();
+            $table->string('content')->nullable();
             $table->string('form_id');
             $table->timestamps();
         });
