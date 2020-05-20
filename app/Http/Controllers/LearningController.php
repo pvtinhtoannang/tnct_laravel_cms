@@ -44,14 +44,14 @@ class LearningController extends Controller
                         if ($lesson_data->video !== null) {
                             $this->video_type = $this->videoType($lesson_data->video->meta_value);
                         }
-
+                        $activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
                         return view('themes.parent-theme.learning', [
                             'course' => $course_data,
                             'current_lesson' => $lesson_data,
                             'builder' => $this->courseBuilder($this->builder),
                             'titleWebsite' => $lesson_data->post_title,
                             'video_type' => $this->video_type,
-                            'activity'=>$this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID)
+                            'activity' => json_decode($activity)
                         ]);
                     } else {
                         return 0;

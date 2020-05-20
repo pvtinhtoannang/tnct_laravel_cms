@@ -7,7 +7,7 @@
  */
 ?>
 @if($builder !== null)
-    @dump($activity)
+    {{--    @dump($activity)--}}
     <input type="hidden" name="course_id" value="{{ $course->ID }}">
     <section class="mn-khkt-learning">
         <div class="learning-container">
@@ -62,7 +62,7 @@
                                  data-parent="#course-content-accordion">
                                 <ul class="section-list">
                                     @if(!is_null($section['lessons']) && !empty($section['lessons']))
-                                        @foreach($section['lessons'] as $lesson)
+                                        @foreach($section['lessons'] as $x => $lesson)
                                             @if($lesson['post_data']->post_status === 'publish')
                                                 <?php
                                                 if (Request::route()->lesson !== null && (Request::route()->lesson) * 1 === ($lesson['post_data']->ID) * 1) {
@@ -74,7 +74,12 @@
                                                 <li class="lesson-item {{$current_class}}">
                                                     <div class="item-link">
                                                         <label class="checkbox-label">
-                                                            <input type="checkbox" class="lesson-completed" aria-label="Lesson completed" data-id="{{$lesson['post_data']->ID}}">
+                                                            <input type="checkbox" class="lesson-completed"
+                                                                   aria-label="Lesson completed"
+                                                                   data-id="{{$lesson['post_data']->ID}}"
+                                                                   @if($activity[$x]->status*1 === 1)
+                                                                   checked
+                                                                    @endif>
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         <div class="item-container">
