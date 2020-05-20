@@ -351,6 +351,7 @@ function notification(messenger) {
 
 function saveCourseBuilder() {
     let course = $('#course_id').val();
+    // console.log(positionGeneral());
     $.ajax({
         url: '/admin/save-course-builder',
         type: 'post',

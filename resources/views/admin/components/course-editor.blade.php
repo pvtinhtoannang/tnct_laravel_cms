@@ -102,7 +102,7 @@ if (isset($post_type)) {
                     <div class="kt-portlet__body">
                         <div class="ui-sortable" id="course-builder">
                             <?php
-                            $course_builder = $postData->meta()->where('meta_key', 'course_builder_admin')->first();
+                            $course_builder = $postData->builder;
                             ?>
                             @if($course_builder)
                                 <?php
