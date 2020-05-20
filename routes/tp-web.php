@@ -47,6 +47,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('ajax-get-menu-position/{id}', ['as'=>'GET_MENU_POSITION', 'uses'=>'NavMenuController@getMenuPosition'])->where('id', '[0-9]+');
     Route::POST('ajax-update-postion-menu', ['as'=> 'UPDATE_MENU_POSITION_BY_LIST', 'uses'=>'NavMenuController@updateMenuPosition']);
 
+
+
 });
 
 
