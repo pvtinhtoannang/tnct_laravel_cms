@@ -6,6 +6,7 @@
  * @var $lesson
  */
 ?>
+
 @if($builder !== null)
     {{--    @dump($activity)--}}
     <input type="hidden" name="course_id" value="{{ $course->ID }}">
@@ -74,12 +75,16 @@
                                                 <li class="lesson-item {{$current_class}}">
                                                     <div class="item-link">
                                                         <label class="checkbox-label">
-                                                            <input type="checkbox" class="lesson-completed"
+                                                            <input type="checkbox"
+                                                                   class="lesson-completed"
                                                                    aria-label="Lesson completed"
                                                                    data-id="{{$lesson['post_data']->ID}}"
-                                                                   @if($activity[$x]->status*1 === 1)
+                                                                   @foreach($activity as $status)
+                                                                   @if($status->id*1 === $lesson['post_data']->ID*1 && $status->status*1 === 1)
                                                                    checked
-                                                                    @endif>
+                                                                    @break
+                                                                    @endif
+                                                                    @endforeach >
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         <div class="item-container">
