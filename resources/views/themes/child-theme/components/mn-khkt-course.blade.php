@@ -63,14 +63,14 @@
                         @endif
                     </div>
                     <div class="course-add-form">
-                        <form action="{{route('ADD_TO_CART')}}" method="post">
+                        <form id="add-form" action="{{route('ADD_TO_CART')}}" method="post">
                             <input type="hidden" name="course" value="{{$post->ID}}">
                             <input type="hidden" name="course_name" value="{{$post->post_title}}">
                             @if($post->sale_price && $post->price)
                                 @if((integer)$post->sale_price->meta_value !== 0 && (integer)$post->price->meta_value !== 0)
-                                    <input type="hidden" name="price" value="{{$post->sale_price->meta_value}}">
+                                    <input type="hidden" name="price" value="{{(integer)$post->sale_price->meta_value}}">
                                 @elseif((integer)$post->price->meta_value !== 0)
-                                    <input type="hidden" name="price" value="{{$post->price->meta_value}}">
+                                    <input type="hidden" name="price" value="{{(integer)$post->price->meta_value}}">
                                 @endif
                             @endif
                             <button type="submit" id="buy-now" class="buy-now-button">Mua ngay</button>

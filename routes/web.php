@@ -113,8 +113,10 @@ Route::group(['prefix' => 'khoa-hoc'], function () {
     Route::get('/{course}/{lesson?}', ['as' => 'GET_LEARNING_ROUTE', 'uses' => 'LearningController@index']);
 });
 
+Route::post('/ajax-delete-item-from-cart', ['as' => 'AJAX_DELETE_ITEM_FROM_CART', 'uses' => 'CartController@ajaxDeleteItemFromCart']);
+Route::post('/ajax-add-to-cart', ['as' => 'AJAX_ADD_TO_CART', 'uses' => 'CartController@ajaxAddToCart']);
 Route::post('/add-to-cart', ['as' => 'ADD_TO_CART', 'uses' => 'CartController@addToCart']);
-Route::get('/cart', ['as' => 'CART', 'uses' => 'CartController@cartContent']);
+Route::get('/gio-hang', ['as' => 'CART', 'uses' => 'CartController@cartContent']);
 
 Route::get('/', 'ThemeController@index');
 Route::get('/{slug}', 'ThemeController@type');
