@@ -6,6 +6,7 @@
  */
 
 use App\Page;
+use App\Attachment;
 
 function theme_head()
 {
@@ -78,4 +79,16 @@ function get_thumbnail_src($post)
 {
     $uploads_url = url('/contents/uploads');
     return $uploads_url . '/' . $post->thumbnail->attachment->meta->meta_value;
+}
+
+function get_attachment_src($attachment_id)
+{
+    $attachment = new Attachment();
+    $uploads_url = url('/contents/uploads');
+    $attachment_data = $attachment->find($attachment_id);
+    if ($attachment_data) {
+        return $uploads_url . '/' . $attachment_data->meta->meta_value;
+    } else {
+        return '';
+    }
 }
