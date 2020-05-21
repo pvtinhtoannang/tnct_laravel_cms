@@ -63,15 +63,19 @@ class LearningController extends Controller
                         return 0;
                     }
                 } else {
-                    $titleWebsite = $this->theme_controller->getTitleWebsite($course);
-                    return view('themes.parent-theme.learning', [
-                        'course' => $course_data,
-                        'current_lesson' => null,
-                        'builder' => $this->courseBuilder($this->builder),
-                        'titleWebsite' => $titleWebsite,
-                        'video_type' => $this->video_type,
-                        'activity' => json_decode($activity)
-                    ]);
+                    if (isset($course_data->builder->meta_value)) {
+                        $lesson_id = '';
+                        $this->builder = json_decode($course_data->builder->meta_value, true);
+                        foreach ($this->builder as $lesson) {
+                            if ($lesson['type'] === 'lesson') {
+                                $lesson_id = $lesson['ID'];
+                                break;
+                            }
+                        }
+                        return redirect()->route('GET_LEARNING_ROUTE', $course_data->post_name . '/' . $lesson_id);
+                    } else {
+                        return 0;
+                    }
                 }
             } else {
                 abort(404);

@@ -110,7 +110,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
 });
 
 Route::group(['prefix' => 'khoa-hoc'], function () {
-    Route::get('/{course}/{lesson?}', 'LearningController@index');
+    Route::get('/{course}/{lesson?}', ['as' => 'GET_LEARNING_ROUTE', 'uses' => 'LearningController@index']);
 });
 
 Route::get('/', 'ThemeController@index');
