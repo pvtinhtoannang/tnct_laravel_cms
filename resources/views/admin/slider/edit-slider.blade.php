@@ -15,126 +15,140 @@
             object-fit: cover;
         }
     </style>
-    <div class="row">
-        <div class="col-xs-12 col-lg-9">
-            <div class="kt-portlet">
-                <div class="kt-portlet__head">
-                    <div class="kt-portlet__head-label">
-												<span class="kt-portlet__head-icon kt-hidden">
-													<i class="la la-gear"></i>
-												</span>
-                        <h3 class="kt-portlet__head-title">
-                            Chỉnh sửa slider {{$data->post_title}}, ID: {{$data->ID}}
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="kt-portlet__body">
-                    <div class="kt-form__section kt-form__section--first">
-                        <div id="kt_repeater_1" class="repeater">
-                            <div class="form-group  row" id="kt_repeater_1">
-                                <div data-repeater-list="" class="col-lg-12">
-                                    @foreach($data_content as $value)
-                                        <div data-repeater-item class="form-group row align-items-center item-repeater"
-                                             data-repeat-item="1">
-                                            <div class="col-md-9">
-                                                <div class="form-group">
-                                                    <label>Hình ảnh</label>
-                                                    <div class="slide-image">
-                                                        <img src="{{ get_attachment_src($value->slide_id_images) }}"
-                                                             alt="">
-                                                    </div>
-                                                    <div class="custom-file">
-                                                        <input type="hidden" data-id="{{$value->slide_id_images}}"
-                                                               value="{{$value->slide_id_images}}"
-                                                               name="slide_id_images"
-                                                               class="id-images">
-                                                        <button class="btn btn-success btn-choose-file"
-                                                                id="btn-choose-file"
-                                                                data-repeat="1">
-                                                            Chọn file
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="d-md-none kt-margin-b-5"></div>
-                                                <div class="kt-form__group--inline">
-                                                    <div class="kt-form__label">
-                                                        <label for="title">Liên kết:</label>
-                                                    </div>
-                                                    <div class="kt-form__control">
-                                                        <input type="url" name="slide_url" class="form-control"
-                                                               placeholder="Nhập liên kết"
-                                                               value="{{ $value->slide_url }}">
-                                                    </div>
-                                                </div>
-                                                <div class="d-md-none kt-margin-b-5"></div>
-                                                <div class="kt-form__group--inline">
-                                                    <div class="kt-form__label">
-                                                        <label for="title">Tiêu đề:</label>
-                                                    </div>
-                                                    <div class="kt-form__control">
-                                                        <input type="text" name="slide_title" class="form-control"
-                                                               placeholder="Nhập tiêu đề"
-                                                               value="{{ $value->slide_title }}">
-                                                    </div>
-                                                </div>
-                                                <div class="d-md-none kt-margin-b-10"></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div data-repeater-delete="" class="btn-sm btn btn-danger btn-pill">
+    <div id="kt_repeater_1" class="repeater">
+        <div class="form-group  row" id="kt_repeater_1">
+            <label class="col-lg-1 col-form-label">Slider:</label>
+            <div data-repeater-list="" class="col-lg-9">
+                @if(!empty($data_content))
+                    @foreach($data_content as $value)
+                        <div data-repeater-item class="form-group row align-items-center item-repeater"
+                             data-repeat-item="1">
+                            <div class="col-md-9">
+                                <div class="form-group">
+                                    <label>Hình ảnh</label>
+                                    <div class="slide-image">
+                                        <img src="{{ get_attachment_src_by_slider($value->slide_id_images) }}" alt="">
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="hidden" data-id="{{$value->slide_id_images}}"
+                                               value="{{$value->slide_id_images}}" name="slide_id_images"
+                                               class="id-images">
+                                        <button class="btn btn-success btn-choose-file" id="btn-choose-file"
+                                                data-repeat="1">
+                                            Chọn file
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="d-md-none kt-margin-b-5"></div>
+                                <div class="kt-form__group--inline">
+                                    <div class="kt-form__label">
+                                        <label for="title">Liên kết:</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <input type="url" name="slide_url" class="form-control"
+                                               placeholder="Nhập liên kết" value="{{ $value->slide_url }}">
+                                    </div>
+                                </div>
+                                <div class="d-md-none kt-margin-b-5"></div>
+                                <div class="kt-form__group--inline">
+                                    <div class="kt-form__label">
+                                        <label for="title">Tiêu đề:</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <input type="text" name="slide_title" class="form-control"
+                                               placeholder="Nhập tiêu đề" value="{{ $value->slide_title }}">
+                                    </div>
+                                </div>
+                                <div class="d-md-none kt-margin-b-10"></div>
+                            </div>
+                            <div class="col-md-3">
+                                <div data-repeater-delete="" class="btn-sm btn btn-danger btn-pill">
 																	<span>
 																		<i class="la la-trash-o"></i>
 																		<span>Delete</span>
 																	</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-lg-2">
-                                    <label class="kt-form__label"></label>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div data-repeater-create=""
-                                         class="btn btn btn-sm btn-brand btn-pill btn-add-slide-item"><span><i
-                                                    class="la la-plus"></i><span>Thêm slide</span></span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                    @endforeach
+                @else
+                    <div data-repeater-item class="form-group row align-items-center item-repeater"
+                         data-repeat-item="1">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label>Hình ảnh</label>
+                                <div class="slide-image">
+                                </div>
+                                <div class="custom-file">
+                                    <input type="hidden" data-id=""
+                                           value="" name="slide_id_images"
+                                           class="id-images">
+                                    <button class="btn btn-success btn-choose-file" id="btn-choose-file"
+                                            data-repeat="1">
+                                        Chọn file
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-md-none kt-margin-b-5"></div>
+                            <div class="kt-form__group--inline">
+                                <div class="kt-form__label">
+                                    <label for="title">Liên kết:</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <input type="url" name="slide_url" class="form-control"
+                                           placeholder="Nhập liên kết" value="">
+                                </div>
+                            </div>
+                            <div class="d-md-none kt-margin-b-5"></div>
+                            <div class="kt-form__group--inline">
+                                <div class="kt-form__label">
+                                    <label for="title">Tiêu đề:</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <input type="text" name="slide_title" class="form-control"
+                                           placeholder="Nhập tiêu đề" value="">
+                                </div>
+                            </div>
+                            <div class="d-md-none kt-margin-b-10"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div data-repeater-delete="" class="btn-sm btn btn-danger btn-pill">
+																	<span>
+																		<i class="la la-trash-o"></i>
+																		<span>Delete</span>
+																	</span>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+            <div class="col-lg-2">
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head kt-bg-primary">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Đăng</h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right">
+                        <button class="btn btn-primary btn-save-slide" data-title="{{ $data->post_title }}"
+                                data-name="{{$data->post_name}}" data-id="{{$data->ID}}" type="button">
+                            Cập nhật
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="col-xs-12 col-lg-3">
-            <div class="kt-portlet">
-                <div class="kt-portlet__head">
-                </div>
-                <div class="kt-portlet__body">
-                    <div class="kt-portlet">
-                        <div class="kt-portlet__head kt-bg-primary">
-                            <div class="kt-portlet__head-label">
-                                <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Đăng</h3>
-                            </div>
-                        </div>
-                        <div class="kt-portlet__foot kt-portlet__foot--sm kt-align-right">
-                            <button class="btn btn-primary btn-save-slide" data-title="{{ $data->post_title }}"
-                                    data-name="{{$data->post_name}}" data-id="{{$data->ID}}" type="button">
-                                Cập nhật
-                            </button>
-                        </div>
-                    </div>
+        <div class="form-group row">
+            <div class="col-lg-2">
+                <label class="kt-form__label"></label>
+            </div>
+            <div class="col-lg-4">
+                <div data-repeater-create="" class="btn btn btn-sm btn-brand btn-pill btn-add-slide-item"><span><i
+                                class="la la-plus"></i><span>Thêm slide</span></span>
                 </div>
             </div>
-
         </div>
     </div>
-
 
     @include('admin.components.insert-media-modal')
 @endsection
