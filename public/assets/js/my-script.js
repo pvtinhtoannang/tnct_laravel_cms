@@ -390,8 +390,9 @@ jQuery(function ($) {
             });
             $.validator.addMethod("check_sale_price", function (value, element, param) {
                 let price = $("#course-price").val();
-                return this.optional(element)
-                    || (value * 1 < price * 1);
+                if ((value * 1) === 0 && (price * 1) === 0 || (value * 1) < (price * 1)) {
+                    return true;
+                }
             }, "Giá khuyến mãi phải thấp hơn giá gốc.");
             $("#post").validate({
                 rules: {

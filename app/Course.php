@@ -46,13 +46,4 @@ class Course extends Post
         return $this->hasOne(CourseMeta::class, 'post_id')
             ->where('meta_key', 'course_builder');
     }
-
-//    /**
-//     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-//     */
-//    public function builder_admin()
-//    {
-//        return $this->hasOne(CourseMeta::class, 'post_id')
-//            ->where('meta_key', 'course_builder_admin');
-//    }
 }

@@ -73,3 +73,9 @@ function is_page($page = '')
         return null;
     }
 }
+
+function get_thumbnail_src($post)
+{
+    $uploads_url = url('/contents/uploads');
+    return $uploads_url . '/' . $post->thumbnail->attachment->meta->meta_value;
+}

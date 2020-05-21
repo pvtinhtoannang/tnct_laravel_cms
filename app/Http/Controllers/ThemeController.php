@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Option;
 use App\PermissionPost;
 use App\Post;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
-    private $post, $term, $option, $user, $permission_post;
+    private $post, $term, $option, $user, $permission_post, $course;
 
     /**
      * ThemeController constructor.
@@ -22,6 +23,7 @@ class ThemeController extends Controller
         $this->term = new Term();
         $this->option = new Option();
         $this->user = new User();
+        $this->course = new  Course();
         $this->permission_post = new PermissionPost();
     }
 
@@ -64,6 +66,16 @@ class ThemeController extends Controller
             $post_type = $post->post_type;
             if ($post_type === 'post') {
                 $post_type = 'single';
+            } else if ($post_type === 'course') {
+                $post = $this->course->find($post->ID);
+                $builder = [];
+                if (isset($post->builder->meta_value)) {
+                    $builder = json_decode($post->builder->meta_value, true);
+                }
+                return view('themes.parent-theme.' . $post_type, [
+                    'post' => $post,
+                    'builder' => $this->courseBuilder($builder),
+                    'titleWebsite' => $titleWebsite]);
             }
             return view('themes.parent-theme.' . $post_type, ['post' => $post, 'titleWebsite' => $titleWebsite]);
         } else if ($term !== null) {
@@ -71,5 +83,31 @@ class ThemeController extends Controller
         } else {
             return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
         }
+    }
+
+    function courseBuilder($builderObj)
+    {
+        $sections = [];
+        $lessons = [];
+        foreach ($builderObj as $item) {
+            if ($item['type'] === 'section_heading') {
+                array_push($sections, $item);
+            }
+            if ($item['type'] === 'lesson') {
+                array_push($lessons, $item);
+            }
+        }
+
+        foreach ($sections as $i => $section) {
+            $sections[$i]['lessons'] = [];
+            foreach ($lessons as $x => $lesson) {
+                if ($section['ID'] === $lesson['section']) {
+                    $builder = $sections[$i]['lessons'];
+                    array_push($builder, $lessons[$x]);
+                    $sections[$i]['lessons'] = $builder;
+                }
+            }
+        }
+        return $sections;
     }
 }

@@ -36,19 +36,19 @@ $post_id = '';
             $tags = $tags . $cat->term->name . ',';
         }
     }
-    if ($postData->thumbnail !== null) {
+    if (!is_null($postData->thumbnail)) {
         $thumbnail_id = $postData->thumbnail->meta_value;
         $thumbnail_url = $uploads_url . '/' . $postData->thumbnail->attachment->meta->meta_value;
     }
-    $price = $postData->meta()->where('meta_key', 'course_price')->first();
+    $price = $postData->price;
     if (!is_null($price)) {
         $course_price = $price->meta_value;
     }
-    $sale_price = $postData->meta()->where('meta_key', 'course_sale_price')->first();
+    $sale_price = $postData->sale_price;
     if (!is_null($sale_price)) {
         $course_sale_price = $sale_price->meta_value;
     }
-    $hot = $postData->meta()->where('meta_key', 'course_hot')->first();
+    $hot = $postData->hot;
     if (!is_null($hot)) {
         $course_hot = $hot->meta_value;
     }
@@ -75,7 +75,7 @@ if (isset($post_type)) {
     <div class="row">
         <div class="col-md-9">
             <div class="form-group">
-                <label for="post_title" hidden>Đường dẫn tĩnh: </label>
+                <label for="post-title" hidden>Đường dẫn tĩnh: </label>
                 <input type="text" name="post_title" id="post-title" class="form-control" placeholder="Thêm tiêu đề"
                        required value="{{$post_title}}">
             </div>
@@ -91,6 +91,19 @@ if (isset($post_type)) {
                 <label for="post_content" hidden>Nội dung</label>
                 <textarea class="summernote-post-content" id="post_content"
                           name="post_content">{{$post_content}}</textarea>
+            </div>
+            <div class="kt-portlet">
+                <div class="kt-portlet__head kt-bg-primary">
+                    <div class="kt-portlet__head-label">
+                        <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Mô tả ngắn</h3>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="form-group form-group-last">
+                        <label for="excerpt" hidden>Mô tả ngắn</label>
+                        <textarea class="form-control" id="excerpt" name="excerpt" rows="4">{{$excerpt}}</textarea>
+                    </div>
+                </div>
             </div>
             @isset($postData)
                 <div class="kt-portlet">
