@@ -911,8 +911,6 @@ var PvtinhMenuManagement = function () {
                 toastr.error("Vui lòng nhập hình ảnh cho slide vừa thêm!");
             } else {
                 var __token = $('meta[name="csrf-token"]').attr('content');
-
-
                 $.ajax({
                     type: "POST",
                     url: '/admin/slider/' + id_slider,
@@ -925,11 +923,30 @@ var PvtinhMenuManagement = function () {
                         post_type: post_type,
                     },
                     success: function (res) {
-                        console.log(res);
+                        errors = 0;
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.success("Slider đã thêm vào!!!");
                     }, error: function (xhr, status, error) {
                         alertErrorAddMenuItem();
                     },
                 });
+
             }
         });
     }

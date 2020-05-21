@@ -16,53 +16,61 @@
         }
     </style>
 
-
-
     <div id="kt_repeater_1" class="repeater">
         <div class="form-group  row" id="kt_repeater_1">
             <label class="col-lg-1 col-form-label">Slider:</label>
             <div data-repeater-list="" class="col-lg-9">
-                @dump($data_content)
-{{--                @foreach($data->post_content as $value)--}}
-{{--                    @dump($value)--}}
-{{--                    <div data-repeater-item class="form-group row align-items-center item-repeater"--}}
-{{--                         data-repeat-item="1">--}}
-{{--                        <div class="col-md-12">--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label>Hình ảnh</label>--}}
-{{--                                <div class="slide-image"></div>--}}
-{{--                                <div class="custom-file">--}}
-{{--                                    <input type="hidden" data-id="" value="" name="slide_id_images" class="id-images">--}}
-{{--                                    <button class="btn btn-success btn-choose-file" id="btn-choose-file"--}}
-{{--                                            data-repeat="1">--}}
-{{--                                        Chọn file--}}
-{{--                                    </button>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="d-md-none kt-margin-b-5"></div>--}}
-{{--                            <div class="kt-form__group--inline">--}}
-{{--                                <div class="kt-form__label">--}}
-{{--                                    <label for="title">Liên kết:</label>--}}
-{{--                                </div>--}}
-{{--                                <div class="kt-form__control">--}}
-{{--                                    <input type="url" name="slide_url" class="form-control"--}}
-{{--                                           placeholder="Nhập liên kết">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="d-md-none kt-margin-b-5"></div>--}}
-{{--                            <div class="kt-form__group--inline">--}}
-{{--                                <div class="kt-form__label">--}}
-{{--                                    <label for="title">Tiêu đề:</label>--}}
-{{--                                </div>--}}
-{{--                                <div class="kt-form__control">--}}
-{{--                                    <input type="text" name="slide_title" class="form-control"--}}
-{{--                                           placeholder="Nhập tiêu đề">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                            <div class="d-md-none kt-margin-b-10"></div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endforeach--}}
+
+                @foreach($data_content as $value)
+                    <div data-repeater-item class="form-group row align-items-center item-repeater"
+                         data-repeat-item="1">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label>Hình ảnh</label>
+                                <div class="slide-image">
+                                    <img src="{{ get_attachment_src_by_slider($value->slide_id_images) }}" alt="">
+                                </div>
+                                <div class="custom-file">
+                                    <input type="hidden" data-id="{{$value->slide_id_images}}"
+                                           value="{{$value->slide_id_images}}" name="slide_id_images" class="id-images">
+                                    <button class="btn btn-success btn-choose-file" id="btn-choose-file"
+                                            data-repeat="1">
+                                        Chọn file
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-md-none kt-margin-b-5"></div>
+                            <div class="kt-form__group--inline">
+                                <div class="kt-form__label">
+                                    <label for="title">Liên kết:</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <input type="url" name="slide_url" class="form-control"
+                                           placeholder="Nhập liên kết" value="{{ $value->slide_url }}">
+                                </div>
+                            </div>
+                            <div class="d-md-none kt-margin-b-5"></div>
+                            <div class="kt-form__group--inline">
+                                <div class="kt-form__label">
+                                    <label for="title">Tiêu đề:</label>
+                                </div>
+                                <div class="kt-form__control">
+                                    <input type="text" name="slide_title" class="form-control"
+                                           placeholder="Nhập tiêu đề" value="{{ $value->slide_title }}">
+                                </div>
+                            </div>
+                            <div class="d-md-none kt-margin-b-10"></div>
+                        </div>
+                        <div class="col-md-3">
+                            <div data-repeater-delete="" class="btn-sm btn btn-danger btn-pill">
+																	<span>
+																		<i class="la la-trash-o"></i>
+																		<span>Delete</span>
+																	</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
 
             </div>
             <div class="col-lg-2">
