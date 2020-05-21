@@ -23,19 +23,7 @@
             </div>
 
             <div class="slider-khkt-item slider-center">
-                <div class="slider-khkt-item-slick">
-                    <div class="slick-slider-khkt">
-                        <a href="#">
-                            <img src="/component-assets/images/slide-center.jpg" alt="">
-                        </a>
-                    </div>
-
-                    <div class="slick-slider-khkt">
-                        <a href="#">
-                            <img src="/component-assets/images/slide-center.jpg" alt="">
-                        </a>
-                    </div>
-                </div>
+                {{ render_slider(17, 'slider-khkt-item-slick', '') }}
             </div>
 
             <div class="slider-khkt-item slider-right">
