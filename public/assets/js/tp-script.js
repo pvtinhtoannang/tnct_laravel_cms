@@ -263,6 +263,107 @@ var PvtinhUserManagement = function () {
 
 var PvtinhMenuManagement = function () {
 
+    var createSelect2MenuCategoriesCourse = function () {
+        $('#menu_course_cat').select2({
+            placeholder: "Chọn một hoặc nhiều chuyên mục khoá học"
+        });
+    }
+    var createSelect2MenuCourse = function () {
+        $('#menu_course').select2({
+            placeholder: "Chọn một hoặc nhiều khoá học"
+        });
+    }
+    var handleAddMenuItemForCategoryCourse = function () {
+        $('.btn-add-course-cat-to-menu').click(function () {
+            var data = $('#menu_course_cat').select2('data');
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
+
+            $.each(data, function (key, value) {
+                var label = value.text;
+                var link = value.id;
+                var html = '';
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = res.label;
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+            });
+            $('#menu_categories').val(null).trigger('change');
+
+            if (data !== null) {
+                alertSuccessAddMenuItem();
+            }
+
+        });
+    }
+    var handleAddMenuItemForCourse = function () {
+        $('.btn-add-course-to-menu').click(function () {
+            var data = $('#menu_course').select2('data');
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
+
+            $.each(data, function (key, value) {
+                var label = value.text;
+                var link = value.id;
+                var html = '';
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = res.label;
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+            });
+            $('#menu_posts').val(null).trigger('change');
+
+            if (data !== null) {
+                alertSuccessAddMenuItem();
+            }
+
+        });
+    }
+
     var createSelect2MenuPages = function () {
         $('#menu_pages').select2({
             placeholder: "Chọn một hoặc nhiều trang"
@@ -283,18 +384,6 @@ var PvtinhMenuManagement = function () {
             placeholder: "Chọn một hoặc nhiều chuyên mục"
         });
     }
-    var createSelect2MenuCategoriesCourse = function () {
-        $('#menu_course_cat').select2({
-            placeholder: "Chọn một hoặc nhiều chuyên mục khoá học"
-        });
-    }
-
-    var createSelect2MenuCourse = function () {
-        $('#menu_course').select2({
-            placeholder: "Chọn một hoặc nhiều khoá học"
-        });
-    }
-
 
     var createStructMenu = function () {
         $('.dd').nestable({ /* config options */});
@@ -758,97 +847,7 @@ var PvtinhMenuManagement = function () {
         });
     }
 
-    var handleAddMenuItemForCategoryCourse = function () {
-        $('.btn-add-course-cat-to-menu').click(function () {
-            var data = $('#menu_course_cat').select2('data');
-            var __token = $('meta[name="csrf-token"]').attr('content');
-            var position = $('#postion_menu').val();
 
-            $.each(data, function (key, value) {
-                var label = value.text;
-                var link = value.id;
-                var html = '';
-                $.ajax({
-                    method: "POST",
-                    url: "/admin/ajax-add-menu",
-                    data: {_token: __token, label: label, link: link, position: position}
-                })
-                    .done(function (res) {
-                        var id_html = res.id;
-                        var label_html = res.label;
-                        var label_link = res.link;
-                        console.log(id_html);
-                        if (id_html !== undefined) {
-                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
-                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
-                                '    <span class="dd3-content">\n' +
-                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
-                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
-                                '        data-label="' + label_html + '" href="javascript:;"\n' +
-                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
-                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
-                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
-                                '        class="flaticon-delete"></i></a>\n' +
-                                '    </span>\n' +
-                                '</li>';
-                            $('ol.dd-list-parent').append(html);
-                        }
-                    });
-            });
-            $('#menu_categories').val(null).trigger('change');
-
-            if (data !== null) {
-                alertSuccessAddMenuItem();
-            }
-
-        });
-    }
-
-    var handleAddMenuItemForCourse = function () {
-        $('.btn-add-course-to-menu').click(function () {
-            var data = $('#menu_course').select2('data');
-            var __token = $('meta[name="csrf-token"]').attr('content');
-            var position = $('#postion_menu').val();
-
-            $.each(data, function (key, value) {
-                var label = value.text;
-                var link = value.id;
-                var html = '';
-                $.ajax({
-                    method: "POST",
-                    url: "/admin/ajax-add-menu",
-                    data: {_token: __token, label: label, link: link, position: position}
-                })
-                    .done(function (res) {
-                        var id_html = res.id;
-                        var label_html = res.label;
-                        var label_link = res.link;
-                        console.log(id_html);
-                        if (id_html !== undefined) {
-                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
-                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
-                                '    <span class="dd3-content">\n' +
-                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
-                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
-                                '        data-label="' + label_html + '" href="javascript:;"\n' +
-                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
-                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
-                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
-                                '        class="flaticon-delete"></i></a>\n' +
-                                '    </span>\n' +
-                                '</li>';
-                            $('ol.dd-list-parent').append(html);
-                        }
-                    });
-            });
-            $('#menu_posts').val(null).trigger('change');
-
-            if (data !== null) {
-                alertSuccessAddMenuItem();
-            }
-
-        });
-    }
     return {
         init: function () {
             createSelect2MenuPages();
