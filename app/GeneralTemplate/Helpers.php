@@ -91,4 +91,16 @@ function get_attachment_src($attachment_id)
     } else {
         return '';
     }
+function render_slider($id, $class = '', $id_slider_custom = '')
+{
+    $slider = new \App\Slider();
+    $slider_data = $slider->find($id)->post_content;
+    if (!empty($slider_data)) { ?>
+        <div class="tnct-slider-<?= $id ?>" class="<?= $class ?>" id="<?= $id_slider_custom ?>">
+            <?php foreach (json_decode($slider_data) as $value) { ?>
+
+            <?php } ?>
+        </div>
+    <?php }
+
 }
