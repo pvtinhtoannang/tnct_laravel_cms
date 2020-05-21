@@ -47,6 +47,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('ajax-get-menu-position/{id}', ['as'=>'GET_MENU_POSITION', 'uses'=>'NavMenuController@getMenuPosition'])->where('id', '[0-9]+');
     Route::POST('ajax-update-postion-menu', ['as'=> 'UPDATE_MENU_POSITION_BY_LIST', 'uses'=>'NavMenuController@updateMenuPosition']);
 
+    Route::get('slider', ['as'=>'GET_ALL_SLIDER', 'uses'=>'SliderController@getAllSlider']);
+    Route::post('slider', ['as'=>'ADD_NEW_SLIDER', 'uses'=>'SliderController@addNewSlider']);
+    Route::get('slider/{id}', ['as'=>'EDIT_SLIDER', 'uses'=>'SliderController@editSlider'])->where('id', '[0-9]+');
+    Route::post('slider/{id}', ['as'=>'EDIT_SLIDER', 'uses'=>'SliderController@postEditSlider'])->where('id', '[0-9]+');
+
 });
 
 
