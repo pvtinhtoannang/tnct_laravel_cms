@@ -670,11 +670,11 @@ var PvtinhMenuManagement = function () {
             $.ajax({
                 type: "POST",
                 url: "/admin/ajax-save-menu",
-                data:  {_token: __token, data: data},
+                data: {_token: __token, data: data},
                 cache: false,
                 success: function (data) {
                     alertUpdateMenuItem();
-                    }, error: function (xhr, status, error) {
+                }, error: function (xhr, status, error) {
                     alertErrorAddMenuItem();
                 },
             });
@@ -688,7 +688,7 @@ var PvtinhMenuManagement = function () {
             $.ajax({
                 type: "POST",
                 url: "/admin/ajax-delete-menu-item",
-                data:  {_token: __token, id: id},
+                data: {_token: __token, id: id},
                 cache: false,
                 success: function (data) {
                     alertDeleteMenuItem();
@@ -700,11 +700,24 @@ var PvtinhMenuManagement = function () {
         });
     }
 
+    var demo1 = function () {
+        $('#kt_repeater_1').repeater({
+            initEmpty: false,
+            show: function () {
+                $(this).slideDown();
+            },
+
+            hide: function (deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+    }
+
 
     var updatePositionMenu = function () {
         $('.btn-edit-menu-position').click(function () {
             var id = $(this).data('id');
-            var url = '/admin/ajax-get-menu-position/'+id;
+            var url = '/admin/ajax-get-menu-position/' + id;
             $.ajax({
                 type: "GET",
                 url: url,
@@ -730,7 +743,7 @@ var PvtinhMenuManagement = function () {
             $.ajax({
                 type: "POST",
                 url: url,
-                data:  {_token: __token, id: id, name: update_name, display_name: update_display_name},
+                data: {_token: __token, id: id, name: update_name, display_name: update_display_name},
                 success: function (res) {
                     $('#update_name').val(data.name);
                     $('#update_display_name').val(data.display_name);
@@ -743,6 +756,198 @@ var PvtinhMenuManagement = function () {
         });
     }
 
+    var addNewSlide = function () {
+        $('.btn-add-slide-item').click(function () {
+            var indexB = 0;
+            $.each($('.item-repeater'), function (index, value) {
+                indexB = index + 1;
+                $(this).attr("data-repeat-item", indexB);
+                $(this).find('.btn-choose-file').attr('data-repeat', indexB);
+            });
+
+            $('#name').val(JSON.stringify($('.repeater').repeaterVal()));
+        });
+    }
+
+
+    var featured_image_select = function () {
+        var data_id = 0;
+        $(document).on("click", "button.btn-choose-file", function () {
+            let featured_image_modal = $('#insert-media-modal');
+            featured_image_modal.modal('show');
+            data_id = $(this).attr('data-repeat');
+        });
+
+        let attachments = $('ul.attachments');
+        let media_button_select = $('#insert-media-modal #media-button-select');
+        media_button_select.click(function () {
+            let featured_image_modal = $('#insert-media-modal');
+            featured_image_modal.modal('show');
+            $.each($('#insert-media-modal li.attachment'), function (index, value) {
+                if ($(this).hasClass('selected')) {
+                    var src = $(this).attr('data-src');
+                    var id = $(this).attr('data-id');
+                    $.each($('.item-repeater'), function (index, value) {
+                        let indexB = index * 1 + 1;
+                        let dataIdB = data_id * 1;
+                        if (indexB === dataIdB) {
+                            $(this).find('.slide-image').empty();
+                            $(this).find('.slide-image').append('<img src="' + src + '" />');
+                            $(this).find('.id-images').val(id);
+                        }
+                    });
+                    attachments.find('.selected').removeClass('selected');
+                    attachments.find('[aria-checked="true"]').attr('aria-checked', 'false');
+                    featured_image_modal.modal('hide');
+                }
+            });
+        });
+    }
+
+    var saveAllSlide = function () {
+
+        $('.btn-save-slide').click(function () {
+            var data = $('.repeater').repeaterVal();
+            console.log(data);
+            var errors = 0;
+            var id_slider = $(this).data('id');
+            var post_title = $(this).data('title');
+            var post_status = 'publish';
+            var post_name = $(this).data('name');
+            var post_type = 'slider';
+            var post_content;
+
+            $.each(data, function (index, value) {
+                post_content = value;
+                $.each(value, function (i, item) {
+                    if (item.slide_url === '') {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+
+                        toastr.warning("Bạn quên nhập liên kết");
+                        errors = 1;
+                    }
+                    if (item.slide_title === '') {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.warning("Bạn quên nhập tiêu đề");
+                        errors = 1;
+                    }
+                    if (item.slide_id_images === '') {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.error("Bạn quên nhập hình ảnh!");
+                        errors = 1;
+                    } else {
+                        errors = 0;
+                    }
+                });
+            });
+            if (errors === 1) {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                toastr.error("Vui lòng nhập hình ảnh cho slide vừa thêm!");
+            } else {
+                var __token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: "POST",
+                    url: '/admin/slider/' + id_slider,
+                    data: {
+                        _token: __token,
+                        post_content: post_content,
+                        post_title: post_title,
+                        post_status: post_status,
+                        post_name: post_name,
+                        post_type: post_type,
+                    },
+                    success: function (res) {
+                        errors = 0;
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.success("Slider đã thêm vào!!!");
+                    }, error: function (xhr, status, error) {
+                        alertErrorAddMenuItem();
+                    },
+                });
+
+            }
+        });
+    }
     return {
         init: function () {
             createSelect2MenuPages();
@@ -760,6 +965,10 @@ var PvtinhMenuManagement = function () {
             saveMenuItemToMenuPosition();
             deleteMenuItem();
             updatePositionMenu();
+            demo1();
+            addNewSlide();
+            featured_image_select();
+            saveAllSlide();
         }
     }
 }();

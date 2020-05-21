@@ -118,7 +118,6 @@ Names get reindexed if an item is added or deleted.
           </div>
           <input data-repeater-create type="button" value="Add"/>
         </div>
-
       </div>
     </div>
     <input data-repeater-create type="button" value="Add"/>

@@ -50,12 +50,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     Route::POST('ajax-save-menu', ['as' => 'POST_SAVE_MENU', 'uses' => 'NavMenuController@saveMenu']);
     Route::POST('ajax-delete-menu-item', ['as' => 'DELETE_MENU_ITEM', 'uses' => 'NavMenuController@deleteMenuItem']);
 
+
     Route::get('ajax-get-menu-position/{id}', ['as' => 'GET_MENU_POSITION', 'uses' => 'NavMenuController@getMenuPosition'])->where('id', '[0-9]+');
     Route::POST('ajax-update-postion-menu', ['as' => 'UPDATE_MENU_POSITION_BY_LIST', 'uses' => 'NavMenuController@updateMenuPosition']);
 
     Route::get('nav-menu', ['as' => 'GET_NAV_MENU', 'uses' => 'NavMenuController@getViewNavMenu']);
     Route::get('nav-menu/{id}', ['as' => 'GET_NAV_MENU_BY_ID', 'uses' => 'NavMenuController@getViewNavMenuByID']);
     Route::post('add-postion-nav-menu', ['as' => 'POST_ADD_NEW_MENU_POSITION', 'uses' => 'NavMenuController@addPositionMenu']);
+
+    Route::get('slider', ['as'=>'GET_ALL_SLIDER', 'uses'=>'SliderController@getAllSlider']);
+    Route::post('slider', ['as'=>'ADD_NEW_SLIDER', 'uses'=>'SliderController@addNewSlider']);
+    Route::get('slider/{id}', ['as'=>'EDIT_SLIDER', 'uses'=>'SliderController@editSlider'])->where('id', '[0-9]+');
+    Route::post('slider/{id}', ['as'=>'EDIT_SLIDER', 'uses'=>'SliderController@postEditSlider'])->where('id', '[0-9]+');
+
+});
+
 
     Route::POST('ajax-update-menu', ['as' => 'UPDATE_MENU_ITEM', 'uses' => 'NavMenuController@updateMenuItem']);
     Route::POST('ajax-add-menu', ['as' => 'ADD_MENU_ITEM', 'uses' => 'NavMenuController@addMenuItem']);
