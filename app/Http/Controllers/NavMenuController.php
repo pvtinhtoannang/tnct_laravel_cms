@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use App\Tag;
 use App\Post;
 use App\Page;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class NavMenuController extends Controller
 {
-    private $menu, $position_menu, $post, $page, $tag, $taxonomy;
+    private $menu, $position_menu, $post, $page, $tag, $taxonomy, $course;
 
     public function __construct()
     {
@@ -23,6 +24,7 @@ class NavMenuController extends Controller
         $this->page = new Page();
         $this->tag = new Tag();
         $this->taxonomy = new Taxonomy();
+        $this->course = new Course();
     }
 
     public function getViewNavMenu()
@@ -33,6 +35,9 @@ class NavMenuController extends Controller
         $posts = $this->post->type('post')->latest()->get();
         $tags = $this->tag->get();
         $category = $this->taxonomy->category()->get();
+        $category_course = $this->taxonomy->name('course_cat')->get();
+        $coursed = $this->course->get();
+//return $coursed
 
         $menus = Menu::where('positions_menu_id', $postion_menu_first->id)->whereNull('parent_id')->orderBy("sort", "ASC")->with('childrenMenus')->get();
         return view('admin.appearance.nav-menu', [
@@ -42,7 +47,9 @@ class NavMenuController extends Controller
             'tags' => $tags,
             'categories' => $category,
             'menus' => $menus,
-            'menus_editing' => $postion_menu_first
+            'menus_editing' => $postion_menu_first,
+            'category_course' => $category_course,
+            'coursed' => $coursed,
         ]);
     }
 
