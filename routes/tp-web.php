@@ -63,7 +63,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     Route::get('slider/{id}', ['as'=>'EDIT_SLIDER', 'uses'=>'SliderController@editSlider'])->where('id', '[0-9]+');
     Route::post('slider/{id}', ['as'=>'EDIT_SLIDER', 'uses'=>'SliderController@postEditSlider'])->where('id', '[0-9]+');
 
-    
+
     Route::POST('ajax-update-menu', ['as' => 'UPDATE_MENU_ITEM', 'uses' => 'NavMenuController@updateMenuItem']);
     Route::POST('ajax-add-menu', ['as' => 'ADD_MENU_ITEM', 'uses' => 'NavMenuController@addMenuItem']);
 
