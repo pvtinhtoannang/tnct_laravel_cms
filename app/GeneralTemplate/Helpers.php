@@ -78,7 +78,9 @@ function render_slider($id, $class = '', $id_slider_custom = '')
     if (!empty($slider_data)) { ?>
         <div class="tnct-slider-<?= $id ?>" class="<?= $class ?>" id="<?= $id_slider_custom ?>">
             <?php foreach (json_decode($slider_data) as $value) { ?>
-
+                <a target="_blank" href="<?= $value->slide_url ?>" class="slider-item<?= $id ?> tnct-slider-item" title="">
+                    <img src="<?= get_attachment_src($value->slide_id_images) ?>" alt="<?= $value->slide_title ?>">
+                </a>
             <?php } ?>
         </div>
     <?php }
