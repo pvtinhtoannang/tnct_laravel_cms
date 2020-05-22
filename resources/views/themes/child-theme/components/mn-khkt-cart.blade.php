@@ -1,6 +1,6 @@
 @extends('themes.parent-theme.initialize')
 @section('header')
-    {{--    @include('themes.child-theme.header')--}}
+    @include('themes.child-theme.header')
 @endsection
 @section('content')
     {{--    @dump($cart_content)--}}
@@ -62,7 +62,7 @@
                             </tr>
                             </tbody>
                         </table>
-                        <button class="checkout"><span>Tiến hành đặt mua</span></button>
+                        <a href="{{route('CHECKOUT')}}" class="checkout"><span>Tiến hành đặt mua</span></a>
                     </div>
                 </div>
             </div>
@@ -70,5 +70,5 @@
     </section>
 @endsection
 @section('footer')
-    {{--    @include('themes.child-theme.footer')--}}
+    @include('themes.child-theme.footer')
 @endsection

@@ -172,12 +172,14 @@
 
         .checkout {
             margin-top: 30px;
-            height: 48px;
             border-radius: 3px;
-            background-color: #df322f;
+            background-color: #0239A0;
             color: #fff;
             border: 0;
             width: 100%;
+            display: block;
+            text-align: center;
+            padding: 14px;
 
             span {
                 font-size: 18px;

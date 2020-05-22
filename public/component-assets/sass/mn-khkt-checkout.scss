@@ -1,0 +1,108 @@
+.mn-khkt-checkout {
+    background-color: #EEF1F2;
+    padding: 60px 0;
+
+    .card-wrapper {
+        border-radius: 7px;
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 15px;
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.33;
+            letter-spacing: .3px;
+            color: #464646;
+        }
+    }
+
+    ul.items {
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+        padding-bottom: 15px;
+
+        .course-item {
+            @include flexbox();
+
+            .course-name {
+                @include flex-basis(70%);
+
+                .name {
+                    color: #464646;
+                    @include textWithEllipsis(13, 1.4, 2);
+                }
+            }
+
+            .course-price {
+                @include flex-basis(30%);
+
+                .price {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #006fba;
+                    text-align: right;
+                }
+            }
+        }
+    }
+
+    .subtotal-wrapper {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 3.33;
+        border-bottom: 1px solid rgba(0, 0, 0, .1);
+        @include flexbox();
+
+        .mark {
+            @include flex-basis(70%);
+            background-color: transparent;
+            color: #df322f;
+        }
+
+        .amount {
+            @include flex-basis(30%);
+            text-align: right;
+            color: #006fba;
+        }
+    }
+
+    .total-wrapper {
+        padding-top: 10px;
+        @include flexbox();
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.43;
+        color: #df322f;
+
+        .mark {
+            @include flex-basis(70%);
+            background-color: transparent;
+        }
+
+        .amount {
+            @include flex-basis(30%);
+            text-align: right;
+        }
+    }
+
+    #payment-form {
+        .btn-wrapper {
+            text-align: right;
+            button{
+                width: 160px;
+                height: 46px;
+                border-radius: 7px;
+                background-color: #0239A0;
+                border: none;
+                font-size: 14px;
+                font-weight: 400;
+                text-transform: uppercase;
+                line-height: 1.29;
+                text-align: center;
+                color: #fff;
+                margin-top: 20px;
+                outline: none;
+            }
+        }
+    }
+}

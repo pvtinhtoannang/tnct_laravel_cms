@@ -1,17 +1,4 @@
 <!DOCTYPE html>
-
-<!--
-Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 4 & Angular 7
-Author: KeenThemes
-Website: http://www.keenthemes.com/
-Contact: support@keenthemes.com
-Follow: www.twitter.com/keenthemes
-Dribbble: www.dribbble.com/keenthemes
-Like: www.facebook.com/keenthemes
-Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-Renew Support: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
-License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
--->
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 @include ('admin.layouts.head-tags')
@@ -276,6 +263,25 @@ License: You must have a valid license purchased only from themeforest(the above
                             </div>
                         </li>
 
+                        <li class="kt-menu__item @if(Request::route()->getName() === 'GET_ORDERS_ROUTE' || Request::route()->getName() === 'GET_ORDER_ROUTE') kt-menu__item--active @endif" aria-haspopup="true">
+                            <a href="{{route('GET_ORDERS_ROUTE')}}" class="kt-menu__link ">
+                            <span class="kt-menu__link-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                     class="kt-svg-icon">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <polygon id="Shape" points="0 0 24 0 24 24 0 24"/>
+                                        <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z"
+                                              id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                        <rect id="Rectangle" fill="#000000" x="6" y="11" width="9" height="2"
+                                              rx="1"/>
+                                        <rect id="Rectangle-Copy" fill="#000000" x="6" y="15" width="5" height="2"
+                                              rx="1"/>
+                                    </g>
+                                </svg>
+                            </span>
+                            <span class="kt-menu__link-text">Đơn hàng</span></a>
+                        </li>
 
                         <li class="kt-menu__item  kt-menu__item--submenu @if(
                             Request::route()->getName() === 'GET_UPLOAD_NEW_ROUTE' ||
@@ -452,17 +458,27 @@ License: You must have a valid license purchased only from themeforest(the above
                             aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
                             <a href="javascript:;" class="kt-menu__link kt-menu__toggle">
                                 <span class="kt-menu__link-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         width="24px" height="24px" viewBox="0 0 24 24" version="1.1"
+                                         class="kt-svg-icon">
                                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                             <rect id="bound" x="0" y="0" width="24" height="24"/>
-                                            <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" id="Combined-Shape" fill="#000000" opacity="0.3"/>
-                                            <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" id="Combined-Shape" fill="#000000"/>
-                                            <rect id="Rectangle-152" fill="#000000" opacity="0.3" x="10" y="9" width="7" height="2" rx="1"/>
-                                            <rect id="Rectangle-152-Copy-2" fill="#000000" opacity="0.3" x="7" y="9" width="2" height="2" rx="1"/>
-                                            <rect id="Rectangle-152-Copy-3" fill="#000000" opacity="0.3" x="7" y="13" width="2" height="2" rx="1"/>
-                                            <rect id="Rectangle-152-Copy" fill="#000000" opacity="0.3" x="10" y="13" width="7" height="2" rx="1"/>
-                                            <rect id="Rectangle-152-Copy-5" fill="#000000" opacity="0.3" x="7" y="17" width="2" height="2" rx="1"/>
-                                            <rect id="Rectangle-152-Copy-4" fill="#000000" opacity="0.3" x="10" y="17" width="7" height="2" rx="1"/>
+                                            <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z"
+                                                  id="Combined-Shape" fill="#000000" opacity="0.3"/>
+                                            <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z"
+                                                  id="Combined-Shape" fill="#000000"/>
+                                            <rect id="Rectangle-152" fill="#000000" opacity="0.3" x="10" y="9" width="7"
+                                                  height="2" rx="1"/>
+                                            <rect id="Rectangle-152-Copy-2" fill="#000000" opacity="0.3" x="7" y="9"
+                                                  width="2" height="2" rx="1"/>
+                                            <rect id="Rectangle-152-Copy-3" fill="#000000" opacity="0.3" x="7" y="13"
+                                                  width="2" height="2" rx="1"/>
+                                            <rect id="Rectangle-152-Copy" fill="#000000" opacity="0.3" x="10" y="13"
+                                                  width="7" height="2" rx="1"/>
+                                            <rect id="Rectangle-152-Copy-5" fill="#000000" opacity="0.3" x="7" y="17"
+                                                  width="2" height="2" rx="1"/>
+                                            <rect id="Rectangle-152-Copy-4" fill="#000000" opacity="0.3" x="10" y="17"
+                                                  width="7" height="2" rx="1"/>
                                         </g>
                                     </svg>
                                 </span>
