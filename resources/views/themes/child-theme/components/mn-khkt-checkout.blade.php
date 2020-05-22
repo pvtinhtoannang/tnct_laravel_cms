@@ -4,6 +4,43 @@
 @endsection
 @section('content')
     {{--    @dump($cart_content)--}}
+    @if (session()->has('error'))
+        <script>
+            jQuery(function ($) {
+                Swal.fire({
+                    title: 'Bạn chưa đăng nhập?',
+                    text: "Xin vui lòng đăng nhập hoặc đăng ký để mua khoá học!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đăng nhập',
+                    cancelButtonText: 'Huỷ',
+                }).then((result) => {
+                    if (result.value) {
+                        $('#loginModal').modal('show');
+                    }
+                })
+            })
+        </script>
+    @endif
+    @if (session()->has('success'))
+        <script>
+            jQuery(function ($) {
+                Swal.fire({
+                    title: 'Đặt mua thành công',
+                    text: "Chúng tôi sẽ cấp quyền truy cập khoá học ngay sau khi nhận được thanh toán, xin cảm ơn quý khách!",
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'ok',
+                }).then((result) => {
+                    if (result.value) {
+
+                    }
+                })
+            })
+        </script>
+    @endif
     <section class="mn-khkt-checkout">
         <div class="container">
             <div class="row">
@@ -35,7 +72,15 @@
                                         </div>
                                         <div class="course-price">
                                             <div class="price">
-                                                {{number_format($item->course_data->price->meta_value, 0, '.', '.')}} ₫
+                                                @if($item->course_data->sale_price && $item->course_data->price)
+                                                    @if((integer)$item->course_data->sale_price->meta_value !== 0 && (integer)$item->course_data->price->meta_value !== 0)
+                                                        {{number_format($item->course_data->sale_price->meta_value, 0, '.', '.')}}
+                                                        ₫
+                                                    @elseif((integer)$item->course_data->price->meta_value !== 0)
+                                                        {{number_format($item->course_data->price->meta_value, 0, '.', '.')}}
+                                                        ₫
+                                                    @endif
+                                                @endif
                                             </div>
                                         </div>
                                     </li>

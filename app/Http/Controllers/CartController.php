@@ -62,6 +62,7 @@ class CartController extends Controller
 
     function checkout()
     {
+
         $title = $this->titleWebsite->getTitleWebsite('thanh-toan');
         $cart_content = Cart::content();
         $cart_total = Cart::total(0, '.', '.');
@@ -103,11 +104,16 @@ class CartController extends Controller
             "payment" => ""
         );
         $payment_content = json_encode($payment);
-        $user_id = Auth::user()->id;
-        $this->order->create([
-            'user_id' => $user_id,
-            'order_content' => $payment_content
-        ]);
-        Cart::destroy();
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+            $this->order->create([
+                'user_id' => $user_id,
+                'order_content' => $payment_content
+            ]);
+            Cart::destroy();
+            return redirect()->back()->with('success', 'Đặt mua khoá học thành công.');
+        } else {
+            return redirect()->back()->with('error', 'Bạn chưa đăng nhập.');
+        }
     }
 }
