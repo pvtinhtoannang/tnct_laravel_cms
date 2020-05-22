@@ -42,8 +42,12 @@ class ThemeController extends Controller
             $title = $titleWebsiteBySessionKey . ' - ' . $this->option->getField('blogname');
         } elseif ($slug === 'reset-password') {
             $title = 'Mật khẩu mới';
+        } elseif ($slug === 'gio-hang') {
+            $title = 'Giỏ hàng';
         } elseif ($slug === 'tai-khoan') {
             $title = 'Tài khoản';
+        } elseif ($slug === 'thanh-toan') {
+            $title = 'Thanh toán';
         } else {
             $title = 'Không tìm thấy trang - 404 Not Found';
         }

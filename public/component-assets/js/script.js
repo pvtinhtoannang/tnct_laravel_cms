@@ -21,8 +21,46 @@ function lesson_activity() {
     return activity;
 }
 
+function addToCart() {
+    let add_to_cart_btn = $('#add-to-cart');
+    let course = $('#add-form input[name=course]').val();
+    let course_name = $('#add-form input[name=course_name]').val();
+    let price = $('#add-form input[name=price]').val();
+    let cart_data = {
+        "course": course,
+        "course_name": course_name,
+        "price": price
+    };
+    add_to_cart_btn.on('click', function () {
+        // console.log(cart_array);
+        $.ajax({
+            url: '/ajax-add-to-cart',
+            type: 'post',
+            data: {cart_data: cart_data, _token: $('meta[name="csrf-token"]').attr('content')},
+            success: function (response) {
+
+            }
+        });
+    });
+}
+
+function deleteItemFromCart() {
+    $('.delete-area .delete-item').on('click', function () {
+        $.ajax({
+            url: '/ajax-delete-item-from-cart',
+            type: 'post',
+            data: {item: $(this).attr('data-id'), _token: $('meta[name="csrf-token"]').attr('content')},
+            success: function (response) {
+                location.reload();
+            }
+        });
+    });
+}
+
 jQuery(function ($) {
     try {
+        addToCart();
+        deleteItemFromCart();
         //slick dùng để tạo slide
         $('.list-timkhoahoc').slick({
             dots: false,

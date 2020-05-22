@@ -62,7 +62,7 @@
                     <tr>
                         <td class="kt-font-bold">
                             @if($post->post_status != 'trash')
-                                <a href="{{route('GET_EDIT_POST_ROUTE', $post->ID)}}">{{$post->post_title}}</a>
+                                <a href="{{route('GET_EDIT_COURSE_ROUTE', $post->ID)}}">{{$post->post_title}}</a>
                             @else
                                 {{$post->post_title}}
                             @endif

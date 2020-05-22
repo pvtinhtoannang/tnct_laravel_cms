@@ -95,6 +95,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     //update status lesson
     Route::get('/lesson/{status?}/{id}', ['as' => 'GET_ACTION_LESSON_ROUTE', 'uses' => 'LessonController@updateStatus']);
 
+    Route::get('/orders', ['as' => 'GET_ORDERS_ROUTE', 'uses' => 'OrderController@index']);
+    Route::get('/order/{id?}', ['as' => 'GET_ORDER_ROUTE', 'uses' => 'OrderController@getOrder']);
+    Route::post('/order/{id?}', ['as' => 'POST_ORDER_ROUTE', 'uses' => 'OrderController@updateOrder']);
+
     //ajax
     Route::get('/slug-generator/{slug}', 'AdminAjaxController@slugGenerator');
     Route::get('/post-name-generator/{post_name}', 'AdminAjaxController@postNameGenerator');
@@ -112,6 +116,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
 Route::group(['prefix' => 'khoa-hoc'], function () {
     Route::get('/{course}/{lesson?}', ['as' => 'GET_LEARNING_ROUTE', 'uses' => 'LearningController@index']);
 });
+
+Route::post('/ajax-delete-item-from-cart', ['as' => 'AJAX_DELETE_ITEM_FROM_CART', 'uses' => 'CartController@ajaxDeleteItemFromCart']);
+Route::post('/ajax-add-to-cart', ['as' => 'AJAX_ADD_TO_CART', 'uses' => 'CartController@ajaxAddToCart']);
+Route::post('/payment', ['as' => 'PAYMENT', 'uses' => 'CartController@payment']);
+Route::post('/add-to-cart', ['as' => 'ADD_TO_CART', 'uses' => 'CartController@addToCart']);
+Route::get('/gio-hang', ['as' => 'CART', 'uses' => 'CartController@cartContent']);
+Route::get('/thanh-toan', ['as' => 'CHECKOUT', 'uses' => 'CartController@checkout']);
 
 Route::get('/', 'ThemeController@index');
 Route::get('/{slug}', 'ThemeController@type');

@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Post', 'permission_post', 'user_id', 'post_id')->withPivot('date_expires');
     }
 
+    public function order()
+    {
+        return $this->hasMany('App\Order');
+    }
+
 
     public function authorizeRoles($permission_name)
     {
@@ -172,7 +177,7 @@ class User extends Authenticatable
         foreach ($permissions as $permission) {
             if ($permission->ID !== $post_id) {
                 abort(401, 'Bạn không có quyền truy cập hành động này!');
-            }else{
+            } else {
                 return true;
             }
             if ((int)$permission->pivot->date_expires < (int)$date_now) {
@@ -194,7 +199,6 @@ class User extends Authenticatable
             return false;
         }
     }
-
 
 
     public function getNameRole()
