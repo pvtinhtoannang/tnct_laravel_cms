@@ -96,8 +96,13 @@ function get_attachment_src($attachment_id)
 function render_slider($id, $class = '', $id_slider_custom = '')
 {
     $slider = new \App\Slider();
-    $slider_data = $slider->find($id)->post_content;
-    if (!empty($slider_data)) { ?>
+
+    $slider_data = $slider->find($id);
+
+    if (!empty($slider_data)) {
+        $slider_data = $slider_data->post_content;
+        ?>
+
         <div class="tnct-slider-<?= $id ?> <?= $class ?>" id="<?= $id_slider_custom ?>">
             <?php foreach (json_decode($slider_data) as $value) { ?>
                 <a target="_blank" href="<?= $value->slide_url ?>" class="slider-item<?= $id ?> tnct-slider-item"
