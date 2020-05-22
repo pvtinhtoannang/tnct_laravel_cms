@@ -29,7 +29,7 @@ class SliderController extends Controller
     public function editSlider($id)
     {
         $slider = $this->slider->find($id);
-        if(!empty($slider->post_content)){
+        if(!empty($slider)){
             $post_content =  json_decode($slider->post_content);
         }else{
             $post_content = '';
