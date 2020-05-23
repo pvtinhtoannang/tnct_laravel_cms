@@ -92,7 +92,6 @@ class OptionController extends Controller
 
 
 
-        return $option_value.'</br>.ádasdha';
         if (!empty($option_label) && !empty($option_value) && !empty($option_name) && !empty($option_type)) {
             if ($this->option->addNewOption($option_name, $option_value, $option_type, $option_label)) {
                 return redirect()->back()->with('messages', 'Cập nhật thành công!');

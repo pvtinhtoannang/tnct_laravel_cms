@@ -10,9 +10,7 @@
         }
 
         .slide-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+
         }
     </style>
     <div id="kt_repeater_1" class="repeater">
@@ -27,7 +25,7 @@
                                 <div class="form-group">
                                     <label>Hình ảnh</label>
                                     <div class="slide-image">
-                                        <img src="{{ get_attachment_src_by_slider($value->slide_id_images) }}" alt="">
+                                        <img src="{{ get_attachment_src($value->slide_id_images) }}" alt="">
                                     </div>
                                     <div class="custom-file">
                                         <input type="hidden" data-id="{{$value->slide_id_images}}"

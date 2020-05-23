@@ -23,7 +23,7 @@ class CartController extends Controller
     function addToCart(Request $request)
     {
         Cart::add($request->course, $request->course_name, 1, $request->price);
-        return redirect()->back();
+        return redirect()->route('CART');
     }
 
     function ajaxAddToCart(Request $request)
@@ -111,7 +111,7 @@ class CartController extends Controller
                 'order_content' => $payment_content
             ]);
             Cart::destroy();
-            return redirect()->back()->with('success', 'Đặt mua khoá học thành công.');
+            return redirect()->route('GET_MY_ACCOUNT')->with('success', 'Đặt mua khoá học thành công.');
         } else {
             return redirect()->back()->with('error', 'Bạn chưa đăng nhập.');
         }

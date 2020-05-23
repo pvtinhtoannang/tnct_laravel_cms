@@ -159,7 +159,7 @@
                                     <div class="repeater-list-children" data-parent-id="1">
                                         <div class="form-group">
                                             <label for="option_label">Tiêu đề cho repeater</label>
-                                            <input required id="option_label" type="text"
+                                            <input id="option_label" type="text"
                                                    name="option_label_parent[]" class="form-control reset-input"
                                                    aria-describedby="option_label"
                                                    value=""
@@ -168,7 +168,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="option_name">Slug cho repeater</label>
-                                            <input required id="option_name" type="text"
+                                            <input id="option_name" type="text"
                                                    name="option_slug_parent[]" class="form-control reset-input"
                                                    aria-describedby="option_name"
                                                    value=""

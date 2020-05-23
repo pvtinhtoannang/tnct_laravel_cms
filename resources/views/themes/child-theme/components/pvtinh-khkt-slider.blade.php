@@ -13,7 +13,7 @@
                         <li><a href="">Kế toán sản xuất</a></li>
                         <li><a href="">Kế toán nhà hàng, khách sạn</a></li>
                         <li><a href="">Kế toán vận tải</a></li>
-                        <li><a href="">Kế toán thương maij</a></li>
+                        <li><a href="">Kế toán thương mại</a></li>
                         <li><a href="">Kế toán xuất nhập khẩu</a></li>
                         <li><a href="">Kế toán dịch vụ</a></li>
                         <li><a href="">Kế toán trung tâm ngoại ngữ</a></li>

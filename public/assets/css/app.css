@@ -67,6 +67,83 @@ table tbody tr td .restore-btn {
   box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #5867dd;
 }
 
+.order-form .order-totals-items {
+  margin-top: 50px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: flex-end;
+  -moz-justify-content: flex-end;
+  -ms-justify-content: flex-end;
+  justify-content: flex-end;
+  -ms-flex-pack: flex-end;
+}
+.order-form .order-totals-items .order-totals-items-wrapper {
+  -webkit-flex-basis: 30%;
+  -moz-flex-basis: 30%;
+  -ms-flex-basis: 30%;
+  flex-basis: 30%;
+}
+.order-form .order-totals-items .subtotal-wrapper {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 3.33;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+.order-form .order-totals-items .subtotal-wrapper .mark {
+  -webkit-flex-basis: 70%;
+  -moz-flex-basis: 70%;
+  -ms-flex-basis: 70%;
+  flex-basis: 70%;
+  background-color: transparent;
+  color: #333333;
+}
+.order-form .order-totals-items .subtotal-wrapper .amount {
+  -webkit-flex-basis: 30%;
+  -moz-flex-basis: 30%;
+  -ms-flex-basis: 30%;
+  flex-basis: 30%;
+  text-align: right;
+  color: #333333;
+}
+.order-form .order-totals-items .total-wrapper {
+  padding-top: 10px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.43;
+  color: #df322f;
+}
+.order-form .order-totals-items .total-wrapper .mark {
+  -webkit-flex-basis: 70%;
+  -moz-flex-basis: 70%;
+  -ms-flex-basis: 70%;
+  flex-basis: 70%;
+  background-color: transparent;
+}
+.order-form .order-totals-items .total-wrapper .amount {
+  -webkit-flex-basis: 30%;
+  -moz-flex-basis: 30%;
+  -ms-flex-basis: 30%;
+  flex-basis: 30%;
+  text-align: right;
+}
+.order-form .card-title {
+  font-size: 14px;
+  color: #333333;
+  font-weight: 600;
+}
 .template-title {
   font-size: 23px;
   font-weight: 500;
@@ -143,6 +220,7 @@ span.post-link {
 }
 .attachments li .attachment-preview .thumbnail {
   height: 145.5px;
+  background-color: #efefef;
 }
 .attachments li .attachment-preview .thumbnail img {
   width: 100%;

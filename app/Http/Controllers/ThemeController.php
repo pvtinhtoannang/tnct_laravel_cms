@@ -6,13 +6,14 @@ use App\Course;
 use App\Option;
 use App\PermissionPost;
 use App\Post;
+use App\Taxonomy;
 use App\Term;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
-    private $post, $term, $option, $user, $permission_post, $course;
+    private $post, $term, $option, $user, $permission_post, $course, $taxonomy;
 
     /**
      * ThemeController constructor.
@@ -25,6 +26,7 @@ class ThemeController extends Controller
         $this->user = new User();
         $this->course = new  Course();
         $this->permission_post = new PermissionPost();
+        $this->taxonomy = new Taxonomy();
     }
 
     public function getTitleWebsite($slug)
@@ -48,6 +50,8 @@ class ThemeController extends Controller
             $title = 'Tài khoản';
         } elseif ($slug === 'thanh-toan') {
             $title = 'Thanh toán';
+        }  elseif ($slug === 'khoa-hoc') {
+            $title = 'Khoá học của tôi';
         } else {
             $title = 'Không tìm thấy trang - 404 Not Found';
         }
@@ -56,8 +60,9 @@ class ThemeController extends Controller
 
     function index()
     {
+        $listCourseCat = $this->taxonomy->name('course_cat')->get();
         $titleWebsite = $this->getTitleWebsite('/');
-        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite]);
+        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite, 'listCourseCat'=>$listCourseCat]);
     }
 
     function type($slug)

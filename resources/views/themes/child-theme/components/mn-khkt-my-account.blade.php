@@ -3,6 +3,23 @@
     @include('themes.child-theme.header')
 @endsection
 @section('content')
+    @if (session()->has('success'))
+        <script>
+            jQuery(function ($) {
+                Swal.fire({
+                    title: 'Đặt mua thành công',
+                    text: "Chúng tôi sẽ cấp quyền truy cập khoá học ngay sau khi nhận được thanh toán, xin cảm ơn quý khách!",
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'ok',
+                }).then((result) => {
+                    if (result.value) {
+
+                    }
+                })
+            })
+        </script>
+    @endif
     @if($users_data)
         <section class="mn-khkt-account">
             <div class="container">

@@ -33,14 +33,13 @@ class LearningController extends Controller
 
     function index($course, $lesson = null)
     {
-
         if ($this->course->slug($course)->first()) {
+
             $course_data = $this->course->slug($course)->first();
             if (isset($course_data->builder->meta_value)) {
                 $this->builder = json_decode($course_data->builder->meta_value, true);
             }
-
-            if ($this->user->checkPermissionForPost($course_data->ID) === true) {
+            if ($this->user->checkPermissionForPost($course_data->ID) === 1) {
                 $this->activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
                 if (isset($lesson)) {
                     if ($this->lesson->post_id($lesson)->first()) {

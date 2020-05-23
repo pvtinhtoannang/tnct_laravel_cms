@@ -24,23 +24,7 @@
             })
         </script>
     @endif
-    @if (session()->has('success'))
-        <script>
-            jQuery(function ($) {
-                Swal.fire({
-                    title: 'Đặt mua thành công',
-                    text: "Chúng tôi sẽ cấp quyền truy cập khoá học ngay sau khi nhận được thanh toán, xin cảm ơn quý khách!",
-                    icon: 'success',
-                    confirmButtonColor: '#3085d6',
-                    confirmButtonText: 'ok',
-                }).then((result) => {
-                    if (result.value) {
 
-                    }
-                })
-            })
-        </script>
-    @endif
     <section class="mn-khkt-checkout">
         <div class="container">
             <div class="row">

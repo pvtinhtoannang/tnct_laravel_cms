@@ -60,7 +60,8 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('GET_MY_ACCOUNT') }}">Tài khoản</a>
-                                <a class="dropdown-item" href="#">Khoá học</a>
+                                <a class="dropdown-item" href="{{ route('MY_COURSE') }}">Khoá học</a>
+                                <a class="dropdown-item" href="{{ route('CART') }}">Giỏ hàng</a>
                                 <a class="dropdown-item"  data-toggle="modal" data-target="#updatePasswordModal" href="#">Đổi mật khẩu</a>
                                 <a class="dropdown-item" href="{{ route('getLogout') }}">Đăng xuất</a>
                             </div>

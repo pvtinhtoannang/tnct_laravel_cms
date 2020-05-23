@@ -85,6 +85,7 @@ Route::get('/auth/{provide}/callback', 'UserController@handleProviderCallback');
 Route::group(['prefix' => 'tai-khoan'], function () {
     Route::get('/', ['as' => 'GET_MY_ACCOUNT', 'uses' => 'UserController@getMyAccountPage']);
     Route::post('update-password', ['as' => 'UPDATE_PASSWORD', 'uses' => 'UserController@updatePasswordForFrontEnd']);
+    Route::get('khoa-hoc', ['as' => 'MY_COURSE', 'uses' => 'UserController@getMyCourse']);
 });
 
 Route::post('ajax-update-permission-post-activity', ['as'=>'UPDATE_ACTIVITY', 'uses'=>'LearningController@updateActivity']);

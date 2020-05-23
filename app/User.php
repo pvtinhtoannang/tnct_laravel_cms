@@ -183,19 +183,26 @@ class User extends Authenticatable
     public function checkPermissionForPost($post_id)
     {
         $permissions = self::find(Auth::user()->id)->postsCourses()->get();
-
         $date_now = strtotime(Carbon::now());
+        $check_true = 0;
         foreach ($permissions as $permission) {
-            if ($permission->ID !== $post_id) {
-                abort(401, 'Bạn không có quyền truy cập hành động này!');
-            } else {
-                return true;
+
+            if ((int)$permission->ID === (int)$post_id) {
+                $check_true = 1;
+            }else{
+                $check_true = 0;
             }
-            if ((int)$permission->pivot->date_expires < (int)$date_now) {
-                return true;
+            if ((int)$permission->pivot->date_expires > (int)$date_now) {
+                $check_true = 1;
             } else {
-                abort(401, 'Bạn không có quyền truy cập hành động này!');
+                $check_true = 0;
             }
+        }
+
+        if ($check_true === 1) {
+            return 1;
+        } else {
+            return 0;
         }
     }
 
