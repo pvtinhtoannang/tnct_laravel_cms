@@ -74,6 +74,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     Route::POST('ajax-update-postion-menu', ['as' => 'UPDATE_MENU_POSITION_BY_LIST', 'uses' => 'NavMenuController@updateMenuPosition']);
 
     Route::get('form/{id}', ['as' => 'GET_FORM_DATA', 'uses' => 'FormController@getFormData'])->where('id', '[0-9]+');
+    Route::get('ajax-get-all-course', ['as' => 'AJAX_GET_ALL_COURSE', 'uses' => 'OptionController@ajaxGetAllCourse']);
 });
 Route::post('add-data-form/{id}', ['as' => 'ADD_FORM_DATA', 'uses' => 'FormController@addDataForm'])->where('id', '[0-9]+');
 Route::POST('dang-ky', ['as' => 'register', 'uses' => 'Auth\RegisterController@registerForUser']);
