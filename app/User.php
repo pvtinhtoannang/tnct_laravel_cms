@@ -14,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+
     protected $role;
 
     public function __construct(array $attributes = [])
@@ -140,6 +141,16 @@ class User extends Authenticatable
             $date_expires = strtotime(Carbon::now()->addDays(30));
         }
         return $this->find($user_id)->postsCourses()->attach($post_id, ['date_expires' => $date_expires]);
+    }
+
+
+    /*
+     * Huỷ hoá đơn
+     * **/
+
+    public function detachPostForUser($user_id, $post_id)
+    {
+        return $this->find($user_id)->postsCourses()->detach($post_id);
     }
 
 
