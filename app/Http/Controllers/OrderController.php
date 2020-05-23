@@ -31,10 +31,16 @@ class OrderController extends Controller
 
     function updateOrder(Request $request, $id)
     {
+        $order = $this->order->find($id);
+        $order_content = json_decode($order->order_content);
         if ($request->order_status === 'completed') {
-            $this->user->registerPostForUser($request->customer, $id);
+            foreach ($order_content->items as $item) {
+                $this->user->registerPostForUser($request->customer, $item->id);
+            }
         } else {
-            $this->user->detachPostForUser($request->customer, $id);
+            foreach ($order_content->items as $item) {
+                $this->user->detachPostForUser($request->customer, $item->id);
+            }
         }
         $this->order->updateStatus($id, $request->order_status);
         return redirect()->route('GET_ORDER_ROUTE', [$id])->with('update', 'Đơn hàng đã được cập nhật');
