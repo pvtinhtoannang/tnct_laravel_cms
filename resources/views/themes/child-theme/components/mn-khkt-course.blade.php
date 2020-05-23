@@ -4,7 +4,7 @@
             <div class="col-md-8">
                 <div class="card-wrapper">
                     <h1 class="course-name">{{$post->post_title}}</h1>
-                    <div class="course-description">Hướng dẫn bán hàng qua kênh thương mại điện tử</div>
+                    <div class="course-description">{{$post->post_excerpt}}</div>
                 </div>
                 <div class="card-wrapper entry-content">
                     {!! $post->post_content !!}
