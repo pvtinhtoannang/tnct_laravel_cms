@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 class LearningController extends Controller
 {
 
-    private $theme_controller, $course, $lesson, $section_heading, $builder, $post, $video_type, $user, $permission_post;
+    private $theme_controller, $course, $lesson, $section_heading, $builder, $post, $video_type, $user, $permission_post, $activity;
 
     public function __construct()
     {
@@ -27,6 +27,7 @@ class LearningController extends Controller
         $this->builder = [];
         $this->video_type = 'unknown';
         $this->user = new User();
+        $this->activity = [];
         $this->permission_post = new PermissionPost();
     }
 
@@ -40,7 +41,7 @@ class LearningController extends Controller
             }
 
             if ($this->user->checkPermissionForPost($course_data->ID) === true) {
-                $activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
+                $this->activity = $this->permission_post->getPermissionPostActivity(Auth::user()->id, $course_data->ID);
                 if (isset($lesson)) {
                     if ($this->lesson->post_id($lesson)->first()) {
                         $lesson_data = $this->lesson->post_id($lesson)->first();
@@ -54,7 +55,7 @@ class LearningController extends Controller
                                 'builder' => $this->courseBuilder($this->builder),
                                 'titleWebsite' => $lesson_data->post_title,
                                 'video_type' => $this->video_type,
-                                'activity' => json_decode($activity)
+                                'activity' => json_decode($this->activity)
                             ]);
                         } else {
                             return 0;
