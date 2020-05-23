@@ -78,7 +78,7 @@ function is_page($page = '')
 function get_thumbnail_src($post)
 {
     $uploads_url = url('/contents/uploads');
-    if ($post->thumbnail->attachment) {
+    if ($post->thumbnail) {
         return $uploads_url . '/' . $post->thumbnail->attachment->meta->meta_value;
     } else {
         return '';
