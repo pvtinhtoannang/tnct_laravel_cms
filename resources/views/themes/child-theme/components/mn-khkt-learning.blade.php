@@ -79,12 +79,14 @@
                                                                    class="lesson-completed"
                                                                    aria-label="Lesson completed"
                                                                    data-id="{{$lesson['post_data']->ID}}"
+                                                                   @if(!is_null($activity))
                                                                    @foreach($activity as $status)
                                                                    @if($status->id*1 === $lesson['post_data']->ID*1 && $status->status*1 === 1)
                                                                    checked
                                                                     @break
                                                                     @endif
-                                                                    @endforeach >
+                                                                    @endforeach
+                                                                    @endif>
                                                             <span class="checkmark"></span>
                                                         </label>
                                                         <div class="item-container">
