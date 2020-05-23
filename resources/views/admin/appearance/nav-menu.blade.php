@@ -193,8 +193,7 @@
                                             </div>
                                             <button type="button"
                                                     class="btn btn-brand btn-elevate btn-elevate-air btn-add-tag-to-menu">
-                                                Thêm
-                                                vào menu
+                                                Thêm vào menu
                                             </button>
                                         </div>
                                     </div>

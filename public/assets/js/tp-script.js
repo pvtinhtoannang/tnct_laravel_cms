@@ -1,5 +1,6 @@
 "use strict"
 
+
 var KTDatatablesPermission = function () {
     var initTablePermission = function () {
         var table = $('#permission');
@@ -259,8 +260,6 @@ var PvtinhUserManagement = function () {
         }
     }
 }();
-
-
 var PvtinhMenuManagement = function () {
 
     var createSelect2MenuCategoriesCourse = function () {
@@ -802,20 +801,6 @@ var PvtinhMenuManagement = function () {
         });
     }
 
-    var demo1 = function () {
-        $('#kt_repeater_1').repeater({
-            initEmpty: false,
-            show: function () {
-                $(this).slideDown();
-            },
-
-            hide: function (deleteElement) {
-                $(this).slideUp(deleteElement);
-            }
-        });
-    }
-
-
     var updatePositionMenu = function () {
         $('.btn-edit-menu-position').click(function () {
             var id = $(this).data('id');
@@ -858,6 +843,44 @@ var PvtinhMenuManagement = function () {
         });
     }
 
+
+    return {
+        init: function () {
+            createSelect2MenuPages();
+            createSelect2MenuPosts();
+            createSelect2MenuTags();
+            createSelect2MenuCategories();
+            createStructMenu();
+            handleEditMenuItem();
+            handleAddMenuItemForPages();
+            handleAddMenuItemForPosts();
+            handleAddMenuItemForCategory();
+            handleAddMenuItemForTags();
+            handleAddMenuItemForCustomLink();
+            redirectToMenuByID();
+            saveMenuItemToMenuPosition();
+            deleteMenuItem();
+            updatePositionMenu();
+            createSelect2MenuCategoriesCourse();
+            createSelect2MenuCourse();
+            handleAddMenuItemForCategoryCourse();
+            handleAddMenuItemForCourse();
+        }
+    }
+}();
+var PvtinhSliderManagement = function () {
+    var RepeaterSlider = function () {
+        $('#kt_repeater_1').repeater({
+            initEmpty: false,
+            show: function () {
+                $(this).slideDown();
+            },
+
+            hide: function (deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+    }
     var addNewSlide = function () {
         $('.btn-add-slide-item').click(function () {
             var indexB = 0;
@@ -870,8 +893,6 @@ var PvtinhMenuManagement = function () {
             $('#name').val(JSON.stringify($('.repeater').repeaterVal()));
         });
     }
-
-
     var featured_image_select = function () {
         var data_id = 0;
         $(document).on("click", "button.btn-choose-file", function () {
@@ -905,7 +926,6 @@ var PvtinhMenuManagement = function () {
             });
         });
     }
-
     var saveAllSlide = function () {
 
         $('.btn-save-slide').click(function () {
@@ -1050,35 +1070,204 @@ var PvtinhMenuManagement = function () {
             }
         });
     }
-
     return {
         init: function () {
-            createSelect2MenuPages();
-            createSelect2MenuPosts();
-            createSelect2MenuTags();
-            createSelect2MenuCategories();
-            createStructMenu();
-            handleEditMenuItem();
-            handleAddMenuItemForPages();
-            handleAddMenuItemForPosts();
-            handleAddMenuItemForCategory();
-            handleAddMenuItemForTags();
-            handleAddMenuItemForCustomLink();
-            redirectToMenuByID();
-            saveMenuItemToMenuPosition();
-            deleteMenuItem();
-            updatePositionMenu();
-
-            demo1();
+            RepeaterSlider();
             addNewSlide();
             featured_image_select();
             saveAllSlide();
+        }
+    }
+}();
 
-            createSelect2MenuCategoriesCourse();
-            createSelect2MenuCourse();
-            handleAddMenuItemForCategoryCourse();
-            handleAddMenuItemForCourse();
+var PvtinhOptionManagement = function () {
 
+    let slideUpOptionValue = function () {
+        $('#content_option_default').slideUp('slow');
+        $('#content_option_course').slideUp('slow');
+        $('#content_option_course_cat').slideUp('slow');
+        $('#repeater-list-group').slideUp('slow');
+    }
+
+    let resetInput = function () {
+        $('.reset-input').val('');
+        $('.reset-input').text('');
+    }
+    let resetSelect2 = function () {
+        $('#option_value_courses').select2({
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Chọn một khoá học'
+            }
+        });
+        $('#option_value_course_cat').select2({
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Chọn một danh mục khoá học'
+            }
+        });
+    }
+    resetSelect2();
+    let RepeaterOptions = function () {
+
+
+        $('.form-new-option #option_type').change(function () {
+            let option_value = $(this).val();
+            resetInput();
+            if (option_value === 'course') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#content_option_course').slideDown('slow');
+            } else if (option_value === 'course_cat') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#content_option_course_cat').slideDown('slow');
+            } else if (option_value === 'repeater_text') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#repeater-list-group').slideDown('slow');
+            } else {
+                slideUpOptionValue();
+                $('#content_option_default').slideDown('slow');
+            }
+        });
+    };
+
+    let createFutureID = function () {
+        var current_id = $('#last-id-chilren').val();
+        $('#last-id-chilren').val(current_id * 1 + 1);
+        return $('#last-id-chilren').val();
+    }
+
+    let addNewItemRepeatInput = function () {
+        $(document).on('click', 'a.btn-add-item-parent', function () {
+            var current_parent_id = $(this).data('parent-last-id');
+            $(this).data('parent-last-id', current_parent_id * 1 + 1);
+            let future_parent_id = current_parent_id * 1 + 1;
+            var idNew = createFutureID();
+            let html_repeater_parent = ' <div class="repeater-list-children" data-parent-id="' + future_parent_id + '"> <div class="form-group">\n' +
+                '                                        <label for="option_label">Tiêu đề cho repeater</label>\n' +
+                '                                        <input required id="option_label" type="text"\n' +
+                '                                               name="option_label_parent[]" class="form-control"\n' +
+                '                                               aria-describedby="option_label"\n' +
+                '                                               value=""\n' +
+                '                                               placeholder="Nhập tiêu đề, ex: Tên website">\n' +
+                '                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="form-group">\n' +
+                '                                        <label for="option_name">Slug cho repeater</label>\n' +
+                '                                        <input required id="option_name" type="text"\n' +
+                '                                               name="option_slug_parent[]" class="form-control"\n' +
+                '                                               aria-describedby="option_name"\n' +
+                '                                               value=""\n' +
+                '                                               placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">\n' +
+                '                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="repeater-list-group">\n' +
+                '                                        <div class="repeater-list-input">\n' +
+                '                                            <div class="form-group row align-items-center repeater-item-text" data-id="'+idNew+'">\n' +
+                '                                                <div class="col-xs-12 col-md-12"><span>Vui lòng điền đầy đủ thông tin, không được bỏ trống!</span></div>\n' +
+                '                                                <div class="col-md-7">\n' +
+                '                                                    <div class="kt-form__group--inline">\n' +
+                '                                                        <div class="kt-form__label">\n' +
+                '                                                            <label>Nội dung:</label>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="kt-form__control">\n' +
+                '                                                            <input type="text" class="form-control reset-input" name="option_label_parent[label][]"  placeholder="Nhập nội dung">\n' +
+                '                                                        </div>\n' +
+                '                                                    </div>\n' +
+                '                                                    <div class="d-md-none kt-margin-b-10"></div>\n' +
+                '                                                </div>\n' +
+                '                                                <div class="col-md-3">\n' +
+                '                                                    <div class="kt-form__group--inline">\n' +
+                '                                                        <div class="kt-form__label">\n' +
+                '                                                            <label>Slug Sub - dùng cho dev</label>\n' +
+                '                                                        </div>\n' +
+                '                                                        <div class="kt-form__control">\n' +
+                '                                                            <input type="text" class="form-control reset-input" name="option_slug_parent[slug][]" placeholder="Nhập slug">\n' +
+                '                                                        </div>\n' +
+                '                                                    </div>\n' +
+                '                                                    <div class="d-md-none kt-margin-b-10"></div>\n' +
+                '                                                </div>\n' +
+                '                                                <div class="col-md-2">\n' +
+                '                                                    <div class="kt-form__label">\n' +
+                '                                                        <label>Xoá</label>\n' +
+                '                                                    </div>\n' +
+                '                                                    <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light"\n' +
+                '                                                       data-id="'+idNew+'">\n' +
+                '                                            <span>\n' +
+                '                                                <i class="la la-trash-o"></i>\n' +
+                '                                            </span>\n' +
+                '                                                    </a>\n' +
+                '                                                </div>\n' +
+                '                                            </div>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="add-item">\n' +
+                '                                            <a class="btn btn-info btn-add-item kt-font-light" data-last-id="' + idNew + '"><i\n' +
+                '                                                        class="fa fa-plus-circle"></i> Thêm mới\n' +
+                '                                            </a>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>\n' +
+                '                                    </div>' +
+                '                                   </div>';
+            $('.append-repeater_list_parent').append(html_repeater_parent);
+
+        })
+
+        $(document).on("click", "a.btn-add-item", function () {
+            var idNew = createFutureID();
+
+            let html_repeat_input = '<div class="form-group row align-items-center repeater-item-text" data-id="' + idNew + '">\n' +
+                '                                    <div class="col-md-7">\n' +
+                '                                        <div class="kt-form__group--inline">\n' +
+                '                                            <div class="kt-form__label">\n' +
+                '                                                <label>Nội dung:</label>\n' +
+                '                                            </div>\n' +
+                '                                            <div class="kt-form__control">\n' +
+                '                                                <input type="text" class="form-control reset-input"  name="option_label_parent[label][]" placeholder="Nhập nội dung">\n' +
+                '                                            </div>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="d-md-none kt-margin-b-10"></div>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="col-md-3">\n' +
+                '                                        <div class="kt-form__group--inline">\n' +
+                '                                            <div class="kt-form__label">\n' +
+                '                                                <label>Slug Sub - dùng cho dev</label>\n' +
+                '                                            </div>\n' +
+                '                                            <div class="kt-form__control">\n' +
+                '                                                <input type="text" class="form-control reset-input" name="option_slug_parent[slug][]"  placeholder="Nhập slug">\n' +
+                '                                            </div>\n' +
+                '                                        </div>\n' +
+                '                                        <div class="d-md-none kt-margin-b-10"></div>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="col-md-2">   <div class="kt-form__label">\n' +
+                '                                                <label>Xoá</label>\n' +
+                '                                            </div>\n' +
+                '                                        <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light" data-id="' + idNew + '">\n' +
+                '                                            <span>\n' +
+                '                                                <i class="la la-trash-o"></i>\n' +
+                '                                            </span>\n' +
+                '                                        </a>\n' +
+                '                                    </div>\n' +
+                '                                </div>\n';
+            $(this).parents('.repeater-list-children').find('.repeater-list-input').append(html_repeat_input);
+        });
+
+        $(document).on("click", "a.btn-delete-item-input", function () {
+            var idDelete = $(this).attr('data-id');
+            $('.repeater-item-text').each(function (i) {
+                var id = $(this).attr('data-id');
+                if (idDelete === id) {
+                    $(this).remove();
+                }
+            });
+        });
+
+    }
+    return {
+        init: function () {
+            RepeaterOptions();
+            addNewItemRepeatInput();
         }
     }
 }();
@@ -1091,6 +1280,8 @@ jQuery(document).ready(function () {
     PvtinhPermissionForUser.init();
     PvtinhUserManagement.init();
     PvtinhMenuManagement.init();
+    PvtinhSliderManagement.init();
+    PvtinhOptionManagement.init();
 });
 
 

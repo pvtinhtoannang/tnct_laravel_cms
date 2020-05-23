@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs  nav-tabs-line nav-tabs-line-brand" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#kt_tabs_9_1" role="tab"><i
-                    class="flaticon-cogwheel-1"></i>
+                        class="flaticon-cogwheel-1"></i>
                 Cài đặt tổng quan</a>
         </li>
 
@@ -17,7 +17,6 @@
     <div class="tab-content">
         <div class="tab-pane active" id="kt_tabs_9_1" role="tabpanel">
             <h1 class="template-title">Tuỳ chọn tổng quan</h1>
-
             <form class="kt-form" method="POST" action="{{route('POST_OPTION_GENERAL')}}">
                 @csrf
                 <div class="kt-portlet__body">
@@ -66,9 +65,9 @@
 
         <div class="tab-pane" id="kt_tabs_9_3" role="tabpanel">
             <div class="row">
-                <div class="col-xs-12 col-md-4">
+                <div class="col-xs-12 col-md-7">
                     <h2 class="template-title">Thêm tuỳ chọn mới</h2>
-                    <form class="kt-form" method="POST" action="{{route('ADD_OPTION_GENERAL')}}">
+                    <form class="kt-form form-new-option" method="POST" action="{{route('ADD_OPTION_GENERAL')}}">
                         @csrf
                         <div class="kt-portlet__body">
                             <div class="form-group form-group-last">
@@ -88,23 +87,155 @@
                                        aria-describedby="option_label"
                                        value="{{ old('option_label') }}"
                                        placeholder="Nhập tiêu đề, ex: Tên website">
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
                             </div>
                             <div class="form-group">
-                                <label for="option_value">Nội dung option</label>
-                                <input required id="option_value" type="text"
-                                       name="option_value" class="form-control"
-                                       aria-describedby="option_value"
-                                       value="{{ old('option_value') }}"
-                                       placeholder="Nhập tiêu đề, ex: Công Ty TNHH DỊCH VỤ CÔNG NGHỆ TOÀN NĂNG - CHI NHÁNH CẦN THƠ">
-                            </div>
-                            <div class="form-group">
-                                <label for="option_name">Slug</label>
+                                <label for="option_name">Slug - dùng cho dev</label>
                                 <input required id="option_name" type="text"
                                        name="option_name" class="form-control"
                                        aria-describedby="option_name"
                                        value="{{ old('option_name') }}"
                                        placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+
                             </div>
+
+                            <div class="form-group option_value_group" id="content_option_default"
+                                 style="display: block">
+                                <label for="option_value">Nội dung option: text</label>
+                                <input id="option_value" type="text"
+                                       name="option_value" class="form-control reset-input"
+                                       aria-describedby="option_value"
+                                       value="{{ old('option_value') }}"
+                                       placeholder="Nhập tiêu đề, ex: Công Ty TNHH DỊCH VỤ CÔNG NGHỆ TOÀN NĂNG - CHI NHÁNH CẦN THƠ">
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                            </div>
+
+                            <div class="form-group option_value_group" id="content_option_course" style="display: none">
+                                <label for="option_value_courses">Chọn khoá học</label>
+                                <select name="option_value_course[]" class="select2 form-control" multiple
+                                        id="option_value_courses" style="width: 100%">
+                                    <option value="-1">Chọn khoá học</option>
+                                    @foreach($allCourse as $course)
+                                        <option value="{{$course->ID}}">{{$course->post_title}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                            </div>
+                            <div class="form-group option_value_group" id="content_option_course_cat"
+                                 style="display: none">
+                                <label for="option_value_course_cat">Chọn danh mục khoá học</label>
+                                <select name="option_value_course_cat[]" class="select2 form-control" multiple
+                                        id="option_value_course_cat" style="width: 100%">
+                                    <option value="-1">Chọn danh mục khoá học</option>
+                                    @foreach($categoryCourse as $course_cat)
+                                        <option value="{{$course_cat->term->term_id}}">{{$course_cat->term->name}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+
+                            </div>
+                            <input type="hidden" value="1" id="last-id-chilren">
+                            <style>
+                                .repeater_list_parent {
+                                    border: 1px solid #CCC;
+                                    padding: 10px 15px 10px 30px;
+                                    margin-bottom: 30px;
+                                }
+
+                                .repeater-list-children {
+                                    margin-top: 15px;
+                                }
+
+                                .repeater-list-group {
+                                    padding: 10px 15px;
+                                    border: 1px solid #CCC;
+                                    margin-bottom: 15px;
+                                }
+                            </style>
+                            <div class="repeater_list_parent" id="repeater-list-group" style="display:none; ">
+
+                                <div class="append-repeater_list_parent">
+                                    <div class="repeater-list-children" data-parent-id="1">
+                                        <div class="form-group">
+                                            <label for="option_label">Tiêu đề cho repeater</label>
+                                            <input required id="option_label" type="text"
+                                                   name="option_label_parent[]" class="form-control reset-input"
+                                                   aria-describedby="option_label"
+                                                   value=""
+                                                   placeholder="Nhập tiêu đề, ex: Tên website">
+                                            <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="option_name">Slug cho repeater</label>
+                                            <input required id="option_name" type="text"
+                                                   name="option_slug_parent[]" class="form-control reset-input"
+                                                   aria-describedby="option_name"
+                                                   value=""
+                                                   placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">
+                                            <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                                        </div>
+                                        <div class="repeater-list-group">
+                                            <div class="repeater-list-input">
+                                                <div class="form-group row align-items-center repeater-item-text"
+                                                     data-id="1">
+                                                    <div class="col-xs-12 col-md-12"><span>Vui lòng điền đầy đủ thông tin, không được bỏ trống!</span>
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <div class="kt-form__group--inline">
+                                                            <div class="kt-form__label">
+                                                                <label>Nội dung:</label>
+                                                            </div>
+                                                            <div class="kt-form__control">
+                                                                <input type="text" class="form-control reset-input"
+                                                                       name="option_label_parent[label][]"
+                                                                       placeholder="Nhập nội dung">
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-md-none kt-margin-b-10"></div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="kt-form__group--inline">
+                                                            <div class="kt-form__label">
+                                                                <label>Slug Sub - dùng cho dev</label>
+                                                            </div>
+                                                            <div class="kt-form__control">
+                                                                <input type="text" class="form-control reset-input"
+                                                                       name="option_slug_parent[slug][]"
+                                                                       placeholder="Nhập slug">
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-md-none kt-margin-b-10"></div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="kt-form__label">
+                                                            <label>Xoá</label>
+                                                        </div>
+                                                        <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light"
+                                                           data-id="1">
+                                            <span>
+                                                <i class="la la-trash-o"></i>
+                                            </span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="add-item">
+                                                <a class="btn btn-info btn-add-item kt-font-light" data-last-id="1"><i
+                                                            class="fa fa-plus-circle"></i> Thêm mới
+                                                </a>
+                                            </div>
+                                            <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="add-item">
+                                    <a class="btn btn-info btn-add-item-parent kt-font-light" data-parent-last-id="1"><i
+                                                class="fa fa-plus-circle"></i> Thêm mới
+                                    </a>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label for="option_type">Loại option</label>
                                 <select class="form-control" name="option_type" id="option_type">
@@ -113,7 +244,12 @@
                                     <option value="email">Email</option>
                                     <option value="number">Số</option>
                                     <option value="textarea">Textarea</option>
+                                    <option value="course">Khoá học</option>
+                                    <option value="course_cat">Danh mục khoá học</option>
+                                    <option value="repeater_text">Repeater Text</option>
                                 </select>
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+
                             </div>
 
                         </div>
@@ -124,11 +260,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-xs-12 col-md-8">
-
+                <div class="col-xs-12 col-md-5">
                     <!-- begin:: Content -->
                     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
-
                         <div class="kt-portlet kt-portlet--mobile">
                             <div class="kt-portlet__head kt-portlet__head--lg">
                                 <div class="kt-portlet__head-label">
@@ -176,7 +310,6 @@
                                         <th>#</th>
                                         <th>Tên</th>
                                         <th>Nhãn</th>
-                                        <th>Giá trị</th>
                                         <th>Loại</th>
                                     </tr>
                                     </thead>
@@ -205,19 +338,18 @@
                                                 </div>
                                             </td>
                                             <td>{{$option->option_label}}</td>
-                                            <td>{{$option->option_value}}</td>
                                             <td>{{$option->option_type}}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- end:: Content -->
+                        <!-- end:: Content -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 @endsection
