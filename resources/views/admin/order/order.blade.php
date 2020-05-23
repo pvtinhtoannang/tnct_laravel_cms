@@ -91,6 +91,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden" name="customer" value="{{$order->user_id}}">
         {{ csrf_field() }}
     </form>
 @endsection
