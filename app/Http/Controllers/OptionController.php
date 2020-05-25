@@ -40,57 +40,47 @@ class OptionController extends Controller
         $option_value_course_cat = $request->option_value_course_cat;
         $option_label_parent = $request->option_label_parent;
         $option_slug_parent = $request->option_slug_parent;
-        return $option_label_parent;
-        $option_repeat_text_content = $request->option_repeat_text_content;
-        $option_repeat_text_slug = $request->option_repeat_text_slug;
         $option_name = $request->option_name;
         $option_type = $request->option_type;
         $checkNullRepeatText = '';
         $option_value = '';
-        foreach ($option_label_parent as $value) {
-            if ($value != null) {
-                $checkNullRepeatText = 1;
-                break;
-            } else {
-                $checkNullRepeatText = 0;
-            }
-        }
-        if (!empty($option_label_parent) && !empty($option_slug_parent) && $checkNullRepeatText !== 0) {
-            $arrParent = [];
-            if (sizeof($option_label_parent) === sizeof($option_slug_parent)) {
-                for ($i = 0; $i < sizeof($option_label_parent); $i++) {
-//                    $arr[$i]['slug'] = $option_slug_parent[$i];
-//                    $arr[$i]['label'] = $option_label_parent[$i];
-                }
-            }
-            $option_value = json_encode($arr);
-        }
 
+        $arrParent = [];
 
-        if (!empty($option_repeat_text_content) && !empty($option_repeat_text_slug) && $checkNullRepeatText !== 0) {
-            $arr = [];
-            if (sizeof($option_repeat_text_content) === sizeof($option_repeat_text_slug)) {
-                for ($i = 0; $i < sizeof($option_repeat_text_content); $i++) {
-                    $arr[$i]['slug'] = $option_repeat_text_slug[$i];
-                    $arr[$i]['content'] = $option_repeat_text_content[$i];
+        if (!empty($option_label_parent) && !empty($option_slug_parent)) {
+            foreach ($option_slug_parent as $k => $item) {
+                foreach ($item as $i => $value) {
+                    if (!is_array($value)) {
+                        $parentIndex = $i;
+                        $arrParent[$i]['slug'] = $value;
+                    }
+                    if (is_array($value)) {
+                        $arrParent[$parentIndex]['children']['slug'][] = $value;
+                    }
                 }
             }
 
-            $option_value = json_encode($arr);
+            foreach ($option_label_parent as $k => $item) {
+                foreach ($item as $i => $value) {
+                    if (!is_array($value)) {
+                        $parentIndex = $i;
+                        $arrParent[$i]['label'] = $value;
+                    }
+                    if (is_array($value)) {
+                        $arrParent[$parentIndex]['children']['label'][] = $value;
+                    }
+                }
+            }
+            $option_value = json_encode($arrParent);
         }
-        if (!empty($option_value_text)) {
-            $option_value = $option_value_text;
-        }
-
-        if (!empty($option_value_course)) {
+        if (!empty($option_value_course) && sizeof($option_value_course) > 0) {
             $option_value = json_encode($option_value_course);
         }
 
-        if (!empty($option_value_course_cat)) {
+        //option danh mục khoá học
+        if (!empty($option_value_course_cat) && $option_value_course_cat > 0) {
             $option_value = json_encode($option_value_course_cat);
         }
-
-
 
         if (!empty($option_label) && !empty($option_value) && !empty($option_name) && !empty($option_type)) {
             if ($this->option->addNewOption($option_name, $option_value, $option_type, $option_label)) {
@@ -103,10 +93,45 @@ class OptionController extends Controller
 
     public function postUpdateOptionGeneral(Request $request)
     {
+
         foreach ($request->option as $value) {
-            foreach ($value as $option_name => $option_value) {
+
+            if (array_key_exists('option_label_parent', $value) || array_key_exists('option_slug_parent', $value)) {
+                $option_label_parent = $value['option_label_parent'];
+                $option_slug_parent = $value['option_slug_parent'];
+                $option_name = $option_slug_parent[0];
+                $arrParent = [];
+                if (!empty($option_label_parent) && !empty($option_slug_parent)) {
+                    $parentIndex = 0;
+                    foreach ($option_slug_parent as $k => $item) {
+                        if (!is_array($item)) {
+                            $parentIndex = $k;
+                            $arrParent[$k]['slug'] = $item;
+                        }
+                        if (is_array($item)) {
+                            $arrParent[$parentIndex]['children']['slug'][] = $item;
+                        }
+                    }
+                    $parentIndex = 0;
+                    foreach ($option_label_parent as $k => $item) {
+                        if (!is_array($item)) {
+                            $parentIndex = $k;
+                            $arrParent[$k]['label'] = $item;
+                        }
+                        if (is_array($item)) {
+                            $arrParent[$parentIndex]['children']['label'][] = $item;
+                        }
+                    }
+                }
+
+                $option_value = json_encode($arrParent);
                 \App\Option::where('option_name', $option_name)
                     ->update(['option_value' => $option_value]);
+            } else {
+                foreach ($value as $option_name => $option_value) {
+                    \App\Option::where('option_name', $option_name)
+                        ->update(['option_value' => $option_value]);
+                }
             }
         }
         return redirect()->back()->with('messages', 'Cập nhật thành công!');

@@ -46,5 +46,11 @@ class OptionsTableSeed extends Seeder
         $option->option_label = 'Email quản trị';
         $option->save();
 
+        $option = new Option();
+        $option->option_name = 'date_expires';
+        $option->option_value = '30';
+        $option->option_type = 'number';
+        $option->option_label = 'Ngày đăng ký mặc định';
+        $option->save();
     }
 }
