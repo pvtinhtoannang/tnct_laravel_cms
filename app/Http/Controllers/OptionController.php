@@ -93,9 +93,7 @@ class OptionController extends Controller
 
     public function postUpdateOptionGeneral(Request $request)
     {
-
         foreach ($request->option as $value) {
-
             if (array_key_exists('option_label_parent', $value) || array_key_exists('option_slug_parent', $value)) {
                 $option_label_parent = $value['option_label_parent'];
                 $option_slug_parent = $value['option_slug_parent'];

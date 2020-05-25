@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -126,6 +128,11 @@ class UserController extends Controller
         }
     }
 
+    public function redirectToGoogleProvider()
+    {
+        $parameters = ['access_type' => 'offline'];
+        return Socialite::driver('google')->scopes(["https://www.googleapis.com/auth/drive"])->with($parameters)->redirect();
+    }
 
     /**
      * Chuyển hướng người dùng sang OAuth Provider.
@@ -152,7 +159,10 @@ class UserController extends Controller
     {
         $user = Socialite::driver($provider)->user();
         $authUser = $this->findOrCreateUser($user, $provider);
+        $token = Str::random(60);
         Auth::login($authUser, true);
+        $user_update = User::find(Auth::user()->id);
+        $user_update->update(['refresh_token' => hash('sha256', $token)]);
         return Redirect::to(session()->get('pre_url'));
     }
 
@@ -211,11 +221,12 @@ class UserController extends Controller
         }
     }
 
-    public function getMyCourse(){
+    public function getMyCourse()
+    {
         $user = Auth::user();
         $post = $user->postsCourses;
         $titleWebsite = new ThemeController();
         $title = $titleWebsite->getTitleWebsite('khoa-hoc');
-        return view('themes.child-theme.components.mn-khkt-my-courses', ['course'=>$post, 'titleWebsite'=>$title]);
+        return view('themes.child-theme.components.mn-khkt-my-courses', ['course' => $post, 'titleWebsite' => $title]);
     }
 }

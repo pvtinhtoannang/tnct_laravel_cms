@@ -1169,7 +1169,7 @@ var PvtinhOptionManagement = function () {
                 '                                    </div>\n' +
                 '                                    <div class="repeater-list-group">\n' +
                 '                                        <div class="repeater-list-input">\n' +
-                '                                            <div class="form-group row align-items-center repeater-item-text" data-id="'+idNew+'">\n' +
+                '                                            <div class="form-group row align-items-center repeater-item-text" data-id="' + idNew + '">\n' +
                 '                                                <div class="col-xs-12 col-md-12"><span>Vui lòng điền đầy đủ thông tin, không được bỏ trống!</span></div>\n' +
                 '                                                <div class="col-md-7">\n' +
                 '                                                    <div class="kt-form__group--inline">\n' +
@@ -1198,7 +1198,7 @@ var PvtinhOptionManagement = function () {
                 '                                                        <label>Xoá</label>\n' +
                 '                                                    </div>\n' +
                 '                                                    <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light"\n' +
-                '                                                       data-id="'+idNew+'">\n' +
+                '                                                       data-id="' + idNew + '">\n' +
                 '                                            <span>\n' +
                 '                                                <i class="la la-trash-o"></i>\n' +
                 '                                            </span>\n' +
@@ -1270,10 +1270,15 @@ var PvtinhOptionManagement = function () {
     }
 
     let addNewItemRepeatInputUpdate = function () {
+        $(document).on('click', 'a.btn-add-item-parent-update', function () {
+            var html_repeater_parent = $(this).parents('.repeater_update_parent').find('.repeater-list-children').clone();
+            $(this).parents('.repeater_update_parent').find('.append-repeater_list_parent').append(html_repeater_parent);
+        })
+
+
         $(document).on("click", "a.btn-add-item-update", function () {
             var idNew = createFutureID();
             var html_repeater_parent = $(this).parents('.repeater-list-group').find('.repeater-item-text').clone();
-
             $(this).parents('.repeater_update_parent').find('.repeater-list-input').append(html_repeater_parent);
             $('.repeater-list-group .repeater-item-text').each(function (i) {
                 $(this).attr('data-id', i);
@@ -1281,6 +1286,7 @@ var PvtinhOptionManagement = function () {
             });
         });
     }
+
     return {
         init: function () {
             RepeaterOptions();
