@@ -1092,8 +1092,11 @@ var PvtinhOptionManagement = function () {
     let resetInput = function () {
         $('.reset-input').val('');
         $('.reset-input').text('');
+        $('.repeater-item-text').empty();
     }
     let resetSelect2 = function () {
+        $('#option_value_courses').val('null').trigger('change');
+        $('#option_value_course_cat').val('null').trigger('change');
         $('#option_value_courses').select2({
             placeholder: {
                 id: '-1', // the value of the option
@@ -1113,6 +1116,7 @@ var PvtinhOptionManagement = function () {
 
         $('.form-new-option #option_type').change(function () {
             let option_value = $(this).val();
+            resetSelect2();
             resetInput();
             if (option_value === 'course') {
                 slideUpOptionValue();
@@ -1148,7 +1152,7 @@ var PvtinhOptionManagement = function () {
             let html_repeater_parent = ' <div class="repeater-list-children" data-parent-id="' + future_parent_id + '"> <div class="form-group">\n' +
                 '                                        <label for="option_label">Tiêu đề cho repeater</label>\n' +
                 '                                        <input required id="option_label" type="text"\n' +
-                '                                               name="option_label_parent[]" class="form-control"\n' +
+                '                                               name="option_label_parent[label][]" class="form-control"\n' +
                 '                                               aria-describedby="option_label"\n' +
                 '                                               value=""\n' +
                 '                                               placeholder="Nhập tiêu đề, ex: Tên website">\n' +
@@ -1157,7 +1161,7 @@ var PvtinhOptionManagement = function () {
                 '                                    <div class="form-group">\n' +
                 '                                        <label for="option_name">Slug cho repeater</label>\n' +
                 '                                        <input required id="option_name" type="text"\n' +
-                '                                               name="option_slug_parent[]" class="form-control"\n' +
+                '                                               name="option_slug_parent[slug][]" class="form-control"\n' +
                 '                                               aria-describedby="option_name"\n' +
                 '                                               value=""\n' +
                 '                                               placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">\n' +
@@ -1173,7 +1177,7 @@ var PvtinhOptionManagement = function () {
                 '                                                            <label>Nội dung:</label>\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="kt-form__control">\n' +
-                '                                                            <input type="text" class="form-control reset-input" name="option_label_parent[label][]"  placeholder="Nhập nội dung">\n' +
+                '                                                            <input type="text" class="form-control reset-input" name="option_label_parent[label][][label]"  placeholder="Nhập nội dung">\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
                 '                                                    <div class="d-md-none kt-margin-b-10"></div>\n' +
@@ -1184,7 +1188,7 @@ var PvtinhOptionManagement = function () {
                 '                                                            <label>Slug Sub - dùng cho dev</label>\n' +
                 '                                                        </div>\n' +
                 '                                                        <div class="kt-form__control">\n' +
-                '                                                            <input type="text" class="form-control reset-input" name="option_slug_parent[slug][]" placeholder="Nhập slug">\n' +
+                '                                                            <input type="text" class="form-control reset-input" name="option_slug_parent[slug][][slug]" placeholder="Nhập slug">\n' +
                 '                                                        </div>\n' +
                 '                                                    </div>\n' +
                 '                                                    <div class="d-md-none kt-margin-b-10"></div>\n' +
@@ -1224,7 +1228,7 @@ var PvtinhOptionManagement = function () {
                 '                                                <label>Nội dung:</label>\n' +
                 '                                            </div>\n' +
                 '                                            <div class="kt-form__control">\n' +
-                '                                                <input type="text" class="form-control reset-input"  name="option_label_parent[label][]" placeholder="Nhập nội dung">\n' +
+                '                                                <input type="text" class="form-control reset-input"  name="option_label_parent[label][][label]" placeholder="Nhập nội dung">\n' +
                 '                                            </div>\n' +
                 '                                        </div>\n' +
                 '                                        <div class="d-md-none kt-margin-b-10"></div>\n' +
@@ -1235,7 +1239,7 @@ var PvtinhOptionManagement = function () {
                 '                                                <label>Slug Sub - dùng cho dev</label>\n' +
                 '                                            </div>\n' +
                 '                                            <div class="kt-form__control">\n' +
-                '                                                <input type="text" class="form-control reset-input" name="option_slug_parent[slug][]"  placeholder="Nhập slug">\n' +
+                '                                                <input type="text" class="form-control reset-input" name="option_slug_parent[slug][][slug]"  placeholder="Nhập slug">\n' +
                 '                                            </div>\n' +
                 '                                        </div>\n' +
                 '                                        <div class="d-md-none kt-margin-b-10"></div>\n' +
@@ -1264,10 +1268,24 @@ var PvtinhOptionManagement = function () {
         });
 
     }
+
+    let addNewItemRepeatInputUpdate = function () {
+        $(document).on("click", "a.btn-add-item-update", function () {
+            var idNew = createFutureID();
+            var html_repeater_parent = $(this).parents('.repeater-list-group').find('.repeater-item-text').clone();
+
+            $(this).parents('.repeater_update_parent').find('.repeater-list-input').append(html_repeater_parent);
+            $('.repeater-list-group .repeater-item-text').each(function (i) {
+                $(this).attr('data-id', i);
+                $(this).find('.btn-delete-item-input').attr('data-id', i);
+            });
+        });
+    }
     return {
         init: function () {
             RepeaterOptions();
             addNewItemRepeatInput();
+            addNewItemRepeatInputUpdate();
         }
     }
 }();
