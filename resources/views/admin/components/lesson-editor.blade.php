@@ -90,10 +90,19 @@ if (isset($post_type)) {
                     </div>
                 </div>
                 <div class="kt-portlet__body">
-                    <div class="form-group form-group-last">
+                    <div class="form-group">
                         <label for="video-link">Liên kết video</label>
                         <input class="form-control" type="text" id="video-link" name="video_link"
                                value="{{$video_link}}">
+                    </div>
+                    <div class="form-group form-group-last">
+                        <label for="file-name">Thêm file</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="file-name" data-toggle="modal" data-target="#insert-file-modal" readonly>
+                            <div class="input-group-append">
+                                <button id="lesson-select-file" data-toggle="modal" data-target="#insert-file-modal" class="btn btn-primary" type="button">Thêm file</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -137,6 +146,7 @@ if (isset($post_type)) {
             </div>
         </div>
     </div>
+    <input type="hidden" name="lesson_file" value="">
     <input type="hidden" name="post_type" value="{{$type}}">
     {{ csrf_field() }}
 </form>

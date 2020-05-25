@@ -160,6 +160,27 @@ function featured_image_select() {
     });
 }
 
+function lesson_select_file() {
+    let insert_image_modal = $('#insert-file-modal');
+    let attachments = $('ul.attachments');
+    let select_file_btn = $('#file-button-select');
+    let ip_file_name = $('#file-name');
+    let lesson_file = $("[name='lesson_file']");
+    select_file_btn.click(function () {
+        $.each($('#insert-file-modal li.attachment'), function (index, value) {
+            if ($(this).hasClass('selected')) {
+                let file_name = $(this).attr('data-file-name');
+                let file_id = $(this).attr('data-id');
+                ip_file_name.val(file_name);
+                lesson_file.val(file_id);
+                attachments.find('.selected').removeClass('selected');
+                attachments.find('[aria-checked="true"]').attr('aria-checked', 'false');
+                insert_image_modal.modal('hide');
+            }
+        });
+    });
+}
+
 let insertMedia = function (context) {
     let ui = $.summernote.ui;
     let attachments = $('ul.attachments');
@@ -243,9 +264,10 @@ function ajax_upload() {
             $.each(response, function (key, value) {
                 let file_url = uploads_url + '/' + value.meta.meta_value;
                 attachments.append(
-                    '<li class="attachment" data-id="' + value.ID + '" data-src="' + file_url + '">' +
+                    '<li class="attachment" data-id="' + value.ID + '" data-src="' + file_url + '" data-file-name="' + value.post_name + '">' +
                     '<div class="attachment-preview">' +
                     '<div class="thumbnail">' +
+                    '<span class="file-name">' + value.post_excerpt + '</span>' +
                     '<img src="' + file_url + '" alt="">' +
                     '</div>' +
                     '</div>' +
@@ -378,6 +400,7 @@ jQuery(function ($) {
             removeThumbnail();
             mediaSelect();
             ajax_upload();
+            lesson_select_file();
             $('#browse-btn').on('click', function () {
                 ajax_upload();
             });

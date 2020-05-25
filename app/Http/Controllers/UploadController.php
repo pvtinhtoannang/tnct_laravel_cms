@@ -88,7 +88,7 @@ class UploadController extends Controller
                 'post_author' => $user_id,
                 'post_content' => '',
                 'post_title' => $file_basename,
-                'post_excerpt' => '',
+                'post_excerpt' => $file_name,
                 'post_status' => 'inherit',
                 'post_name' => $post_name,
                 'post_type' => $this->post_type
