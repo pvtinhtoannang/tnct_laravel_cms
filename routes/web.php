@@ -124,5 +124,11 @@ Route::post('/add-to-cart', ['as' => 'ADD_TO_CART', 'uses' => 'CartController@ad
 Route::get('/gio-hang', ['as' => 'CART', 'uses' => 'CartController@cartContent']);
 Route::get('/thanh-toan', ['as' => 'CHECKOUT', 'uses' => 'CartController@checkout']);
 
+Route::get('/drive', 'DriveController@getDrive') ;   // retreive folders
+Route::get('/drive/upload', 'DriveController@uploadFile');   // File upload form
+Route:: post('/drive/upload','DriveController@uploadFile') ;   // Upload file to Drive from Form
+Route::get('/drive/create','DriveController@create');   // Upload file to Drive from Storage
+Route::get ('/drive/delete/{id}','DriveController@deleteFile') ;   // Delete file or folder
+
 Route::get('/', 'ThemeController@index');
 Route::get('/{slug}', 'ThemeController@type');
