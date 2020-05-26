@@ -149,9 +149,10 @@ class LearningController extends Controller
 
     public function readFileDrive($fileUrl){
         $titleWebsite = new ThemeController();
+        $title = '';
         if ($file = $this->lesson->post_id($fileUrl)->first()) {
             $fileUrlReturn = $file->file->meta_value;
         }
-        return view('themes.child-theme.components.drive-content', [ 'fileUrl'=>$fileUrlReturn]);
+        return view('themes.child-theme.components.drive-content', ['titleWebsite'=>$title, 'fileUrl'=>$fileUrlReturn]);
     }
 }
