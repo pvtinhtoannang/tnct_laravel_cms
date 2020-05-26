@@ -80,7 +80,9 @@ Route::post('add-data-form/{id}', ['as' => 'ADD_FORM_DATA', 'uses' => 'FormContr
 Route::POST('dang-ky', ['as' => 'register', 'uses' => 'Auth\RegisterController@registerForUser']);
 Route::get('/auth/{provider}', 'UserController@redirectToProvider');
 Route::get('/auth/{provide}/callback', 'UserController@handleProviderCallback');
+Route::get('/auth/google/drive', 'UserController@redirectToGoogleProvider');
 
+Route::get('/read-file/{fileUrl}', 'LearningController@readFileDrive')->where('id', '[0-9]+');
 
 Route::group(['prefix' => 'tai-khoan'], function () {
     Route::get('/', ['as' => 'GET_MY_ACCOUNT', 'uses' => 'UserController@getMyAccountPage']);
