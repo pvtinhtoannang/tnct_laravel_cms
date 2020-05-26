@@ -1087,6 +1087,7 @@ var PvtinhOptionManagement = function () {
         $('#content_option_course').slideUp('slow');
         $('#content_option_course_cat').slideUp('slow');
         $('#repeater-list-group').slideUp('slow');
+        $('#repeater-image-list-group').slideUp('slow');
     }
 
     let resetInput = function () {
@@ -1130,6 +1131,10 @@ var PvtinhOptionManagement = function () {
                 slideUpOptionValue();
                 resetSelect2();
                 $('#repeater-list-group').slideDown('slow');
+            } else if (option_value === 'repeater_image') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#repeater-image-list-group').slideDown('slow');
             } else {
                 slideUpOptionValue();
                 $('#content_option_default').slideDown('slow');
@@ -1287,11 +1292,18 @@ var PvtinhOptionManagement = function () {
         });
     }
 
+    let addNewItemRepeatImage = function () {
+        $(document).on('click', 'a.btn-add-item-images', function () {
+            var html_repeater = $('#hidden-input-image').find('.repeater-item-text').clone();
+            $(this).parents('.repeater-list-group').find('repeater-list-input').append(html_repeater);
+        });
+    }
     return {
         init: function () {
             RepeaterOptions();
             addNewItemRepeatInput();
             addNewItemRepeatInputUpdate();
+            addNewItemRepeatImage();
         }
     }
 }();

@@ -1,6 +1,6 @@
 @extends('themes.parent-theme.initialize')
 @section('content')
-    <div tabindex="1" class="viewer-wrapper">
+    <div tabindex="1" class="viewer-wrapper" style="height: 100vh">
         <div id="outerContainer">
 
             <div id="sidebarContainer">
@@ -472,16 +472,23 @@
         </div> <!-- outerContainer -->
         <div id="printContainer"></div>
     </div>
-    <script>
-        var url = '{{ $url }}';
-    </script>
+
+    <?php
+    global $htmlCode;
+    $htmlCode = $url;
+
+    ?>
+
     <?php
     function script()
     {
+    global $htmlCode;
+        $jsCode  = 'var loadingTask = pdfjsLib.getDocument("'.$htmlCode.'");';
+        $hunter = new HunterObfuscator($jsCode); //Initialize with HTML code in first parameter and set second one to TRUE
+        $obsfucated = $hunter->Obfuscate(); //Do obfuscate and get the obfuscated code
+        echo "<script> " . $obsfucated . "</script>";
     ?>
-    <script>
-        var loadingTask = pdfjsLib.getDocument(url);
-    </script>
+
     <?php
     }
     ?>
