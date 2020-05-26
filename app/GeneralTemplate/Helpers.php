@@ -41,6 +41,7 @@ function theme_styles()
     register_style($component_assets . "/lib/slick/slick-theme.css");
     register_style($component_assets . "/lib/sweetalert2/sweetalert2.min.css");
     register_style($component_assets . "/css/reset.min.css");
+    register_style($component_assets . "/lib/pdfjs-dist/web/viewer.css");
     register_style($component_assets . "/css/style.css");
     register_script($component_assets . '/lib/jquery/dist/jquery.js');
 }
@@ -56,6 +57,8 @@ function theme_script_footer()
     register_script($component_assets . '/lib/slick/slick.min.js');
     register_script($component_assets . '/lib/mmenu/jquery.mmenu.all.min.js');
     register_script($component_assets . '/lib/sweetalert2/sweetalert2.min.js');
+    register_script($component_assets . '/lib/pdfjs-dist/build/pdf.js');
+    register_script($component_assets . '/lib/pdfjs-dist/web/viewer.js');
     register_script($component_assets . '/js/script.js');
 
 }
