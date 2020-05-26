@@ -164,15 +164,13 @@ function lesson_select_file() {
     let insert_image_modal = $('#insert-file-modal');
     let attachments = $('ul.attachments');
     let select_file_btn = $('#file-button-select');
-    let ip_file_name = $('#file-name');
+    let origin = window.location.origin;
     let lesson_file = $("[name='lesson_file']");
     select_file_btn.click(function () {
         $.each($('#insert-file-modal li.attachment'), function (index, value) {
             if ($(this).hasClass('selected')) {
-                let file_name = $(this).attr('data-file-name');
-                let file_id = $(this).attr('data-id');
-                ip_file_name.val(file_name);
-                lesson_file.val(file_id);
+                let file_name = origin + $(this).attr('data-src');
+                lesson_file.val(file_name);
                 attachments.find('.selected').removeClass('selected');
                 attachments.find('[aria-checked="true"]').attr('aria-checked', 'false');
                 insert_image_modal.modal('hide');

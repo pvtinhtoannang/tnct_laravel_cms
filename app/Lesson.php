@@ -26,6 +26,15 @@ class Lesson extends Post
             ->where('meta_key', 'video_link');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function file()
+    {
+        return $this->hasOne(LessonMeta::class, 'post_id')
+            ->where('meta_key', 'lesson_file');
+    }
+
     public function updateLesson($id, $request)
     {
         $lesson = $this->find($id);

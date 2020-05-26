@@ -2,18 +2,20 @@
 
 namespace App\Meta;
 
-use App\Lesson;
+use App\Attachment;
 
 class LessonMeta extends PostMeta
 {
     /**
      * @var array
      */
-    protected $with = ['lessonMeta'];
+    protected $with = ['attachment'];
 
-
-    public function lessonMeta()
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function attachment()
     {
-        return $this->belongsTo(Lesson::class, 'meta_value');
+        return $this->belongsTo(Attachment::class, 'meta_value');
     }
 }

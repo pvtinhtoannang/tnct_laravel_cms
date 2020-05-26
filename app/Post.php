@@ -329,12 +329,25 @@ class Post extends Model
             }
         }
 
-        if ($post->price === null) {
-            if (isset($request->course_price)) {
-                $post->meta()->create($this->postMeta('course_price', $request->course_price));
+        if ($post->file === null) {
+            if (isset($request->lesson_file)) {
+                $post->file()->create($this->postMeta('lesson_file', $request->lesson_file));
             }
         } else {
-            $course = $post->meta()->find($post->price->meta_id);
+            $file = $post->file()->find($post->file->meta_id);
+            if (isset($request->lesson_file)) {
+                $file->update($this->postMeta('lesson_file', $request->lesson_file));
+            } else {
+                $file->delete();
+            }
+        }
+
+        if ($post->price === null) {
+            if (isset($request->course_price)) {
+                $post->price()->create($this->postMeta('course_price', $request->course_price));
+            }
+        } else {
+            $course = $post->price()->find($post->price->meta_id);
             if (isset($request->course_price)) {
                 $course->update($this->postMeta('course_price', $request->course_price));
             } else {
@@ -344,10 +357,10 @@ class Post extends Model
 
         if ($post->sale_price === null) {
             if (isset($request->course_sale_price)) {
-                $post->meta()->create($this->postMeta('course_sale_price', $request->course_sale_price));
+                $post->sale_price()->create($this->postMeta('course_sale_price', $request->course_sale_price));
             }
         } else {
-            $course = $post->meta()->find($post->sale_price->meta_id);
+            $course = $post->sale_price()->find($post->sale_price->meta_id);
             if (isset($request->course_sale_price)) {
                 $course->update($this->postMeta('course_sale_price', $request->course_sale_price));
             } else {
@@ -357,10 +370,10 @@ class Post extends Model
 
         if ($post->hot === null) {
             if (isset($request->course_hot)) {
-                $post->meta()->create($this->postMeta('course_hot', $request->course_hot));
+                $post->hot()->create($this->postMeta('course_hot', $request->course_hot));
             }
         } else {
-            $course = $post->meta()->find($post->hot->meta_id);
+            $course = $post->hot()->find($post->hot->meta_id);
             if (isset($request->course_hot)) {
                 $course->update($this->postMeta('course_hot', $request->course_hot));
             } else {
@@ -370,10 +383,10 @@ class Post extends Model
 
         if ($post->video === null) {
             if (isset($request->video_link)) {
-                $post->meta()->create($this->postMeta('video_link', $request->video_link));
+                $post->video()->create($this->postMeta('video_link', $request->video_link));
             }
         } else {
-            $lesson = $post->meta()->find($post->video->meta_id);
+            $lesson = $post->video()->find($post->video->meta_id);
             if (isset($request->video_link)) {
                 $lesson->update($this->postMeta('video_link', $request->video_link));
             } else {
