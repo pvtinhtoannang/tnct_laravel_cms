@@ -48,7 +48,8 @@ class LearningController extends Controller
                         if (isset($lesson_data->course->meta_value) && $lesson_data->course->meta_value * 1 === $course_data->ID * 1) {
                             if ($lesson_data->video !== null) {
                                 $this->video_type = $this->videoType($lesson_data->video->meta_value);
-                            } if ($lesson_data->file !== null) {
+                            }
+                            if ($lesson_data->file !== null) {
                                 $this->file_type = $this->fileType($lesson_data->file->meta_value);
                             }
                             return view('themes.parent-theme.learning', [
@@ -129,6 +130,7 @@ class LearningController extends Controller
             return 'unknown';
         }
     }
+
     function fileType($url)
     {
         if (strpos($url, 'drive') > 0) {
@@ -147,13 +149,33 @@ class LearningController extends Controller
         }
     }
 
-    public function readFileDrive($fileUrl){
+    public function readFileDrive($fileUrl)
+    {
         $titleWebsite = new ThemeController();
         if ($file = $this->lesson->post_id($fileUrl)->first()) {
-            if($file->file){
+            if ($file->file) {
                 $fileUrlReturn = $file->file->meta_value;
             }
         }
-        return view('themes.child-theme.components.drive-content', [ 'fileUrl'=>$fileUrlReturn]);
+        return view('themes.child-theme.components.drive-content', ['fileUrl' => $fileUrlReturn]);
+    }
+
+    function getFile(Request $request)
+    {
+        $lesson = $this->lesson->find($request->id);
+        if ($lesson && $lesson->file) {
+            return $lesson->file->meta_value;
+        }
+    }
+
+    public function getBladeFile($id)
+    {
+        $lesson = $this->lesson->find($id);
+        $urlFile = '';
+        $titleWebsite = '';
+        if ($lesson && $lesson->file) {
+            $urlFile = $lesson->file->meta_value;
+        }
+        return view('themes.child-theme.components.pdf-file', ['titleWebsite' => $titleWebsite, 'url' => $urlFile]);
     }
 }

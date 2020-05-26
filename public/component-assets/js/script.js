@@ -366,12 +366,13 @@ jQuery(function ($) {
 
                 },
             });
-
         });
+
+
     } catch (e) {
         console.log(e);
     }
 });
 
-var url = 'https://tnctcms.dev/contents/uploads/2020/05/Getting-started.pdf';
-var loadingTask = pdfjsLib.getDocument(url);
+// var url = 'https://tnctcms.dev/contents/uploads/2020/05/compressed.tracemonkey-pldi-09-3.pdf';
+// var loadingTask = pdfjsLib.getDocument(url);

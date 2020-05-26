@@ -111,6 +111,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     Route::post('/update-lesson', 'AdminAjaxController@updateLesson');
     Route::post('/delete-section-heading', 'AdminAjaxController@deleteSectionHeading');
     Route::post('/delete-lesson', 'AdminAjaxController@deleteLesson');
+    Route::post('/get-file', 'LearningController@getFile');
 });
 
 Route::group(['prefix' => 'khoa-hoc'], function () {
@@ -130,5 +131,7 @@ Route:: post('/drive/upload','DriveController@uploadFile') ;   // Upload file to
 Route::get('/drive/create','DriveController@create');   // Upload file to Drive from Storage
 Route::get ('/drive/delete/{id}','DriveController@deleteFile') ;   // Delete file or folder
 
+
+Route::get('/get-file/{id}', 'LearningController@getBladeFile');
 Route::get('/', 'ThemeController@index');
 Route::get('/{slug}', 'ThemeController@type');
