@@ -42,8 +42,10 @@
                 <div class="repeater-list-group">
                     <div class="repeater-list-input">
                         @php
-                            $slug = $value->children->slug;
-                            $label = $value->children->label;
+                            if(isset($value->children)){
+                                $slug = $value->children->slug;
+                                $label = $value->children->label;
+                            }
                         @endphp
                         @if(is_array($slug))
                             @for($i = 0; $i < sizeof($slug); $i++)
@@ -115,7 +117,7 @@
                                                    class="form-control reset-input"
                                                    name="option[{{ $option['option_name'] }}][option_label_parent][][label]"
                                                    placeholder="Nhập nội dung"
-                                                   value="{{ $label->label  }}"
+                                                   value="{{ $value->label  }}"
                                             >
                                         </div>
                                     </div>
@@ -132,7 +134,7 @@
                                                    class="form-control reset-input"
                                                    name="option[{{ $option['option_name'] }}][option_slug_parent][][slug]"
                                                    placeholder="Nhập slug"
-                                                   value="{{ $slug->slug  }}"
+                                                   value="{{ $value->slug  }}"
                                             >
                                         </div>
                                     </div>

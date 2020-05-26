@@ -46,16 +46,19 @@ class OptionController extends Controller
         $option_value = '';
 
         $arrParent = [];
-
         if (!empty($option_label_parent) && !empty($option_slug_parent)) {
             foreach ($option_slug_parent as $k => $item) {
                 foreach ($item as $i => $value) {
                     if (!is_array($value)) {
                         $parentIndex = $i;
-                        $arrParent[$i]['slug'] = $value;
+                        if ($value != null) {
+                            $arrParent[$i]['slug'] = $value;
+                        }
                     }
                     if (is_array($value)) {
-                        $arrParent[$parentIndex]['children']['slug'][] = $value;
+                        if ($value != null) {
+                            $arrParent[$parentIndex]['children']['slug'][] = $value;
+                        }
                     }
                 }
             }
@@ -64,15 +67,20 @@ class OptionController extends Controller
                 foreach ($item as $i => $value) {
                     if (!is_array($value)) {
                         $parentIndex = $i;
-                        $arrParent[$i]['label'] = $value;
+                        if ($value != null) {
+                            $arrParent[$i]['label'] = $value;
+                        }
                     }
                     if (is_array($value)) {
-                        $arrParent[$parentIndex]['children']['label'][] = $value;
+                        if ($value != null) {
+                            $arrParent[$parentIndex]['children']['label'][] = $value;
+                        }
                     }
                 }
             }
             $option_value = json_encode($arrParent);
         }
+
         if (!empty($option_value_course) && sizeof($option_value_course) > 0) {
             $option_value = json_encode($option_value_course);
         }

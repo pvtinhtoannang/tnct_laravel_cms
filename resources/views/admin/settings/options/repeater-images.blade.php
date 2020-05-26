@@ -37,7 +37,7 @@
                        placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">
                 <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
             </div>
-            <div class="''repeater-list-group''">
+            <div class="repeater-list-group">
                 <div class="repeater-list-input">
 
                 </div>
