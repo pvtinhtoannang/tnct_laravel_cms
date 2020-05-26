@@ -1827,6 +1827,14 @@ button.btn-custom:hover {
   width: 100%;
   height: 100%;
 }
+.mn-khkt-learning .learning-container .left-content .viewer-wrapper {
+  width: 100%;
+  height: calc(100vh - 290px);
+  background-color: #3D3D3D;
+  display: block;
+  position: relative;
+  z-index: 9999;
+}
 .mn-khkt-learning .learning-container .right-content {
   -webkit-flex-basis: 25%;
   -moz-flex-basis: 25%;
