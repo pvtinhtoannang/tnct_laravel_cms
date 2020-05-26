@@ -44,6 +44,10 @@
                         <?php
                         $file = $current_lesson->file->meta_value
                         ?>
+
+                        @if($file_type === 'drive')
+                                <iframe src="/read-file/{{ $current_lesson->ID }}" frameborder="0" class="iframe-file"></iframe>
+                        @else
                             <div tabindex="1" class="viewer-wrapper">
                                 <div id="outerContainer">
 
@@ -516,6 +520,8 @@
                                 </div> <!-- outerContainer -->
                                 <div id="printContainer"></div>
                             </div>
+                        @endif
+
                     @endif
                 @endif
                 <div class="container-fluid">

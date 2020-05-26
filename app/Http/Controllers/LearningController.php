@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Http\Controllers\ThemeController;
 use App\Lesson;
 use App\PermissionPost;
 use App\Post;
 use App\SectionHeading;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\ThemeController;
 use Illuminate\Support\Facades\Auth;
 
 class LearningController extends Controller
 {
 
-    private $theme_controller, $course, $lesson, $section_heading, $builder, $post, $video_type, $user, $permission_post, $activity;
+    private $theme_controller, $course, $lesson, $section_heading, $builder, $post, $video_type, $user, $permission_post, $activity, $file_type;
 
     public function __construct()
     {
@@ -26,6 +26,7 @@ class LearningController extends Controller
         $this->post = new Post();
         $this->builder = [];
         $this->video_type = 'unknown';
+        $this->file_type = 'host';
         $this->user = new User();
         $this->activity = [];
         $this->permission_post = new PermissionPost();
@@ -47,6 +48,8 @@ class LearningController extends Controller
                         if (isset($lesson_data->course->meta_value) && $lesson_data->course->meta_value * 1 === $course_data->ID * 1) {
                             if ($lesson_data->video !== null) {
                                 $this->video_type = $this->videoType($lesson_data->video->meta_value);
+                            } if ($lesson_data->file !== null) {
+                                $this->file_type = $this->fileType($lesson_data->file->meta_value);
                             }
                             return view('themes.parent-theme.learning', [
                                 'course' => $course_data,
@@ -54,6 +57,7 @@ class LearningController extends Controller
                                 'builder' => $this->courseBuilder($this->builder),
                                 'titleWebsite' => $lesson_data->post_title,
                                 'video_type' => $this->video_type,
+                                'file_type' => $this->file_type,
                                 'activity' => json_decode($this->activity)
                             ]);
                         } else {
@@ -125,6 +129,14 @@ class LearningController extends Controller
             return 'unknown';
         }
     }
+    function fileType($url)
+    {
+        if (strpos($url, 'drive') > 0) {
+            return 'drive';
+        } else {
+            return 'host';
+        }
+    }
 
     public function updateActivity(Request $request)
     {
@@ -133,5 +145,14 @@ class LearningController extends Controller
         } else {
             return false;
         }
+    }
+
+    public function readFileDrive($fileUrl){
+        $titleWebsite = new ThemeController();
+        $title = '';
+        if ($file = $this->lesson->post_id($fileUrl)->first()) {
+            $fileUrlReturn = $file->file->meta_value;
+        }
+        return view('themes.child-theme.components.drive-content', ['titleWebsite'=>$title, 'fileUrl'=>$fileUrlReturn]);
     }
 }

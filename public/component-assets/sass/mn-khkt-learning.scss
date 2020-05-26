@@ -160,7 +160,7 @@
                 }
             }
 
-            .viewer-wrapper {
+            .viewer-wrapper, .iframe-file {
                 width: 100%;
                 height: calc(100vh - 290px);
                 background-color: #3D3D3D;
@@ -168,6 +168,7 @@
                 position: relative;
                 z-index: 9999;
             }
+
         }
 
         .right-content {
