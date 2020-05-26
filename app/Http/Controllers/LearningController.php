@@ -160,22 +160,19 @@ class LearningController extends Controller
         return view('themes.child-theme.components.drive-content', ['fileUrl' => $fileUrlReturn]);
     }
 
-    function getFile(Request $request)
-    {
-        $lesson = $this->lesson->find($request->id);
-        if ($lesson && $lesson->file) {
-            return $lesson->file->meta_value;
-        }
-    }
 
     public function getBladeFile($id)
     {
-        $lesson = $this->lesson->find($id);
-        $urlFile = '';
-        $titleWebsite = '';
-        if ($lesson && $lesson->file) {
-            $urlFile = $lesson->file->meta_value;
+        if(Auth::check()){
+            $lesson = $this->lesson->find($id);
+            $urlFile = '';
+            $titleWebsite = '';
+            if ($lesson && $lesson->file) {
+                $urlFile = $lesson->file->meta_value;
+            }
+            return view('themes.child-theme.components.pdf-file', ['titleWebsite' => $titleWebsite, 'url' => $urlFile]);
+        }else{
+            return 0;
         }
-        return view('themes.child-theme.components.pdf-file', ['titleWebsite' => $titleWebsite, 'url' => $urlFile]);
     }
 }
