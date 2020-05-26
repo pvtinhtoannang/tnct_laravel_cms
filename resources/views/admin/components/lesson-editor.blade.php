@@ -15,6 +15,7 @@ $thumbnail_id = '';
 $course_id = '';
 $uploads_url = url('/contents/uploads');
 $video_link = '';
+$lesson_file_name = '';
 ?>
 
 @isset($postData)
@@ -34,14 +35,18 @@ $video_link = '';
             $tags = $tags . $cat->term->name . ',';
         }
     }
-    if ($postData->thumbnail !== null) {
+    if ($postData->thumbnail) {
         $thumbnail_id = $postData->thumbnail->meta_value;
         $thumbnail_url = $uploads_url . '/' . $postData->thumbnail->attachment->meta->meta_value;
     }
-    $course_id = $postData->meta()->where('meta_key', 'course_id')->first()->meta_value;
-    $video = $postData->meta()->where('meta_key', 'video_link')->first();
-    if (!is_null($video)) {
-        $video_link = $video->meta_value;
+    if ($postData->course) {
+        $course_id = $postData->course->meta_value;
+    }
+    if ($postData->video) {
+        $video_link = $postData->video->meta_value;
+    }
+    if ($postData->file) {
+        $lesson_file_name = $postData->file->meta_value;
     }
     ?>
 @endisset
@@ -98,9 +103,11 @@ if (isset($post_type)) {
                     <div class="form-group form-group-last">
                         <label for="file-name">Thêm file</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="file-name" data-toggle="modal" data-target="#insert-file-modal" readonly>
+                            <input type="text" class="form-control" id="file-name" name="lesson_file" value="{{$lesson_file_name}}">
                             <div class="input-group-append">
-                                <button id="lesson-select-file" data-toggle="modal" data-target="#insert-file-modal" class="btn btn-primary" type="button">Thêm file</button>
+                                <button id="lesson-select-file" data-toggle="modal" data-target="#insert-file-modal"
+                                        class="btn btn-primary" type="button">Thêm file
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -146,7 +153,6 @@ if (isset($post_type)) {
             </div>
         </div>
     </div>
-    <input type="hidden" name="lesson_file" value="">
     <input type="hidden" name="post_type" value="{{$type}}">
     {{ csrf_field() }}
 </form>
