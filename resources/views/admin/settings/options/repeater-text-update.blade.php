@@ -44,9 +44,12 @@
                 <div class="repeater-list-group">
                     <div class="repeater-list-input">
                         @php
+
                             if(isset($value->children)){
                                 $slug = $value->children->slug;
                                 $label = $value->children->label;
+                            }else{
+                                $slug = '' ;
                             }
                         @endphp
                         @if(is_array($slug))
