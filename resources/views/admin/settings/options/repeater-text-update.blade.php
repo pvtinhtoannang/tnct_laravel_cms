@@ -15,7 +15,9 @@
         margin-bottom: 15px;
     }
 </style>
+
 @foreach(json_decode($option['option_value']) as $value)
+
     <div class="repeater_update_parent">
         <div class="append-repeater_list_parent">
             <div class="repeater-list-children" data-parent-id="1">
@@ -25,7 +27,7 @@
                            name="option[{{ $option['option_name']}}][option_label_parent][]"
                            class="form-control"
                            aria-describedby="option_label"
-                           value="{{ $value->label }}"
+                           value="@if(isset($value->label)){{ $value->label }}@endif"
                            placeholder="Nhập tiêu đề, ex: Tên website">
                     <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
                 </div>
@@ -35,7 +37,7 @@
                            name="option[{{ $option['option_name'] }}][option_slug_parent][]"
                            class="form-control"
                            aria-describedby="option_name"
-                           value="{{ $value->slug }}"
+                           value="@if(isset($value->slug)){{ $value->slug }}@endif"
                            placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">
                     <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
                 </div>
