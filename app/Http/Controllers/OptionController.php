@@ -44,41 +44,27 @@ class OptionController extends Controller
         $option_type = $request->option_type;
         $checkNullRepeatText = '';
         $option_value = '';
-
         $arrParent = [];
         if (!empty($option_label_parent) && !empty($option_slug_parent)) {
-            foreach ($option_slug_parent as $k => $item) {
-                foreach ($item as $i => $value) {
-                    if (!is_array($value)) {
-                        $parentIndex = $i;
-                        if ($value != null) {
-                            $arrParent[$i]['slug'] = $value;
-                        }
+            for ($j = 0; $j < sizeof($option_label_parent['label']); $j++) {
+                $label = $option_label_parent['label'];
+            }
+            for ($j = 0; $j < sizeof($option_slug_parent['slug']); $j++) {
+                $slug = $option_slug_parent['slug'];
+            }
+            for ($k = 0; $k < sizeof($label); $k++) {
+                $key = $slug[$k];
+                $value = $label[$k];
+                if (!is_array($key) && !is_array($value)) {
+                    if ($value != null) {
+                        $option_value_arr[$key] = $value;
                     }
-                    if (is_array($value)) {
-                        if ($value != null) {
-                            $arrParent[$parentIndex]['children']['slug'][] = $value;
-                        }
-                    }
+                }else{
+                    $option_value_arr['children'][$key['slug']] = $value['label'];
                 }
             }
 
-            foreach ($option_label_parent as $k => $item) {
-                foreach ($item as $i => $value) {
-                    if (!is_array($value)) {
-                        $parentIndex = $i;
-                        if ($value != null) {
-                            $arrParent[$i]['label'] = $value;
-                        }
-                    }
-                    if (is_array($value)) {
-                        if ($value != null) {
-                            $arrParent[$parentIndex]['children']['label'][] = $value;
-                        }
-                    }
-                }
-            }
-            $option_value = json_encode($arrParent);
+            $option_value = json_encode($option_value_arr);
         }
 
         if (!empty($option_value_course) && sizeof($option_value_course) > 0) {
@@ -101,7 +87,7 @@ class OptionController extends Controller
 
     public function postUpdateOptionGeneral(Request $request)
     {
-        foreach ($request->option as $key=>$value) {
+        foreach ($request->option as $key => $value) {
             if (array_key_exists('option_label_parent', $value) || array_key_exists('option_slug_parent', $value)) {
                 $option_name = $key;
 

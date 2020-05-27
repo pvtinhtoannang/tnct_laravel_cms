@@ -18,6 +18,7 @@
 <div class="repeater_update_parent">
     <div class="append-repeater_list_parent">
         @foreach(json_decode($option['option_value']) as $index => $value)
+            @dump($value);
             <div class="repeater-list-children @if($index == 0) repeater-list-children-0 @endif"
                  data-parent-id="{{ $index }}">
                 <a class="btn btn-danger btn-delete-item-parent kt-font-light  @if($index == 0)  disabled  @endif"

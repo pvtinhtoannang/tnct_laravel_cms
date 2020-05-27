@@ -223,10 +223,14 @@ class UserController extends Controller
 
     public function getMyCourse()
     {
-        $user = Auth::user();
-        $post = $user->postsCourses;
-        $titleWebsite = new ThemeController();
-        $title = $titleWebsite->getTitleWebsite('khoa-hoc');
-        return view('themes.child-theme.components.mn-khkt-my-courses', ['course' => $post, 'titleWebsite' => $title]);
+        if (Auth::check()) {
+            $user = Auth::user();
+            $post = $user->postsCourses;
+            $titleWebsite = new ThemeController();
+            $title = $titleWebsite->getTitleWebsite('khoa-hoc');
+            return view('themes.child-theme.components.mn-khkt-my-courses', ['course' => $post, 'titleWebsite' => $title]);
+        } else {
+            abort('401');
+        }
     }
 }
