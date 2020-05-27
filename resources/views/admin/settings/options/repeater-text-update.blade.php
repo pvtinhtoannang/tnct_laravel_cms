@@ -113,7 +113,7 @@
                             @php
                                 $i = 1;
                             @endphp
-                            <div class="form-group row align-items-center repeater-item-text"
+                            <div class="form-group row align-items-center repeater-item-text repeater-item-text-0"
                                  data-id="{{ $i }}">
                                 <div class="col-xs-12 col-md-12"><span>Vui lòng điền đầy đủ thông tin, không được bỏ trống và phải nhập đúng cấu trúc!</span>
                                 </div>
@@ -154,7 +154,7 @@
                                     <div class="kt-form__label">
                                         <label>Xoá</label>
                                     </div>
-                                    <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light"
+                                    <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input disabled kt-font-light"
                                        data-id="{{ $i }}">
                                                                     <span>
                                                                         <i class="la la-trash-o"></i>
