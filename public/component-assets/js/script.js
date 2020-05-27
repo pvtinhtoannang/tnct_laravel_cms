@@ -37,9 +37,27 @@ function addToCart() {
             url: '/ajax-add-to-cart',
             type: 'post',
             data: {cart_data: cart_data, _token: $('meta[name="csrf-token"]').attr('content')},
-            success: function (response) {
+            beforeSend: function () {
 
-            }
+            },
+            success: function (res) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thêm vào giỏ hàng thành công',
+                    showCancelButton: true,
+                    cancelButtonText: 'Tiếp tục mua hàng',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đi đến giỏ hàng'
+                }).then((result) => {
+                    if (result.value) {
+                        window.location.href = '/gio-hang';
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+
+            },
         });
     });
 }
@@ -368,11 +386,11 @@ jQuery(function ($) {
             });
         });
 
+        $('.payment_method').on('click', function () {
+            $(this).parent().find('a').trigger('click')
+        });
 
     } catch (e) {
         console.log(e);
     }
 });
-
-// var url = 'https://tnctcms.dev/contents/uploads/2020/05/compressed.tracemonkey-pldi-09-3.pdf';
-// var loadingTask = pdfjsLib.getDocument(url);

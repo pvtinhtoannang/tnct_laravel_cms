@@ -117,6 +117,10 @@ Route::group(['prefix' => 'khoa-hoc'], function () {
     Route::get('/{course}/{lesson?}', ['as' => 'GET_LEARNING_ROUTE', 'uses' => 'LearningController@index']);
 });
 
+Route::group(['prefix' => 'tai-khoan'], function () {
+    Route::get('/don-hang', ['as' => 'ORDERS', 'uses' => 'OrderController@getOrders']);
+});
+
 Route::post('/ajax-delete-item-from-cart', ['as' => 'AJAX_DELETE_ITEM_FROM_CART', 'uses' => 'CartController@ajaxDeleteItemFromCart']);
 Route::post('/ajax-add-to-cart', ['as' => 'AJAX_ADD_TO_CART', 'uses' => 'CartController@ajaxAddToCart']);
 Route::post('/payment', ['as' => 'PAYMENT', 'uses' => 'CartController@payment']);

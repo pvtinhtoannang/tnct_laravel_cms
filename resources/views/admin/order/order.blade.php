@@ -38,6 +38,10 @@
                         <div class="order-totals-items">
                             <div class="order-totals-items-wrapper">
                                 <div class="subtotal-wrapper">
+                                    <div class="mark">Phương thức thanh toán</div>
+                                    <div class="amount">VCB</div>
+                                </div>
+                                <div class="subtotal-wrapper">
                                     <div class="mark">Tạm tính</div>
                                     <div class="amount">{{$content->subtotal}} ₫</div>
                                 </div>

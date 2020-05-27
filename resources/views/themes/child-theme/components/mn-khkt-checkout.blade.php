@@ -32,6 +32,72 @@
                     <div class="card-wrapper">
                         <div class="card-title">Thanh toán khóa học</div>
                         <form id="payment-form" action="{{route('PAYMENT')}}" method="post">
+                            <ul id="payment-methods">
+                                @foreach($payment_methods as $method)
+                                    @dump($method)
+                                <li>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="payment-select">
+                                                <label>
+                                                    <input type='radio' name='payment_method' value='vcb'
+                                                           data-toggle="collapse" data-target="#collapseOne"
+                                                           aria-expanded="true" aria-controls="collapseOne" checked/>
+                                                    @dump($method->children)
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div id="collapseOne" class="collapse show"
+                                             aria-labelledby="headingOne"
+                                             data-parent="#payment-methods">
+                                            <div class="card-body">
+                                                <div class="payment-method">
+                                                    Thông tin thanh toán:
+                                                    <br>
+                                                    – Cài đặt app MoMo TEST
+                                                    <br>
+                                                    – Số điện thoại: 0917003003
+                                                    <br>
+                                                    – Mật khẩu: 000000
+                                                    <br>
+                                                    – OTP: 000000
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endforeach
+                                <li>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="payment-select">
+                                                <label>
+                                                    <input type='radio' name='payment_method' value='vcb'
+                                                           data-toggle="collapse" data-target="#collapseTwo"
+                                                           aria-expanded="false"
+                                                           aria-controls="collapseTwo"/> ACB
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                         data-parent="#payment-methods">
+                                        <div class="card-body">
+                                            <div class="payment-method">
+                                                Thông tin thanh toán:
+                                                <br>
+                                                – Cài đặt app MoMo TEST
+                                                <br>
+                                                – Số điện thoại: 0917003003
+                                                <br>
+                                                – Mật khẩu: 000000
+                                                <br>
+                                                – OTP: 000000
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
                             @foreach($cart_content as $item)
                                 <input type="hidden"
                                        name="course[]"

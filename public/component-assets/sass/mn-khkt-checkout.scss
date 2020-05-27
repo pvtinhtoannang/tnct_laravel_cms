@@ -86,9 +86,52 @@
     }
 
     #payment-form {
+        #payment-methods {
+            li {
+                .payment-select {
+                    input {
+                        margin-right: 20px;
+                    }
+                }
+
+                .card {
+                    border: none;
+
+                    .card-header {
+                        background-color: transparent;
+                        border: none;
+                    }
+                }
+
+
+                .payment-method {
+                    background-color: #dfdcde;
+                    color: #515151;
+                    border-radius: 2px;
+                    line-height: 1.4;
+                    padding: 12px 15px;
+                    position: relative;
+
+                    &:after {
+                        content: "";
+                        display: block;
+                        border: 1em solid #dfdcde;
+                        border-right-color: transparent;
+                        border-left-color: transparent;
+                        border-top-color: transparent;
+                        position: absolute;
+                        top: -.75em;
+                        left: 0;
+                        margin: -1em 0 0 2em;
+                    }
+                }
+            }
+        }
+
         .btn-wrapper {
             text-align: right;
-            button{
+
+            button {
                 width: 160px;
                 height: 46px;
                 border-radius: 7px;
