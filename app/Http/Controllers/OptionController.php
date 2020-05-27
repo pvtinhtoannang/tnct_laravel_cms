@@ -101,13 +101,16 @@ class OptionController extends Controller
 
     public function postUpdateOptionGeneral(Request $request)
     {
-        foreach ($request->option as $value) {
+        foreach ($request->option as $key=>$value) {
             if (array_key_exists('option_label_parent', $value) || array_key_exists('option_slug_parent', $value)) {
+                $option_name = $key;
+
                 $option_label_parent = $value['option_label_parent'];
                 $option_slug_parent = $value['option_slug_parent'];
-                $option_name = $option_slug_parent[0];
+
                 $arrParent = [];
                 if (!empty($option_label_parent) && !empty($option_slug_parent)) {
+
                     $parentIndex = 0;
                     foreach ($option_slug_parent as $k => $item) {
                         if (!is_array($item)) {
@@ -133,17 +136,17 @@ class OptionController extends Controller
                 $option_value = json_encode($arrParent);
                 \App\Option::where('option_name', $option_name)
                     ->update(['option_value' => $option_value]);
-            } else {
-                foreach ($value as $option_name => $option_value) {
-                    \App\Option::where('option_name', $option_name)
-                        ->update(['option_value' => $option_value]);
-                }
+            }
+            foreach ($value as $option_name => $option_value) {
+                \App\Option::where('option_name', $option_name)
+                    ->update(['option_value' => $option_value]);
             }
         }
-        return redirect()->back()->with('messages', 'Cập nhật thành công!');
+//        return redirect()->back()->with('messages', 'Cập nhật thành công!');
     }
 
-    public function ajaxGetAllCourse()
+    public
+    function ajaxGetAllCourse()
     {
         return $this->course->get();
     }

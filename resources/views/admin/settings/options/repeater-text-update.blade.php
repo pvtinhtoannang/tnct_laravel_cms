@@ -15,10 +15,9 @@
     }
 </style>
 
-@foreach(json_decode($option['option_value']) as $index => $value)
-
-    <div class="repeater_update_parent">
-        <div class="append-repeater_list_parent">
+<div class="repeater_update_parent">
+    <div class="append-repeater_list_parent">
+        @foreach(json_decode($option['option_value']) as $index => $value)
             <div class="repeater-list-children @if($index == 0) repeater-list-children-0 @endif"
                  data-parent-id="{{ $index }}">
                 <a class="btn btn-danger btn-delete-item-parent kt-font-light  @if($index == 0)  disabled  @endif"
@@ -173,12 +172,12 @@
                     <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
                 </div>
             </div>
-        </div>
-
-        <div class="add-item">
-            <a class="btn btn-info btn-add-item-parent-update kt-font-light"><i
-                        class="fa fa-plus-circle"></i> Thêm mới
-            </a>
-        </div>
+        @endforeach
     </div>
-@endforeach
+
+    <div class="add-item">
+        <a class="btn btn-info btn-add-item-parent-update kt-font-light"><i
+                    class="fa fa-plus-circle"></i> Thêm mới
+        </a>
+    </div>
+</div>
