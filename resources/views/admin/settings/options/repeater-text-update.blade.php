@@ -11,16 +11,20 @@
 
     .repeater-list-group {
         padding: 10px 15px;
-        border: 1px solid #CCC;
         margin-bottom: 15px;
     }
 </style>
 
-@foreach(json_decode($option['option_value']) as $value)
+@foreach(json_decode($option['option_value']) as $index => $value)
 
     <div class="repeater_update_parent">
         <div class="append-repeater_list_parent">
-            <div class="repeater-list-children" data-parent-id="1">
+            <div class="repeater-list-children @if($index == 0) repeater-list-children-0 @endif"
+                 data-parent-id="{{ $index }}">
+                <a class="btn btn-danger btn-delete-item-parent kt-font-light  @if($index == 0)  disabled  @endif"
+                   data-parent-id="1"><i
+                            class="fa fa-trash-alt"></i> Xoá nhóm
+                </a>
                 <div class="form-group">
                     <label for="option_label">Tiêu đề cho repeater</label>
                     <input type="text"
@@ -54,7 +58,7 @@
                         @endphp
                         @if(is_array($slug))
                             @for($i = 0; $i < sizeof($slug); $i++)
-                                <div class="form-group row align-items-center repeater-item-text"
+                                <div class="form-group row align-items-center repeater-item-text repeater-item-text-{{$i}}"
                                      data-id="{{ $i }}">
                                     <div class="col-xs-12 col-md-12"><span>Vui lòng điền đầy đủ thông tin, không được bỏ trống và phải nhập đúng cấu trúc!</span>
                                     </div>
@@ -92,10 +96,11 @@
                                         <div class="d-md-none kt-margin-b-10"></div>
                                     </div>
                                     <div class="col-md-2">
+
                                         <div class="kt-form__label">
                                             <label>Xoá</label>
                                         </div>
-                                        <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light"
+                                        <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light @if($i == 0) disabled @endif"
                                            data-id="{{ $i }}">
                                                                     <span>
                                                                         <i class="la la-trash-o"></i>

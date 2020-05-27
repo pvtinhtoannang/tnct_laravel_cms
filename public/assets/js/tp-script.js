@@ -1147,14 +1147,64 @@ var PvtinhOptionManagement = function () {
         $('#last-id-chilren').val(current_id * 1 + 1);
         return $('#last-id-chilren').val();
     }
+    var resetDataParentID = function () {
+        $('.repeater_list_parent_add.append-repeater_list_parent .repeater-list-children').each(function (i) {
+            $(this).attr('data-parent-id', i);
+            $(this).find('.repeater-item-text').attr('data-id', i + i);
+            $(this).find('.btn-add-item').attr('data-id', i + i);
+            $(this).find('.btn-delete-item-input').attr('data-id', i + i);
+            $(this).find('.btn-delete-item-parent').attr('data-parent-id', i);
+        });
+
+    }
+    var resetDataUpdateParentID = function () {
+        $('.repeater_update_parent .append-repeater_list_parent .repeater-list-children').each(function (i) {
+            $(this).attr('data-parent-id', i);
+            $(this).find('.repeater-item-text').attr('data-id', i + i);
+            $(this).find('.btn-add-item').attr('data-id', i + i);
+            $(this).find('.btn-delete-item-input').attr('data-id', i + i);
+            $(this).find('.btn-delete-item-parent').attr('data-parent-id', i);
+
+            if (i > 0) {
+                $(this).removeClass('repeater-list-children-0');
+                $(this).find('.btn-delete-item-parent').removeClass('disabled');
+            }
+        });
+    }
+
+    var resetDataUpdateChildrenID = function () {
+        $('.repeater_update_parent .repeater-item-text').each(function (i) {
+            $(this).attr('data-id', i);
+            $(this).find('.btn-delete-item-input').attr('data-id', i);
+            if(i > 0){
+                $(this).removeClass('repeater-item-text-0');
+                $(this).find('.btn-delete-item-input').removeClass('disabled');
+            }
+        });
+    }
+
+    $('.repeater_update_parent .append-repeater_list_parent').each(function (i) {
+        $(this).attr('data-parent-id', i);
+        $(this).find('.repeater-item-text').attr('data-id', i + i);
+        $(this).find('.btn-add-item').attr('data-id', i + i);
+        $(this).find('.btn-delete-item-input').attr('data-id', i + i);
+        $(this).find('.btn-delete-item-parent').attr('data-parent-id', i);
+    });
+
 
     let addNewItemRepeatInput = function () {
         $(document).on('click', 'a.btn-add-item-parent', function () {
             var current_parent_id = $(this).data('parent-last-id');
-            $(this).data('parent-last-id', current_parent_id * 1 + 1);
+            $(this).attr('parent-last-id', current_parent_id * 1 + 1);
+            $(this).parents('.add-item').find('.btn-delete-item-parent').attr('parent-last-id', current_parent_id * 1 + 1);
             let future_parent_id = current_parent_id * 1 + 1;
             var idNew = createFutureID();
-            let html_repeater_parent = ' <div class="repeater-list-children" data-parent-id="' + future_parent_id + '"> <div class="form-group">\n' +
+
+            let html_repeater_parent = ' <div class="repeater-list-children" data-parent-id="' + future_parent_id +
+                '" ><a class="btn btn-danger btn-delete-item-parent kt-font-light" data-parent-id="1"><i' +
+                '                        class="fa fa-trash-alt"></i> Xoá nhóm' +
+                '            </a>' +
+                '<div class="form-group">\n' +
                 '                                        <label for="option_label">Tiêu đề cho repeater</label>\n' +
                 '                                        <input required id="option_label" type="text"\n' +
                 '                                               name="option_label_parent[label][]" class="form-control"\n' +
@@ -1219,9 +1269,13 @@ var PvtinhOptionManagement = function () {
                 '                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>\n' +
                 '                                    </div>' +
                 '                                   </div>';
-            $('.append-repeater_list_parent').append(html_repeater_parent);
+            $('.repeater_list_parent').find('.repeater-list-children').each(function (i) {
+                $(this).attr('data-parent-id', i);
+            });
+            $('.repeater_list_parent_add .append-repeater_list_parent').append(html_repeater_parent);
+            resetDataParentID();
 
-        })
+        });
 
         $(document).on("click", "a.btn-add-item", function () {
             var idNew = createFutureID();
@@ -1272,23 +1326,34 @@ var PvtinhOptionManagement = function () {
             });
         });
 
+        $(document).on("click", "a.btn-delete-item-parent", function () {
+            var id = $(this).data('data-parent-id');
+            console.log(id);
+            if (id != '1') {
+                $(this).parents('.repeater-list-children').remove();
+            }
+        });
     }
+
 
     let addNewItemRepeatInputUpdate = function () {
         $(document).on('click', 'a.btn-add-item-parent-update', function () {
-            var html_repeater_parent = $(this).parents('.repeater_update_parent').find('.repeater-list-children').clone();
-            $(this).parents('.repeater_update_parent').find('.append-repeater_list_parent').append(html_repeater_parent);
+            var html_new = '', html_repeater_parent = '';
+            html_repeater_parent = $(this).parents('.repeater_update_parent').find('.repeater-list-children-0');
+            html_new = html_repeater_parent.clone();
+            $(this).parents('.repeater_update_parent').find('.append-repeater_list_parent').append(html_new);
+            resetDataUpdateParentID();
         })
 
 
         $(document).on("click", "a.btn-add-item-update", function () {
-            var idNew = createFutureID();
-            var html_repeater_parent = $(this).parents('.repeater-list-group').find('.repeater-item-text').clone();
+            var html_repeater_parent = $(this).parents('.repeater-list-group').find('.repeater-item-text-0').clone();
             $(this).parents('.repeater_update_parent').find('.repeater-list-input').append(html_repeater_parent);
             $('.repeater-list-group .repeater-item-text').each(function (i) {
                 $(this).attr('data-id', i);
                 $(this).find('.btn-delete-item-input').attr('data-id', i);
             });
+            resetDataUpdateChildrenID();
         });
     }
 

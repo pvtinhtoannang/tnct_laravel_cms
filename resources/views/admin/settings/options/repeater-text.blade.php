@@ -7,17 +7,22 @@
 
     .repeater-list-children {
         margin-top: 15px;
+        border: 1px solid #CCC;
+        padding: 10px 15px;
     }
 
     .repeater-list-group {
         padding: 10px 15px;
-        border: 1px solid #CCC;
         margin-bottom: 15px;
     }
 </style>
-<div class="repeater_list_parent" id="repeater-list-group" style="display:none; ">
+<div class="repeater_list_parent repeater_list_parent_add" id="repeater-list-group" style="display:none; ">
     <div class="append-repeater_list_parent">
+
         <div class="repeater-list-children" data-parent-id="1">
+            <a class="btn btn-danger btn-delete-item-parent kt-font-light" data-parent-id="1"><i
+                        class="fa fa-trash-alt"></i> Xoá nhóm
+            </a>
             <div class="form-group">
                 <label for="option_label">Tiêu đề cho repeater</label>
                 <input type="text"
@@ -85,6 +90,8 @@
                     <a class="btn btn-info btn-add-item kt-font-light" data-last-id="1"><i
                                 class="fa fa-plus-circle"></i> Thêm mới
                     </a>
+
+
                 </div>
                 <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
             </div>
@@ -92,7 +99,7 @@
     </div>
     <div class="add-item">
         <a class="btn btn-info btn-add-item-parent kt-font-light" data-parent-last-id="1"><i
-                    class="fa fa-plus-circle"></i> Thêm mới
+                    class="fa fa-plus-circle"></i> Thêm nhóm mới
         </a>
     </div>
 </div>
