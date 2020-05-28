@@ -50,7 +50,7 @@ class ThemeController extends Controller
             $title = 'Tài khoản';
         } elseif ($slug === 'thanh-toan') {
             $title = 'Thanh toán';
-        }  elseif ($slug === 'khoa-hoc') {
+        } elseif ($slug === 'khoa-hoc') {
             $title = 'Khoá học của tôi';
         } else {
             $title = 'Không tìm thấy trang - 404 Not Found';
@@ -62,7 +62,7 @@ class ThemeController extends Controller
     {
         $listCourseCat = $this->taxonomy->name('course_cat')->get();
         $titleWebsite = $this->getTitleWebsite('/');
-        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite, 'listCourseCat'=>$listCourseCat]);
+        return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite, 'listCourseCat' => $listCourseCat]);
     }
 
     function type($slug)
@@ -88,7 +88,8 @@ class ThemeController extends Controller
             }
             return view('themes.parent-theme.' . $post_type, ['post' => $post, 'titleWebsite' => $titleWebsite]);
         } else if ($term !== null) {
-            return view('themes.parent-theme.archive', ['term' => $term, 'titleWebsite' => $titleWebsite]);
+            $posts = $term->taxonomy->posts()->paginate(9);
+            return view('themes.parent-theme.archive', ['term' => $term, 'posts' => $posts, 'titleWebsite' => $titleWebsite]);
         } else {
             return response()->view('themes.parent-theme.404', ['titleWebsite' => $titleWebsite], 404);
         }

@@ -121,3 +121,13 @@ function render_slider($id, $class = '', $id_slider_custom = '')
         </div>
     <?php }
 }
+
+function is_tax($taxonomy = '')
+{
+    global $term;
+    if ($term->taxonomy->taxonomy === $taxonomy) {
+        return true;
+    } else {
+        return false;
+    }
+}
