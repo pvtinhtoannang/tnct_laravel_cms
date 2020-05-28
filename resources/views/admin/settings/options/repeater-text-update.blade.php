@@ -20,7 +20,7 @@
 
         <div class="alert alert-primary" role="alert">
             <div class="alert-text">{{ $option['option_label'] }}</div>
-            <input type="text" class="" name="option[{{$indexOption}}][{{ $option['option_name'] }}]"
+            <input type="hidden" class="" name="option[{{$indexOption}}][{{ $option['option_name'] }}]"
                    value="{{ $option['option_name'] }}">
 
         </div>
