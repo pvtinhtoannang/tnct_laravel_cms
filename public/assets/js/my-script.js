@@ -386,6 +386,14 @@ function saveCourseBuilder() {
     });
 }
 
+function medialDetail() {
+    $(document).on('click', '.upload-template .attachment', function () {
+        let attachment_id = $(this).attr('data-id');
+        let media_modal = $('#media-modal');
+        media_modal.modal('show');
+    });
+}
+
 jQuery(function ($) {
     try {
         $(document).ready(function () {
@@ -399,6 +407,7 @@ jQuery(function ($) {
             mediaSelect();
             ajax_upload();
             lesson_select_file();
+            medialDetail();
             $('#browse-btn').on('click', function () {
                 ajax_upload();
             });

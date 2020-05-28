@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Option;
 use App\Order;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -10,25 +11,34 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    private $course, $titleWebsite, $order;
+    private $course, $titleWebsite, $order, $option;
 
     public function __construct()
     {
         $this->course = new Course();
         $this->titleWebsite = new ThemeController();
         $this->order = new Order();
+        $this->option = new Option();
         Cart::setGlobalTax(0);
     }
 
     function addToCart(Request $request)
     {
         Cart::add($request->course, $request->course_name, 1, $request->price);
+        $cart_content = Cart::content();
+        foreach ($cart_content as $i => $item) {
+            Cart::update($item->rowId, 1);
+        }
         return redirect()->route('CART');
     }
 
     function ajaxAddToCart(Request $request)
     {
         Cart::add($request->cart_data['course'], $request->cart_data['course_name'], 1, $request->cart_data['price']);
+        $cart_content = Cart::content();
+        foreach ($cart_content as $i => $item) {
+            Cart::update($item->rowId, 1);
+        }
     }
 
     function cartContent()
@@ -39,6 +49,7 @@ class CartController extends Controller
         $title = $this->titleWebsite->getTitleWebsite('gio-hang');
 
         foreach ($cart_content as $i => $item) {
+            Cart::update($item->rowId, 1);
             $course = $this->course->find($item->id);
             $cart_content[$i]->course_data = $course;
         }
@@ -67,7 +78,9 @@ class CartController extends Controller
         $cart_content = Cart::content();
         $cart_total = Cart::total(0, '.', '.');
         $cart_subtotal = Cart::subtotal(0, '.', '.');
+        $optionPaymentMethod =  $this->option->getField('payment_methods');
         foreach ($cart_content as $i => $item) {
+            Cart::update($item->rowId, 1);
             $course = $this->course->find($item->id);
             $cart_content[$i]->course_data = $course;
         }
@@ -75,7 +88,8 @@ class CartController extends Controller
             'titleWebsite' => $title,
             'cart_total' => $cart_total,
             'cart_subtotal' => $cart_subtotal,
-            'cart_content' => $cart_content
+            'cart_content' => $cart_content,
+            'payment_methods'=>json_decode($optionPaymentMethod)
         ]);
     }
 
@@ -101,7 +115,7 @@ class CartController extends Controller
             "subtotal" => $cart_subtotal,
             "total" => $cart_total,
             "count" => $cart_count,
-            "payment" => ""
+            "payment" => $request->payment_method
         );
         $payment_content = json_encode($payment);
         if (Auth::check()) {
@@ -112,6 +126,7 @@ class CartController extends Controller
             ]);
             Cart::destroy();
             return redirect()->route('GET_MY_ACCOUNT')->with('success', 'Đặt mua khoá học thành công.');
+
         } else {
             return redirect()->back()->with('error', 'Bạn chưa đăng nhập.');
         }

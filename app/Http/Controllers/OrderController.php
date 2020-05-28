@@ -45,4 +45,8 @@ class OrderController extends Controller
         $this->order->updateStatus($id, $request->order_status);
         return redirect()->route('GET_ORDER_ROUTE', [$id])->with('update', 'Đơn hàng đã được cập nhật');
     }
+
+    function getOrders(){
+
+    }
 }
