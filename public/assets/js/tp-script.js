@@ -1267,6 +1267,7 @@ var PvtinhOptionManagement = function () {
             console.log('Đã xoá');
             notifcationDeleted();
         });
+        var portlet = new KTPortlet('.custom_kt-portlet');
     }
 
 
