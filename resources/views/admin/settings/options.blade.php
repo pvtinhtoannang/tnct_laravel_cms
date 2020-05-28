@@ -32,7 +32,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
-                            @foreach($options as $option)
+                            @foreach($options as $indexOption=>$option)
                                 <div class="form-group">
                                     <label for="{{ $option['option_name'] }}">{{ $option['option_label'] }}</label>
                                     @if($option['option_type']==='text' || $option['option_type']==='url' || $option['option_type']==='email' || $option['option_type']==='number')

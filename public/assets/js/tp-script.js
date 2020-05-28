@@ -1093,7 +1093,7 @@ var PvtinhOptionManagement = function () {
     let resetInput = function () {
         $('.reset-input').val('');
         $('.reset-input').text('');
-        $('.repeater-item-text').empty();
+        $('.repeater-item-text').find('input').val('');
     }
     let resetSelect2 = function () {
         $('#option_value_courses').val('null').trigger('change');
@@ -1113,8 +1113,6 @@ var PvtinhOptionManagement = function () {
     }
     resetSelect2();
     let RepeaterOptions = function () {
-
-
         $('.form-new-option #option_type').change(function () {
             let option_value = $(this).val();
             resetSelect2();
@@ -1141,22 +1139,91 @@ var PvtinhOptionManagement = function () {
             }
         });
     };
+    var createNameInputForRepeaterText = function () {
+        var label = '';
+        var slug = '';
+        var value = '';
+        $('.repeater-list-group-repeater-text .repeater-item-text').each(function (i) {
+            if (i == '0') {
+                $(this).find('.btn-delete-item-input').addClass('disabled')
+            }
+            label = 'repeater[column][' + i + '][repeater_label]';
+            slug = 'repeater[column][' + i + '][repeater_slug]';
+            value = 'repeater[column][' + i + '][repeater_value]';
+            $(this).find('.input-label-repeater-text').attr('name', label);
+            $(this).find('.input-slug-repeater-text').attr('name', slug);
+            $(this).find('.input-value-repeater-text').attr('name', value);
 
-    let createFutureID = function () {
-        var current_id = $('#last-id-chilren').val();
-        $('#last-id-chilren').val(current_id * 1 + 1);
-        return $('#last-id-chilren').val();
-    }
-    var resetDataParentID = function () {
-        $('.repeater_list_parent_add.append-repeater_list_parent .repeater-list-children').each(function (i) {
-            $(this).attr('data-parent-id', i);
-            $(this).find('.repeater-item-text').attr('data-id', i + i);
-            $(this).find('.btn-add-item').attr('data-id', i + i);
-            $(this).find('.btn-delete-item-input').attr('data-id', i + i);
-            $(this).find('.btn-delete-item-parent').attr('data-parent-id', i);
+            if (i >= '1') {
+                $(this).removeClass('repeater-item-text-0');
+                $(this).find('.btn-delete-item-input').removeClass('disabled')
+            }
         });
+    }
+    var createNameInputForRepeaterTextUpdate = function () {
 
     }
+
+    var createNewInputForRepeaterText = function () {
+        $(document).on('click', 'a.btn-add-item-repeater-text', function () {
+            var html_item_input_text = $(this).parents('.repeater-list-group-repeater-text').find('.repeater-item-text-0').clone();
+            $(this).parents('.repeater-list-group-repeater-text').find('.repeater-list-input').append(html_item_input_text);
+            console.log(html_item_input_text);
+            createNameInputForRepeaterText();
+            console.log('Đã thêm mới');
+        });
+    }
+    var deleteInputForRepeaterText = function () {
+        $(document).on('click', 'a.btn-delete-item-input', function () {
+            $(this).parents('.repeater-item-text').remove();
+            createNameInputForRepeaterText();
+            console.log('Đã xoá');
+        });
+    }
+    var createInputUpdate = function () {
+        $(document).on('click', 'a.btn-add-item-update', function () {
+            let repeater_list_input = $(this).parents('.repeater_update_parent').find('.repeater-list-input-0').clone();
+            console.log(repeater_list_input);
+            $(this).parents('.repeater_update_parent').find('.repeater-list-group-repeater-text-update').append(repeater_list_input);
+            var label = '';
+            var slug = '';
+            var value = '';
+            let indexOption = $(this).data('index-option');
+            $(this).parents('.repeater_update_parent').find('.repeater-list-group-repeater-text-update .repeater-list-input').each(function (i) {
+                if (i === '0') {
+                    $(this).find('.btn-delete-item-input').addClass('disabled')
+                }
+                var option_name = $(this).find('.input-label-repeater-text').data('name');
+                console.log(option_name);
+                $(this).find('.input-label-repeater-text').attr('name', 'option[' + indexOption + '][' + option_name + '][0][label]');
+                $(this).find('.input-label-repeater-text').attr('name', 'option[' + indexOption + '][' + option_name + '][0][name]');
+                $(this).find('.input-label-parent-repeater').attr('name', 'option[' + indexOption + '][' + option_name + '][' + i + '][label]');
+                $(this).find('.input-name-parent-repeater').attr('name', 'option[' + indexOption + '][' + option_name + '][' + i + '][name]');
+
+                label = 'option[' + indexOption + '][' + $(this).find('.input-label-repeater-text').data('name') + ']['+i+'][column]['+i+'][repeater_label]';
+                slug = 'option[' + indexOption + '][' + $(this).find('.input-value-repeater-text').data('name') + ']['+i+'][column]['+i+'][repeater_slug]';
+                value = 'option[' + indexOption + '][' + $(this).find('.input-slug-repeater-text').data('name') + ']['+i+'][column]['+i+'][repeater_value]';
+
+                $(this).find('.repeater-item-text').each(function (j) {
+                    label = 'option[' + indexOption + '][' + $(this).find('.input-label-repeater-text').data('name') + ']['+i+'][column]['+j+'][repeater_label]';
+                    slug = 'option[' + indexOption + '][' + $(this).find('.input-value-repeater-text').data('name') + ']['+i+'][column]['+j+'][repeater_slug]';
+                    value = 'option[' + indexOption + '][' + $(this).find('.input-slug-repeater-text').data('name') + ']['+i+'][column]['+j+'][repeater_value]';
+                    $(this).find('.input-label-repeater-text').attr('name', label);
+                    $(this).find('.input-slug-repeater-text').attr('name', slug);
+                    $(this).find('.input-value-repeater-text').attr('name', value);
+                });
+
+
+                if (i >= '1') {
+                    $(this).removeClass('repeater-item-text-0');
+                    $(this).find('.btn-delete-item-input').removeClass('disabled')
+                }
+            });
+            console.log('Đã thêm mới');
+        });
+    }
+
+
     var resetDataUpdateParentID = function () {
         $('.repeater_update_parent .append-repeater_list_parent .repeater-list-children').each(function (i) {
             $(this).attr('data-parent-id', i);
@@ -1171,12 +1238,11 @@ var PvtinhOptionManagement = function () {
             }
         });
     }
-
     var resetDataUpdateChildrenID = function () {
         $('.repeater_update_parent .repeater-item-text').each(function (i) {
             $(this).attr('data-id', i);
             $(this).find('.btn-delete-item-input').attr('data-id', i);
-            if(i > 0){
+            if (i > 0) {
                 $(this).removeClass('repeater-item-text-0');
                 $(this).find('.btn-delete-item-input').removeClass('disabled');
             }
@@ -1190,173 +1256,6 @@ var PvtinhOptionManagement = function () {
         $(this).find('.btn-delete-item-input').attr('data-id', i + i);
         $(this).find('.btn-delete-item-parent').attr('data-parent-id', i);
     });
-
-
-    let addNewItemRepeatInput = function () {
-        $(document).on('click', 'a.btn-add-item-parent', function () {
-            var current_parent_id = $(this).data('parent-last-id');
-            $(this).attr('parent-last-id', current_parent_id * 1 + 1);
-            $(this).parents('.add-item').find('.btn-delete-item-parent').attr('parent-last-id', current_parent_id * 1 + 1);
-            let future_parent_id = current_parent_id * 1 + 1;
-            var idNew = createFutureID();
-
-            let html_repeater_parent = ' <div class="repeater-list-children" data-parent-id="' + future_parent_id +
-                '" ><a class="btn btn-danger btn-delete-item-parent kt-font-light" data-parent-id="1"><i' +
-                '                        class="fa fa-trash-alt"></i> Xoá nhóm' +
-                '            </a>' +
-                '<div class="form-group">\n' +
-                '                                        <label for="option_label">Tiêu đề cho repeater</label>\n' +
-                '                                        <input required id="option_label" type="text"\n' +
-                '                                               name="option_label_parent[label][]" class="form-control"\n' +
-                '                                               aria-describedby="option_label"\n' +
-                '                                               value=""\n' +
-                '                                               placeholder="Nhập tiêu đề, ex: Tên website">\n' +
-                '                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>\n' +
-                '                                    </div>\n' +
-                '                                    <div class="form-group">\n' +
-                '                                        <label for="option_name">Slug cho repeater</label>\n' +
-                '                                        <input required id="option_name" type="text"\n' +
-                '                                               name="option_slug_parent[slug][]" class="form-control"\n' +
-                '                                               aria-describedby="option_name"\n' +
-                '                                               value=""\n' +
-                '                                               placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">\n' +
-                '                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>\n' +
-                '                                    </div>\n' +
-                '                                    <div class="repeater-list-group">\n' +
-                '                                        <div class="repeater-list-input">\n' +
-                '                                            <div class="form-group row align-items-center repeater-item-text" data-id="' + idNew + '">\n' +
-                '                                                <div class="col-xs-12 col-md-12"><span>Vui lòng điền đầy đủ thông tin, không được bỏ trống!</span></div>\n' +
-                '                                                <div class="col-md-7">\n' +
-                '                                                    <div class="kt-form__group--inline">\n' +
-                '                                                        <div class="kt-form__label">\n' +
-                '                                                            <label>Nội dung:</label>\n' +
-                '                                                        </div>\n' +
-                '                                                        <div class="kt-form__control">\n' +
-                '                                                            <input type="text" class="form-control reset-input" name="option_label_parent[label][][label]"  placeholder="Nhập nội dung">\n' +
-                '                                                        </div>\n' +
-                '                                                    </div>\n' +
-                '                                                    <div class="d-md-none kt-margin-b-10"></div>\n' +
-                '                                                </div>\n' +
-                '                                                <div class="col-md-3">\n' +
-                '                                                    <div class="kt-form__group--inline">\n' +
-                '                                                        <div class="kt-form__label">\n' +
-                '                                                            <label>Slug Sub - dùng cho dev</label>\n' +
-                '                                                        </div>\n' +
-                '                                                        <div class="kt-form__control">\n' +
-                '                                                            <input type="text" class="form-control reset-input" name="option_slug_parent[slug][][slug]" placeholder="Nhập slug">\n' +
-                '                                                        </div>\n' +
-                '                                                    </div>\n' +
-                '                                                    <div class="d-md-none kt-margin-b-10"></div>\n' +
-                '                                                </div>\n' +
-                '                                                <div class="col-md-2">\n' +
-                '                                                    <div class="kt-form__label">\n' +
-                '                                                        <label>Xoá</label>\n' +
-                '                                                    </div>\n' +
-                '                                                    <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light"\n' +
-                '                                                       data-id="' + idNew + '">\n' +
-                '                                            <span>\n' +
-                '                                                <i class="la la-trash-o"></i>\n' +
-                '                                            </span>\n' +
-                '                                                    </a>\n' +
-                '                                                </div>\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="add-item">\n' +
-                '                                            <a class="btn btn-info btn-add-item kt-font-light" data-last-id="' + idNew + '"><i\n' +
-                '                                                        class="fa fa-plus-circle"></i> Thêm mới\n' +
-                '                                            </a>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>\n' +
-                '                                    </div>' +
-                '                                   </div>';
-            $('.repeater_list_parent').find('.repeater-list-children').each(function (i) {
-                $(this).attr('data-parent-id', i);
-            });
-            $('.repeater_list_parent_add .append-repeater_list_parent').append(html_repeater_parent);
-            resetDataParentID();
-
-        });
-
-        $(document).on("click", "a.btn-add-item", function () {
-            var idNew = createFutureID();
-
-            let html_repeat_input = '<div class="form-group row align-items-center repeater-item-text" data-id="' + idNew + '">\n' +
-                '                                    <div class="col-md-7">\n' +
-                '                                        <div class="kt-form__group--inline">\n' +
-                '                                            <div class="kt-form__label">\n' +
-                '                                                <label>Nội dung:</label>\n' +
-                '                                            </div>\n' +
-                '                                            <div class="kt-form__control">\n' +
-                '                                                <input type="text" class="form-control reset-input"  name="option_label_parent[label][][label]" placeholder="Nhập nội dung">\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="d-md-none kt-margin-b-10"></div>\n' +
-                '                                    </div>\n' +
-                '                                    <div class="col-md-3">\n' +
-                '                                        <div class="kt-form__group--inline">\n' +
-                '                                            <div class="kt-form__label">\n' +
-                '                                                <label>Slug Sub - dùng cho dev</label>\n' +
-                '                                            </div>\n' +
-                '                                            <div class="kt-form__control">\n' +
-                '                                                <input type="text" class="form-control reset-input" name="option_slug_parent[slug][][slug]"  placeholder="Nhập slug">\n' +
-                '                                            </div>\n' +
-                '                                        </div>\n' +
-                '                                        <div class="d-md-none kt-margin-b-10"></div>\n' +
-                '                                    </div>\n' +
-                '                                    <div class="col-md-2">   <div class="kt-form__label">\n' +
-                '                                                <label>Xoá</label>\n' +
-                '                                            </div>\n' +
-                '                                        <a class="btn-sm btn btn-danger btn-pill btn-delete-item-input kt-font-light" data-id="' + idNew + '">\n' +
-                '                                            <span>\n' +
-                '                                                <i class="la la-trash-o"></i>\n' +
-                '                                            </span>\n' +
-                '                                        </a>\n' +
-                '                                    </div>\n' +
-                '                                </div>\n';
-            $(this).parents('.repeater-list-children').find('.repeater-list-input').append(html_repeat_input);
-        });
-
-        $(document).on("click", "a.btn-delete-item-input", function () {
-            var idDelete = $(this).attr('data-id');
-            $('.repeater-item-text').each(function (i) {
-                var id = $(this).attr('data-id');
-                if (idDelete === id) {
-                    $(this).remove();
-                }
-            });
-        });
-
-        $(document).on("click", "a.btn-delete-item-parent", function () {
-            var id = $(this).data('data-parent-id');
-            console.log(id);
-            if (id != '1') {
-                $(this).parents('.repeater-list-children').remove();
-            }
-        });
-    }
-
-
-    let addNewItemRepeatInputUpdate = function () {
-        $(document).on('click', 'a.btn-add-item-parent-update', function () {
-            var html_new = '', html_repeater_parent = '';
-            html_repeater_parent = $(this).parents('.repeater_update_parent').find('.repeater-list-children-0');
-            html_new = html_repeater_parent.clone();
-            $(this).parents('.repeater_update_parent').find('.append-repeater_list_parent').append(html_new);
-            resetDataUpdateParentID();
-        })
-
-
-        $(document).on("click", "a.btn-add-item-update", function () {
-            var html_repeater_parent = $(this).parents('.repeater-list-group').find('.repeater-item-text-0').clone();
-            $(this).parents('.repeater_update_parent').find('.repeater-list-input').append(html_repeater_parent);
-            $('.repeater-list-group .repeater-item-text').each(function (i) {
-                $(this).attr('data-id', i);
-                $(this).find('.btn-delete-item-input').attr('data-id', i);
-            });
-            resetDataUpdateChildrenID();
-        });
-    }
-
     let addNewItemRepeatImage = function () {
         $(document).on('click', 'a.btn-add-item-images', function () {
             var html_repeater = $('#hidden-input-image').find('.repeater-item-text').clone();
@@ -1366,8 +1265,9 @@ var PvtinhOptionManagement = function () {
     return {
         init: function () {
             RepeaterOptions();
-            addNewItemRepeatInput();
-            addNewItemRepeatInputUpdate();
+            createNewInputForRepeaterText();
+            deleteInputForRepeaterText();
+            createInputUpdate();
             addNewItemRepeatImage();
         }
     }

@@ -38,33 +38,44 @@ class OptionController extends Controller
         $option_value_text = $request->option_value;
         $option_value_course = $request->option_value_course;
         $option_value_course_cat = $request->option_value_course_cat;
-        $option_label_parent = $request->option_label_parent;
-        $option_slug_parent = $request->option_slug_parent;
         $option_name = $request->option_name;
         $option_type = $request->option_type;
-        $checkNullRepeatText = '';
-        $option_value = '';
-        $arrParent = [];
+
+        $repeater = $request->repeater;
+
+        if(!empty($repeater['column'])){
+            $option_value = '['.json_encode($repeater).']';
+        }
+
         if (!empty($option_label_parent) && !empty($option_slug_parent)) {
             for ($j = 0; $j < sizeof($option_label_parent['label']); $j++) {
-                $label = $option_label_parent['label'];
+                if ($option_label_parent['label'] !== null) {
+                    $label = $option_label_parent['label'];
+                }
             }
             for ($j = 0; $j < sizeof($option_slug_parent['slug']); $j++) {
                 $slug = $option_slug_parent['slug'];
             }
+
+            $pos = 0;
+            $children = '';
             for ($k = 0; $k < sizeof($label); $k++) {
                 $key = $slug[$k];
                 $value = $label[$k];
+                dump($key);
+                dump($value);
                 if (!is_array($key) && !is_array($value)) {
+                    $pos = $k;
                     if ($value != null) {
-                        $option_value_arr[$key] = $value;
+                        $option_value_arr[$pos][$key] = $value;
                     }
-                }else{
-                    $option_value_arr['children'][$key['slug']] = $value['label'];
+                } else {
+
                 }
             }
 
-            $option_value = json_encode($option_value_arr);
+//            $option_value = json_encode($option_value_arr);
+            return $option_value;
         }
 
         if (!empty($option_value_course) && sizeof($option_value_course) > 0) {
@@ -88,47 +99,16 @@ class OptionController extends Controller
     public function postUpdateOptionGeneral(Request $request)
     {
         foreach ($request->option as $key => $value) {
-            if (array_key_exists('option_label_parent', $value) || array_key_exists('option_slug_parent', $value)) {
-                $option_name = $key;
-
-                $option_label_parent = $value['option_label_parent'];
-                $option_slug_parent = $value['option_slug_parent'];
-
-                $arrParent = [];
-                if (!empty($option_label_parent) && !empty($option_slug_parent)) {
-
-                    $parentIndex = 0;
-                    foreach ($option_slug_parent as $k => $item) {
-                        if (!is_array($item)) {
-                            $parentIndex = $k;
-                            $arrParent[$k]['slug'] = $item;
-                        }
-                        if (is_array($item)) {
-                            $arrParent[$parentIndex]['children']['slug'][] = $item;
-                        }
-                    }
-                    $parentIndex = 0;
-                    foreach ($option_label_parent as $k => $item) {
-                        if (!is_array($item)) {
-                            $parentIndex = $k;
-                            $arrParent[$k]['label'] = $item;
-                        }
-                        if (is_array($item)) {
-                            $arrParent[$parentIndex]['children']['label'][] = $item;
-                        }
-                    }
-                }
-
-                $option_value = json_encode($arrParent);
-                \App\Option::where('option_name', $option_name)
-                    ->update(['option_value' => $option_value]);
-            }
             foreach ($value as $option_name => $option_value) {
+                if(is_array($option_value)){
+
+                    $option_value = ''.json_encode($option_value).'';
+                }
                 \App\Option::where('option_name', $option_name)
                     ->update(['option_value' => $option_value]);
             }
         }
-//        return redirect()->back()->with('messages', 'Cập nhật thành công!');
+        return redirect()->back()->with('messages', 'Cập nhật thành công!');
     }
 
     public
