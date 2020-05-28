@@ -19,7 +19,7 @@
     <div class="append-repeater_list_parent">
 
         <div class="alert alert-primary" role="alert">
-            <div class="alert-text">{{ $option['option_label'] }}</div>
+            <div class="alert-text">{{ $option['option_label'] }} <code>{ $option['option_name'] }}</code></div>
             <input type="hidden" class="" name="option[{{$indexOption}}][{{ $option['option_name'] }}]"
                    value="{{ $option['option_name'] }}">
 
