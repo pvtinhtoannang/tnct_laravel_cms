@@ -1160,8 +1160,45 @@ var PvtinhOptionManagement = function () {
             }
         });
     }
-    var createNameInputForRepeaterTextUpdate = function () {
-
+    var notifcationDeleted = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.success("Đã xoá!!!");
+    }
+    var notifcationAdded = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.success("Đã thêm!!!");
     }
 
     var createNewInputForRepeaterText = function () {
@@ -1171,6 +1208,7 @@ var PvtinhOptionManagement = function () {
             console.log(html_item_input_text);
             createNameInputForRepeaterText();
             console.log('Đã thêm mới');
+            notifcationAdded();
         });
     }
     var deleteInputForRepeaterText = function () {
@@ -1178,18 +1216,19 @@ var PvtinhOptionManagement = function () {
             $(this).parents('.repeater-item-text').remove();
             createNameInputForRepeaterText();
             console.log('Đã xoá');
+            notifcationDeleted();
         });
     }
     var createInputUpdate = function () {
         $(document).on('click', 'a.btn-add-item-update', function () {
             let repeater_list_input = $(this).parents('.repeater_update_parent').find('.repeater-list-input-0').clone();
-            console.log(repeater_list_input);
             $(this).parents('.repeater_update_parent').find('.repeater-list-group-repeater-text-update').append(repeater_list_input);
             var label = '';
             var slug = '';
             var value = '';
             let indexOption = $(this).data('index-option');
             $(this).parents('.repeater_update_parent').find('.repeater-list-group-repeater-text-update .repeater-list-input').each(function (i) {
+
                 if (i === '0') {
                     $(this).find('.btn-delete-item-input').addClass('disabled')
                 }
@@ -1213,13 +1252,20 @@ var PvtinhOptionManagement = function () {
                     $(this).find('.input-value-repeater-text').attr('name', value);
                 });
 
-
-                if (i >= '1') {
-                    $(this).removeClass('repeater-item-text-0');
+                if (i >= 1) {
+                    console.log($(this));
+                    $(this).removeClass('repeater-list-input-0');
                     $(this).find('.btn-delete-item-input').removeClass('disabled')
                 }
             });
             console.log('Đã thêm mới');
+            notifcationAdded();
+        });
+
+        $(document).on('click', 'a.delete-item-repeate-update', function () {
+            $(this).parents('.repeater-list-input').remove();
+            console.log('Đã xoá');
+            notifcationDeleted();
         });
     }
 

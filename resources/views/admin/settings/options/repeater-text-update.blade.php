@@ -5,10 +5,10 @@
         margin-bottom: 30px;
     }
 
-    .repeater-list-children {
-        margin-top: 15px;
+    .repeater_update_parent .repeater-list-input{
+        border-top: 1px solid;
+        border-bottom: 1px solid;
     }
-
     .repeater-list-group {
         padding: 10px 15px;
         margin-bottom: 15px;
@@ -37,55 +37,59 @@
                     $label = $column->label;
                     $name = $column->name;
                 @endphp
-                <div class="repeater-list-input repeater-list-input-0">
-                    <div class="alert-text">{{ $column->label }}</div>
-                    <input type="text" class="input-label-parent-repeater"
-                           data-option-name="{{ $option['option_name'] }}"
-                           name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][label]"
-                           value="{{ $label }}">
-                    <input type="text" class="input-name-parent-repeater"
-                           data-option-name="{{ $option['option_name'] }}"
-                           name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][name]"
-                           value="{{ $name }}">
+                <div class="repeater-list-input @if($index == 0) repeater-list-input-0 @endif">
+                    <div class="alert-text">{{ $column->label }}  <a href="javascript:;" class="kt-font-danger delete-item-repeate-update">Xoá group này</a></div>
+                    <div class="d-none">
+                        <input type="text" class="input-label-parent-repeater"
+                               data-option-name="{{ $option['option_name'] }}"
+                               name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][label]"
+                               value="{{ $label }}">
+                        <input type="text" class="input-name-parent-repeater"
+                               data-option-name="{{ $option['option_name'] }}"
+                               name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][name]"
+                               value="{{ $name }}">
+                    </div>
+
                     @php $i =0; @endphp
 
                     @foreach($column->column as $key=>$item)
                         <div class="form-group row align-items-center repeater-item-text repeater-item-text-update repeater-item-text-{{$i}}">
-                            <div class="col-xs-12 col-md-12">
-                                <span>Vui lòng điền đầy đủ thông tin, không được bỏ trống!</span>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>{{ $column->label }} - hidden input sau khi code xong</label>
+
+                            <div class="d-none">
+                                <div class="col-md-5">
+                                    <div class="kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>{{ $column->label }} - hidden input sau khi code xong</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <input type="text"
+                                                   class="form-control reset-input input-label-repeater-text"
+                                                   data-name="{{  $option['option_name'] }}"
+                                                   name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][column][{{$i}}][repeater_label]"
+                                                   placeholder="" value="{{ $item->repeater_label }}">
+                                        </div>
                                     </div>
-                                    <div class="kt-form__control">
-                                        <input type="text" class="form-control reset-input input-label-repeater-text"
-                                               data-name="{{  $option['option_name'] }}"
-                                               name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][column][{{$i}}][repeater_label]"
-                                               placeholder="" value="{{ $item->repeater_label }}">
-                                    </div>
+                                    <div class="d-md-none kt-margin-b-10"></div>
                                 </div>
-                                <div class="d-md-none kt-margin-b-10"></div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>{{ $item->repeater_slug }} - hidden input sau khi code xong</label>
+                                <div class="col-md-5">
+                                    <div class="kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>{{ $item->repeater_slug }} - hidden input sau khi code xong</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <input type="text" class="form-control reset-input input-slug-repeater-text"
+                                                   data-name="{{  $option['option_name'] }}"
+                                                   name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][column][{{$i}}][repeater_slug]"
+                                                   placeholder="" value="{{ $item->repeater_slug }}">
+                                        </div>
                                     </div>
-                                    <div class="kt-form__control">
-                                        <input type="text" class="form-control reset-input input-slug-repeater-text"
-                                               data-name="{{  $option['option_name'] }}"
-                                               name="option[{{$indexOption}}][{{ $option['option_name'] }}][{{$index}}][column][{{$i}}][repeater_slug]"
-                                               placeholder="" value="{{ $item->repeater_slug }}">
-                                    </div>
+                                    <div class="d-md-none kt-margin-b-10"></div>
                                 </div>
-                                <div class="d-md-none kt-margin-b-10"></div>
                             </div>
-                            <div class="col-md-5">
+                            <div class="col-md-12">
                                 <div class="kt-form__group--inline">
                                     <div class="kt-form__label">
-                                        <label>Giá trị</label>
+                                        <label>Giá trị: <code>{{ $item->repeater_label }}</code> || <code><span>Vui lòng điền đầy đủ thông tin, không được bỏ trống!</span></code> </label>
                                     </div>
                                     <div class="kt-form__control">
                                         <input type="text" class="form-control reset-input input-value-repeater-text"

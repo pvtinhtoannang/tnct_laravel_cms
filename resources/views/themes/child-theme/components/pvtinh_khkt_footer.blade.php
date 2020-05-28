@@ -13,7 +13,9 @@
                         <h3>DAILYTHUEGIAMINH.COM</h3>
                         <span>HOTLINE: 090 133 4444</span>
                     </div>
+                    @php
 
+                            @endphp
                 </div>
                 <div class="address-company">
                     <div class="address"><strong>Trụ sở: </strong>Số 11/11D, hẻm 518, đường Bùi Hữu Nghĩa, Quận Bình
