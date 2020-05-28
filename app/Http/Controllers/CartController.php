@@ -78,7 +78,7 @@ class CartController extends Controller
         $cart_content = Cart::content();
         $cart_total = Cart::total(0, '.', '.');
         $cart_subtotal = Cart::subtotal(0, '.', '.');
-        $optionPaymentMethod =  $this->option->getField('payment_methods');
+        $optionPaymentMethod =  $this->option->getField('phuong_thuc_thanh_toan');
         foreach ($cart_content as $i => $item) {
             Cart::update($item->rowId, 1);
             $course = $this->course->find($item->id);
