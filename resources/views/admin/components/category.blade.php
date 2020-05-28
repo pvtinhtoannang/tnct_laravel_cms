@@ -55,13 +55,17 @@
                         <tr>
                             <td class="kt-font-bold">{{$category['name']}}
                                 <div class="nowrap row-actions">
-                                    <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
+                                    <a target="_blank" href="{{url('/')."/".$category['slug']}}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
                                         <i class="la la-eye"></i>
                                     </a>
-                                    <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
+                                    <a href="{{route('GET_COURSE_CAT_EDIT_ROUTE', $category['term_id'])}}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
                                         <i class="la la-edit"></i>
                                     </a>
-                                    <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
+                                    <a href="javascript:;" data-term="{{ $category['term_id']}}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md delete-term-btn"
+                                       title="View">
                                         <i class="la la-trash"></i>
                                     </a>
                                 </div>

@@ -82,6 +82,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     //course cat
     Route::get('/course-cat', ['as' => 'GET_COURSE_CATEGORY_ROUTE', 'uses' => 'CourseCategoryController@getCourseCategory']);
     Route::post('/course-cat', ['as' => 'POST_COURSE_CATEGORY_ROUTE', 'uses' => 'CourseCategoryController@addCourseCategory']);
+    Route::get('/course-cat/edit/{id}', ['as' => 'GET_COURSE_CAT_EDIT_ROUTE', 'uses' => 'CourseCategoryController@getEditCourseCategory']);
+    Route::post('/course-cat/edit/{id}', ['as' => 'POST_COURSE_CAT_EDIT_ROUTE', 'uses' => 'CourseCategoryController@updateCourseCategory']);
 
     //lesson
 //    Route::get('/lessons/{status?}', ['as' => 'GET_LESSON_ROUTE', 'uses' => 'LessonController@index']);

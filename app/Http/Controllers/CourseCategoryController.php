@@ -38,4 +38,25 @@ class CourseCategoryController extends Controller
         return redirect()->route('GET_COURSE_CATEGORY_ROUTE');
     }
 
+    function getEditCourseCategory($id)
+    {
+        $responses = array(
+            'title' => 'Lỗi',
+            'sub_title' => '',
+            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
+        );
+        $categoryData = $this->taxonomy->name('course_cat')->where('term_id', $id)->first();
+        if ($categoryData == null) {
+            return view('admin.errors.admin-error', ['error_responses' => $responses]);
+        } else {
+            return view('admin.course.course-category.course-cat-edit', ['categoryData' => $categoryData, 'categories' => $this->taxonomy->fetchCategoryTree(0, '', '', $this->tax)]);
+        }
+    }
+
+    function updateCourseCategory(Request $request, $id)
+    {
+        $this->term->updateTerm($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax, $id);
+        return redirect()->route('GET_COURSE_CAT_EDIT_ROUTE', [$id])->with('update', 'Chuyên mục đã được cập nhật.');
+    }
+
 }
