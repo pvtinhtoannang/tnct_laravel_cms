@@ -70,3 +70,13 @@ function is_page($page = '')
         return null;
     }
 }
+
+function is_tax($taxonomy = '')
+{
+    global $term;
+    if ($term->taxonomy->taxonomy === $taxonomy) {
+        return true;
+    } else {
+        return false;
+    }
+}
