@@ -3,6 +3,7 @@
 @import '../sass/table';
 @import '../sass/featured-image-modal';
 @import '../sass/order';
+@import '../sass/upload';
 
 .template-title {
     font-size: 23px;
@@ -44,6 +45,11 @@ span.post-link {
     margin-right: 0 !important;
 }
 
+#category-list{
+    max-height: 170px;
+    overflow-y: auto;
+}
+
 .categorychecklist {
     list-style-type: none;
     padding-left: 0;
@@ -55,45 +61,6 @@ span.post-link {
     .children {
         list-style-type: none;
         padding-left: 18px;
-    }
-}
-
-.attachments {
-    @include flexbox();
-    @include flex-wrap(wrap);
-    list-style-type: none;
-    padding-left: 0;
-
-    li {
-        @include flex-basis(10%);
-
-        .attachment-preview {
-            padding: 8px;
-
-            .thumbnail {
-                height: 145.5px;
-                background-color: #efefef;
-                position: relative;
-                box-shadow: inset 0 0 15px rgba(0,0,0,.1), inset 0 0 0 1px rgba(0,0,0,.05);
-                border: 1px solid #ccc;
-
-                .file-name {
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background-color: #fff;
-                    padding: 5px 10px;
-                    border-top: 1px solid #ccc;
-                }
-
-                img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-            }
-        }
     }
 }
 
