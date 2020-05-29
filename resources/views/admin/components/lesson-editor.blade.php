@@ -79,8 +79,7 @@ if (isset($post_type)) {
                 <label for="post-name" class="col-form-label">Đường dẫn tĩnh: </label>
                 <span class="post-link">{{url('/')}}/</span>
                 <div class="col-6">
-                    <input class="form-control" type="text" id="post-name" name="post_name" value="{{$post_name}}"
-                           readonly>
+                    <input class="form-control" type="text" id="post-name" name="post_name" value="{{$post_name}}">
                 </div>
             </div>
             <div class="form-group">

@@ -235,7 +235,12 @@ class Post extends Model
         }
         $user_id = Auth::user()->id;
         if ($id !== '') {
-            $post_name = $request->post_name;
+            $post = $this->find($id);
+            if ($post->post_name !== $request->post_name) {
+                $post_name = $this->slugGenerator($this->toSlug($request->post_name));
+            } else {
+                $post_name = $request->post_name;
+            }
         } else {
             $post_name = $this->slugGenerator($this->toSlug($request->post_title));
         }
