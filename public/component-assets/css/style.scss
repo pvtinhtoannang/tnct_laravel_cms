@@ -5,7 +5,8 @@ body {
     font-family: 'Sarabun', sans-serif;
     background-color: #eef1f2;
 }
-html{
+
+html {
     font-size: 16px;
 
 }
@@ -25,3 +26,6 @@ html{
 @import '../sass/mn-khkt-cart';
 @import '../sass/mn-khkt-checkout';
 @import '../sass/mn-khkt-learning';
+@import '../sass/mn-khkt-course-archive';
+@import '../sass/mn-khkt-archive';
+@import '../sass/mn-khkt-single';

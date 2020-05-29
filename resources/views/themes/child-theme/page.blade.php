@@ -4,4 +4,6 @@
     @include ('themes.child-theme.components.mn-khkt-my-courses')
 @elseif(is_page('mat-khau-moi'))
     @include ('themes.child-theme.components.mat-khau-moi')
+@else
+    @include ('themes.child-theme.components.mn-khkt-single')
 @endif
