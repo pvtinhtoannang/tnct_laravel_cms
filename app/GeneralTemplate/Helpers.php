@@ -139,7 +139,7 @@ function get_data_menu($name = 'primary_menu')
     if (!empty($menuPosition)) {
         return $menuPosition->menu;
     }else{
-        return null;
+        return array();
     }
 }
 
