@@ -95,8 +95,6 @@ class AdminAjaxController extends Controller
     {
         $course = $this->course->find($request->course);
         $course_builder = $course->builder;
-//        $course_builder_admin = $course->builder_admin;
-
 
         if ($course_builder) {
             $course_builder->update([
@@ -109,18 +107,6 @@ class AdminAjaxController extends Controller
                 'meta_value' => json_encode($request->position)
             ]);
         }
-//        if ($course_builder_admin) {
-//            $course_builder_admin->update([
-//                'meta_key' => 'course_builder_admin',
-//                'meta_value' => json_encode($request->positionAdmin)
-//            ]);
-//
-//        } else {
-//            $course->meta()->create([
-//                'meta_key' => 'course_builder_admin',
-//                'meta_value' => json_encode($request->positionAdmin)
-//            ]);
-//        }
     }
 
     function deleteSectionHeading(Request $request)

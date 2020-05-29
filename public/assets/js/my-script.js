@@ -387,10 +387,49 @@ function saveCourseBuilder() {
 }
 
 function medialDetail() {
+    let media_modal = $('#media-modal');
+    let attachment_name = $('#media-modal #attachment-name');
+    let attachment_caption = $('#media-modal #attachment-caption');
+    let attachment_description = $('#media-modal #attachment-description');
+    let attachment_upload_by = $('#media-modal #attachment-upload-by');
+    let attachment_url = $('#media-modal #attachment-url');
+    let uploads_url = window.location.origin + '/contents/uploads/';
+    let info = $('#media-modal .attachment-info .info');
+    let details_image = $('#media-modal .details-image');
     $(document).on('click', '.upload-template .attachment', function () {
         let attachment_id = $(this).attr('data-id');
-        let media_modal = $('#media-modal');
-        media_modal.modal('show');
+        $.ajax({
+            url: '/admin/get-attached-file',
+            type: 'post',
+            data: {
+                id: attachment_id,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                let create_at = new Date(response.created_at);
+                info.empty();
+                info.append('<li>\n' +
+                    '<strong>Tên tập tin: </strong>' + response.post_excerpt +
+                    '</li>' +
+                    '<li>' +
+                    '<strong>Loại tập tin: </strong>' + response.type +
+                    '</li>' +
+                    '<li>' +
+                    '<strong>Đã tải lên vào lúc: </strong>' + create_at.getDate() + '/' + (create_at.getMonth() + 1) + '/' + create_at.getFullYear() +
+                    '</li>' +
+                    '<li>' +
+                    '<strong>Dung lượng tệp: </strong>' + response.size +
+                    '</li>');
+                attachment_name.val(response.post_title);
+                attachment_caption.val(response.caption);
+                attachment_description.val(response.description);
+                attachment_upload_by.val(response.upload_by);
+                attachment_url.val(uploads_url + response.path);
+                details_image.attr('src', uploads_url + response.path);
+                media_modal.modal('show');
+            }
+        });
+
     });
 }
 

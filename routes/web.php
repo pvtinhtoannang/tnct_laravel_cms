@@ -45,6 +45,8 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     Route::get('/upload', ['as' => 'GET_UPLOAD_ROUTE', 'uses' => 'UploadController@getUpload']);
     Route::get('/upload/new', ['as' => 'GET_UPLOAD_NEW_ROUTE', 'uses' => 'UploadController@getUploadNew']);
     Route::post('/upload/new', ['as' => 'POST_UPLOAD_NEW_ROUTE', 'uses' => 'UploadController@postUploadNew']);
+    Route::post('/get-attached-file', 'UploadController@getAttachedFile');
+
 
     //category
     Route::get('/category', ['as' => 'GET_CATEGORY_ROUTE', 'uses' => 'CategoryController@getCategory']);
@@ -104,7 +106,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'user-role'], function () {
     //ajax
     Route::get('/slug-generator/{slug}', 'AdminAjaxController@slugGenerator');
     Route::get('/post-name-generator/{post_name}', 'AdminAjaxController@postNameGenerator');
-    Route::get('/get-attached-file/{id}', 'AdminAjaxController@getAttachedFile');
     Route::get('/get-attachment', 'AdminAjaxController@getAttachment');
     Route::post('/create-section-heading', 'AdminAjaxController@createSectionHeading');
     Route::post('/update-section-heading', 'AdminAjaxController@updateSectionHeading');
