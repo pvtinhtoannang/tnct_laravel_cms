@@ -99,7 +99,7 @@
 
                             </div>
                         </td>
-                        <td>{{$postdescription}}</td>
+                        <td>{{$post->author->name}}</td>
                         <td class="categories">
                             @foreach($post->taxonomies as $cat)
                                 @if($cat->taxonomy === 'category')
