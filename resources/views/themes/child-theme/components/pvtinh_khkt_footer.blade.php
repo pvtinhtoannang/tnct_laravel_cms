@@ -22,12 +22,14 @@
                             @endphp
                 </div>
                 <div class="address-company">
-                    @foreach($dataInfoAddress as $value)
+                    @if(!empty($dataInfoAddress))
+                        @foreach($dataInfoAddress as $value)
 
-                        <div class="address"><strong>{{$value['lien_he']['title']}}
-                                : </strong>{{$value['lien_he']['content']}}
-                        </div>
-                    @endforeach
+                            <div class="address"><strong>{{$value['lien_he']['title']}}
+                                    : </strong>{{$value['lien_he']['content']}}
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
             </div>
             <div class="footer-item">
@@ -37,18 +39,21 @@
                         <?php
                         $footer_menu_1 = get_data_menu('footer_menu_1');
                         ?>
-                        @foreach($footer_menu_1 as $item)
-                            <li>
-                                <a href="{{ $item->link }}">{{ $item->label }}</a>
-                                @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
-                                    <ul>
-                                        @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
-                                            @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
-                        @endforeach
+                        @if(!empty($footer_menu_1))
+                            @foreach($footer_menu_1 as $item)
+                                <li>
+                                    <a href="{{ $item->link }}">{{ $item->label }}</a>
+                                    @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
+                                        <ul>
+                                            @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
+                                                @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        @endif
+
                     </ul>
                 </nav>
             </div>
@@ -59,18 +64,20 @@
                         <?php
                         $footer_menu_2 = get_data_menu('footer_menu_2');
                         ?>
-                        @foreach($footer_menu_2 as $item)
-                            <li>
-                                <a href="{{ $item->link }}">{{ $item->label }}</a>
-                                @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
-                                    <ul>
-                                        @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
-                                            @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
-                        @endforeach
+                        @if(!empty($footer_menu_2))
+                            @foreach($footer_menu_2 as $item)
+                                <li>
+                                    <a href="{{ $item->link }}">{{ $item->label }}</a>
+                                    @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
+                                        <ul>
+                                            @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
+                                                @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
                 </nav>
             </div>
