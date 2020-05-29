@@ -21,7 +21,7 @@
 
                             @endphp
                 </div>
-                <div class="address-company"> 
+                <div class="address-company">
                     @if(count($dataInfoAddress)>0)
                         @foreach($dataInfoAddress as $value)
 

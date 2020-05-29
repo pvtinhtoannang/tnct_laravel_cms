@@ -56,13 +56,13 @@ class Option extends Model
                     }
                     return $arr;
                 }else{
-                    return '{}';
+                    return array();
                 }
             } else {
                 return $option->option_value;
             }
         } else {
-            return '{}';
+            return array();
         }
     }
 }
