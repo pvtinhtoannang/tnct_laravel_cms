@@ -8,11 +8,11 @@ class Menu extends Model
 {
 
     protected $table = 'menus';
-    protected $fillable = ['label', 'link', 'parent_id', 'sort', 'positions_menu_id'];
+    protected $fillable = ['label', 'link', 'parent_id', 'sort', 'position_menu_id'];
 
     public function positionsMenu()
     {
-        return $this->belongsTo('App\PositionMenu', 'positions_menu_id');
+        return $this->belongsTo('App\PositionMenu', 'position_menu_id');
     }
 
     public function menus()
@@ -34,7 +34,7 @@ class Menu extends Model
 
     public function addMenuItem($link = '', $label = '', $parent = 0, $sort = 0, $position = 1)
     {
-        return self::create(['label' => $label, 'link' => $link, 'parent_id' => $parent, 'sort' => $sort, 'positions_menu_id' => $position]);
+        return self::create(['label' => $label, 'link' => $link, 'parent_id' => $parent, 'sort' => $sort, 'position_menu_id' => $position]);
     }
 
     public function updateInformationMenuItem($id, $link = '', $label = '')

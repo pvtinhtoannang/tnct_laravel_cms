@@ -1,5 +1,5 @@
 <?php
-
+$course_slider_menu = get_data_menu('course_slider_menu');
 ?>
 <section class="pvtinh-khkt-slider">
     <div class="container">
@@ -8,16 +8,18 @@
                 <h6 class="title-category">Khoá học</h6>
                 <nav class="category-home">
                     <ul>
-                        <li><a href="">Kế toán xây dựng - công trình</a></li>
-                        <li><a href="">Kế toán bất động sản</a></li>
-                        <li><a href="">Kế toán sản xuất</a></li>
-                        <li><a href="">Kế toán nhà hàng, khách sạn</a></li>
-                        <li><a href="">Kế toán vận tải</a></li>
-                        <li><a href="">Kế toán thương mại</a></li>
-                        <li><a href="">Kế toán xuất nhập khẩu</a></li>
-                        <li><a href="">Kế toán dịch vụ</a></li>
-                        <li><a href="">Kế toán trung tâm ngoại ngữ</a></li>
-                        <li><a href="">Kế toán khác</a></li>
+                        @foreach($course_slider_menu as $item)
+                            <li>
+                                <a href="{{ $item->link }}">{{ $item->label }}</a>
+                                @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
+                                    <ul>
+                                        @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
+                                            @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </nav>
             </div>

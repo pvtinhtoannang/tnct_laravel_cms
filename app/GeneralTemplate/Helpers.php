@@ -123,11 +123,22 @@ function render_slider($id, $class = '', $id_slider_custom = '')
 function is_tax($taxonomy = '')
 {
     global $term;
-    if(isset($term)){
+    if (isset($term)) {
         if ($term->taxonomy->taxonomy === $taxonomy) {
             return true;
         } else {
             return false;
         }
+    }
+}
+
+function get_data_menu($name = 'primary_menu')
+{
+    $menu = new \App\PositionMenu();
+    $menuPosition = $menu->where('name', $name)->first();
+    if (!empty($menuPosition)) {
+        return $menuPosition->menu;
+    }else{
+        return null;
     }
 }

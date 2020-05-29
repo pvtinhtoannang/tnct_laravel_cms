@@ -39,7 +39,7 @@ class NavMenuController extends Controller
         $coursed = $this->course->get();
 //return $coursed
 
-        $menus = Menu::where('positions_menu_id', $postion_menu_first->id)->whereNull('parent_id')->orderBy("sort", "ASC")->with('childrenMenus')->get();
+        $menus = Menu::where('position_menu_id', $postion_menu_first->id)->whereNull('parent_id')->orderBy("sort", "ASC")->with('childrenMenus')->get();
         return view('admin.appearance.nav-menu', [
             'position_menu' => $position_menu,
             'pages' => $pages,
@@ -67,8 +67,10 @@ class NavMenuController extends Controller
         $posts = $this->post->type('post')->latest()->get();
         $tags = $this->tag->get();
         $category = $this->taxonomy->category()->get();
+        $category_course = $this->taxonomy->name('course_cat')->get();
+        $coursed = $this->course->get();
 
-        $menus = Menu::where('positions_menu_id', $id)->whereNull('parent_id')->orderBy("sort", "ASC")->get();
+        $menus = Menu::where('position_menu_id', $id)->whereNull('parent_id')->orderBy("sort", "ASC")->get();
 
 
         return view('admin.appearance.nav-menu', [
@@ -79,6 +81,8 @@ class NavMenuController extends Controller
             'categories' => $category,
             'menus' => $menus,
             'menus_editing' => $postion_menu_first,
+            'category_course' => $category_course,
+            'coursed' => $coursed,
         ]);
     }
 

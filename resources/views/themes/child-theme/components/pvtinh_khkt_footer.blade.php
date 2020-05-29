@@ -1,3 +1,7 @@
+@php
+    $option = new \App\Option();
+    $dataInfoAddress = $option->getField('thong_tin_lien_he');
+@endphp
 <section class="pvtinh_khkt_footer">
     <div class="container">
         <div class="footer-content">
@@ -18,31 +22,33 @@
                             @endphp
                 </div>
                 <div class="address-company">
-                    <div class="address"><strong>Trụ sở: </strong>Số 11/11D, hẻm 518, đường Bùi Hữu Nghĩa, Quận Bình
-                        Thuỷ, TP. Cần Thơ
-                    </div>
-                    <div class="address"><strong>Chi nhánh 1: </strong>Số 11/11D, hẻm 518, đường Bùi Hữu Nghĩa, Quận
-                        Bình Thuỷ, TP. Cần Thơ
-                    </div>
-                    <div class="address"><strong>Chi nhánh 2: </strong>Số 11/11D, hẻm 518, đường Bùi Hữu Nghĩa, Quận
-                        Bình Thuỷ, TP. Cần Thơ
-                    </div>
+                    @foreach($dataInfoAddress as $value)
+
+                        <div class="address"><strong>{{$value['lien_he']['title']}}
+                                : </strong>{{$value['lien_he']['content']}}
+                        </div>
+                    @endforeach
                 </div>
             </div>
             <div class="footer-item">
                 <h2 class="title-footer text-uppercase">DANH MỤC</h2>
                 <nav class="menu-footer">
                     <ul>
-                        <li><a href="#">Kế toán xây dựng - công trình</a></li>
-                        <li><a href="#">Kế toán bất động sản</a></li>
-                        <li><a href="#">Kế toán xây dựng - công trình</a></li>
-                        <li><a href="#">Kế toán bất động sản</a></li>
-                        <li><a href="#">Kế toán xây dựng - công trình</a></li>
-                        <li><a href="#">Kế toán bất động sản</a></li>
-                        <li><a href="#">Kế toán xây dựng - công trình</a></li>
-                        <li><a href="#">Kế toán bất động sản</a></li>
-                        <li><a href="#">Kế toán xây dựng - công trình</a></li>
-                        <li><a href="#">Kế toán bất động sản</a></li>
+                        <?php
+                        $footer_menu_1 = get_data_menu('footer_menu_1');
+                        ?>
+                        @foreach($footer_menu_1 as $item)
+                            <li>
+                                <a href="{{ $item->link }}">{{ $item->label }}</a>
+                                @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
+                                    <ul>
+                                        @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
+                                            @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </nav>
             </div>
@@ -50,10 +56,22 @@
                 <h2 class="title-footer text-uppercase">ĐIỀU KHOẢN SỬ DỤNG</h2>
                 <nav class="menu-footer">
                     <ul>
-                        <li><a href="#">Quy chế hoạt động</a></li>
-                        <li><a href="#">Chính sách bảo mật</a></li>
-                        <li><a href="#">Trung tâm CSKH</a></li>
-                        <li><a href="#">Tiêu chí đào tạo</a></li>
+                        <?php
+                        $footer_menu_2 = get_data_menu('footer_menu_2');
+                        ?>
+                        @
+                        @foreach($footer_menu_2 as $item)
+                            <li>
+                                <a href="{{ $item->link }}">{{ $item->label }}</a>
+                                @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
+                                    <ul>
+                                        @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
+                                            @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </nav>
             </div>
