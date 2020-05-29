@@ -58,8 +58,7 @@
                     <ul>
                         <?php
                         $footer_menu_2 = get_data_menu('footer_menu_2');
-                        ?>
-                        @
+                        ?> 
                         @foreach($footer_menu_2 as $item)
                             <li>
                                 <a href="{{ $item->link }}">{{ $item->label }}</a>
