@@ -18,8 +18,7 @@
                             <i class="la la-long-arrow-left"></i>
                             Quay lại trang trước
                         </a>
-                        &nbsp;
-
+                        &nbsp
                     </div>
                 </div>
             </div>
@@ -52,7 +51,11 @@
                         <th>Tên công ty</th>
                         <th>Chức vụ</th>
                         <th>Địa chỉ</th>
-                        <th>Khoá học</th>
+                        @if($data->id === 1)
+                            <th>Khoá học</th>
+                        @else
+                            <th>Nội dung</th>
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
@@ -76,8 +79,10 @@
                             <td>{{$item->company_name}}</td>
                             <td>{{$item->position}}</td>
                             <td>{{$item->address}}</td>
-                            @if(!$item->course)
+                            @if($data->id === 1)
                                 <td>{{$item->course}}</td>
+                            @else
+                                <td>{{$item->content}}</td>
                             @endif
                         </tr>
                     @endforeach

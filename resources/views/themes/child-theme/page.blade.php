@@ -6,6 +6,8 @@
     @include ('themes.child-theme.components.mat-khau-moi')
 @elseif(is_page('khoa-hoc'))
     @include ('themes.child-theme.components.mn-khkt-course-archive')
+@elseif(is_page('lien-he'))
+    @include ('themes.child-theme.components.pvtinh-khkt-contact-page')
 @else
     @include ('themes.child-theme.components.mn-khkt-single')
 @endif

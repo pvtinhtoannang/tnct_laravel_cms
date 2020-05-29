@@ -60,8 +60,11 @@ class ThemeController extends Controller
 
     function index()
     {
+        $dataInfoCourseCat = $this->option->getField('course_cat_home');
+
         $posts = $this->post->type('course')->paginate(50);
-        $listCourseCat = $this->taxonomy->name('course_cat')->get();
+        $listCourseCat = $this->taxonomy->name('course_cat')->whereIn('term_id', $dataInfoCourseCat)->get();
+
         $titleWebsite = $this->getTitleWebsite('/');
         return view('themes.parent-theme.index', ['titleWebsite' => $titleWebsite, 'listCourseCat' => $listCourseCat, 'courseFormContact'=>$posts]);
     }

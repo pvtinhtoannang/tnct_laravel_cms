@@ -1,12 +1,13 @@
+@php
+    $option = new \App\Option();
+@endphp
 <section class="pvtinh_khkt_khoahochot">
     <div class="container">
-
         @foreach($listCourseCat as $index=> $catCourse)
             <div class="khoahoc-repeat">
                 <div class="row">
                     @foreach($catCourse->posts as $key=>$post)
-
-                    @if($key===2)
+                        @if($key===2)
                             @break;
                         @endif
                         <div class=" col-xs-12 col-sm-6 col-md-6 padding-mobile">
@@ -63,7 +64,7 @@
                     @foreach($catCourse->posts as $key=>$post)
                         @if($key == 5)
                             @break
-                            @endif
+                        @endif
                         @if($key>=2)
                             <div class="col-xs-12 col-sm-6 col-md-4 padding-mobile">
                                 <div class="khoahoc-item khoahoc-bottom ">

@@ -100,8 +100,7 @@ class OptionController extends Controller
 
     public function postUpdateOptionGeneral(Request $request)
     {
-        dump($request->option);
-        return 1;
+
         foreach ($request->option as $key => $value) {
             foreach ($value as $option_name => $option_value) {
                 if(is_array($option_value)){
