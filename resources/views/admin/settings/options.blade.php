@@ -44,7 +44,21 @@
                                     @elseif ($option['option_type']=='textarea')
                                         <textarea name="{{ $option['option_name'] }}" id="{{ $option['option_name'] }}"
                                                   cols="30" rows="10" class="form-control"></textarea>
-
+                                    @elseif($option['option_type'] === 'course' || $option['option_type'] === 'course_cat')
+                                        @if($option['option_type'] ==='course')
+                                            @php
+                                                $option_value = json_decode($option['option_value']);
+                                            @endphp
+                                            <select name="option[][{{$option['option_name']}}]" multiple id=""
+                                                    class="form-control select2-course-update">
+                                                @if(!empty($option['option_value']))
+                                                    @foreach($allCourse as $value)
+                                                        <option value="{{ $value->ID }}"
+                                                                @foreach($option_value as $item) @if((int)$item === $value->ID)  selected @endif  @endforeach>{{$value->post_title}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        @endif
                                     @elseif($option['option_type'] =='repeater_text')
                                         @include('admin.settings.options.repeater-text-update')
                                     @else

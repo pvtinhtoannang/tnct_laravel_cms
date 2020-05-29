@@ -8,18 +8,20 @@ $course_slider_menu = get_data_menu('course_slider_menu');
                 <h6 class="title-category">Khoá học</h6>
                 <nav class="category-home">
                     <ul>
-                        @foreach($course_slider_menu as $item)
-                            <li>
-                                <a href="{{ $item->link }}">{{ $item->label }}</a>
-                                @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
-                                    <ul>
-                                        @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
-                                            @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
-                                        @endforeach
-                                    </ul>
-                                @endif
-                            </li>
-                        @endforeach
+                        @if(!empty($course_slider_menu))
+                            @foreach($course_slider_menu as $item)
+                                <li>
+                                    <a href="{{ $item->link }}">{{ $item->label }}</a>
+                                    @if(!empty($menu->childrenMenus)  && sizeof($menu->childrenMenus) > 0)
+                                        <ul>
+                                            @foreach ($menu->childrenMenus->sortBy('sort') as $menu_sub)
+                                                @include('themes.child-theme.menu-children', ['menu' => $menu_sub])
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                </li>
+                            @endforeach
+                        @endif
                     </ul>
                 </nav>
             </div>
@@ -82,9 +84,11 @@ $course_slider_menu = get_data_menu('course_slider_menu');
                             <input type="hidden" name="content_form">
                             <select name="course" class="form-control">
                                 <option value="">Khoá học mong muốn:</option>
-                                @foreach($courseFormContact as $course)
-                                    <option value="{{ $course->post_title }}">{{ $course->post_title }}</option>
-                                @endforeach
+                                @if(!empty($courseFormContact))
+                                    @foreach($courseFormContact as $course)
+                                        <option value="{{ $course->post_title }}">{{ $course->post_title }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
                         <button type="submit" class="btn btn-form btn-custom-form">Hoàn tất</button>

@@ -8,15 +8,17 @@ use Illuminate\Http\Request;
 use App\Option;
 use App\User;
 use App\Course;
+use App\Post;
 use Illuminate\Support\Facades\Auth;
 
 
 class OptionController extends Controller
 {
-    protected $option, $user, $course, $taxonomy;
+    protected $option, $user, $course, $taxonomy, $post;
 
     public function __construct()
     {
+        $this->post = new Post();
         $this->option = new Option();
         $this->user = new User();
         $this->course = new Course();
@@ -98,10 +100,11 @@ class OptionController extends Controller
 
     public function postUpdateOptionGeneral(Request $request)
     {
+        dump($request->option);
+        return 1;
         foreach ($request->option as $key => $value) {
             foreach ($value as $option_name => $option_value) {
                 if(is_array($option_value)){
-
                     $option_value = ''.json_encode($option_value).'';
                 }
                 \App\Option::where('option_name', $option_name)

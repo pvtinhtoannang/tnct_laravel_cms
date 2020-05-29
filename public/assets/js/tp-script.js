@@ -1104,6 +1104,9 @@ var PvtinhOptionManagement = function () {
                 text: 'Chọn một khoá học'
             }
         });
+        $('.select2-course-update').select2({
+
+        });
         $('#option_value_course_cat').select2({
             placeholder: {
                 id: '-1', // the value of the option
