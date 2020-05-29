@@ -21,6 +21,6 @@ class Group extends Model
 
     public function addNewGroup($name)
     {
-        return self::create(['name'=>$name]);
+        return self::create(['name' => $name]);
     }
 }
