@@ -60,6 +60,7 @@
 
     .attachment-media-wrapper {
         @include flexbox();
+        height: 100%;
 
         .left-content {
             @include flex-basis(65%);
