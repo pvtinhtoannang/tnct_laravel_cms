@@ -1,6 +1,6 @@
 <section class="mn-khkt-course-archive">
     <div class="container">
-        <h1 class="archive-title">{{$term->name}}</h1>
+        <h1 class="archive-title">@if(isset($term)) {{$term->name}} @else Các khoá học  @endif</h1>
         <div class="row">
             @foreach($posts as $post)
                 <div class="col-xs-12 col-sm-6 col-md-4 padding-mobile">

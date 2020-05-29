@@ -34,16 +34,18 @@
                         <form id="payment-form" action="{{route('PAYMENT')}}" method="post">
                             <ul id="payment-methods">
                                 @foreach($payment_methods as $method)
+                                    @php $data = json_encode($method) @endphp
                                     <li>
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="payment-select">
                                                     <label>
-                                                        <input type='radio' name='payment_method' value='vcb'
+                                                        <input type='radio' name='payment_method'
+                                                               value='{{ $data }}'
                                                                data-toggle="collapse" data-target="#collapseOne"
                                                                aria-expanded="true" aria-controls="collapseOne"
                                                                checked/>
-                                                        {{$method->label}}
+                                                        {{$method['phuong_thuc']['ten_ngan_hang']}}
                                                     </label>
                                                 </div>
                                             </div>
@@ -52,11 +54,10 @@
                                                  data-parent="#payment-methods">
                                                 <div class="card-body">
                                                     <div class="payment-method">
-                                                        Thông tin thanh toán:
-                                                        @foreach($method->column as $value)
-                                                            <br>
-                                                            {{$value->repeater_label}}: {{ $value->repeater_value }}
-                                                        @endforeach
+                                                        Thông tin thanh toán: <br>
+                                                        Tên tài khoản: {{$method['phuong_thuc']['ten_tai_khoan']}}<br>
+                                                        Số tài khoản: {{$method['phuong_thuc']['so_tai_khoan']}}<br>
+                                                        Tên ngân hàng: {{$method['phuong_thuc']['ten_ngan_hang']}}
 
                                                     </div>
                                                 </div>

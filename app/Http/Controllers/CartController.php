@@ -89,7 +89,7 @@ class CartController extends Controller
             'cart_total' => $cart_total,
             'cart_subtotal' => $cart_subtotal,
             'cart_content' => $cart_content,
-            'payment_methods'=>json_decode($optionPaymentMethod)
+            'payment_methods'=>$optionPaymentMethod
         ]);
     }
 
@@ -115,7 +115,7 @@ class CartController extends Controller
             "subtotal" => $cart_subtotal,
             "total" => $cart_total,
             "count" => $cart_count,
-            "payment" => $request->payment_method
+            "payment" =>  json_encode($request->payment_method)
         );
         $payment_content = json_encode($payment);
         if (Auth::check()) {

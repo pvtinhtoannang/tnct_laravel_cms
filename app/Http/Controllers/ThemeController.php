@@ -73,6 +73,7 @@ class ThemeController extends Controller
         $term = $this->term->slug($slug)->first();
         if ($post !== null && $post->post_status === 'publish') {
             $post_type = $post->post_type;
+            $posts = array();
             if ($post_type === 'post') {
                 $post_type = 'single';
             } else if ($post_type === 'course') {
@@ -81,12 +82,19 @@ class ThemeController extends Controller
                 if (isset($post->builder->meta_value)) {
                     $builder = json_decode($post->builder->meta_value, true);
                 }
+
                 return view('themes.parent-theme.' . $post_type, [
                     'post' => $post,
+
                     'builder' => $this->courseBuilder($builder),
-                    'titleWebsite' => $titleWebsite]);
+                    'titleWebsite' => $titleWebsite]
+                );
             }
-            return view('themes.parent-theme.' . $post_type, ['post' => $post, 'titleWebsite' => $titleWebsite]);
+            if($slug === 'khoa-hoc'){
+                $posts = $this->post->type('course')->paginate(9);
+            }
+
+            return view('themes.parent-theme.' . $post_type, ['post' => $post,  'posts' => $posts, 'titleWebsite' => $titleWebsite]);
         } else if ($term !== null) {
             $posts = $term->taxonomy->posts()->paginate(9);
             return view('themes.parent-theme.archive', ['term' => $term, 'posts' => $posts, 'titleWebsite' => $titleWebsite]);

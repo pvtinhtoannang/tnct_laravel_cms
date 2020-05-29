@@ -10,7 +10,7 @@
                 <nav class="menu-header">
                     <ul>
                         <li>
-                            <a href="#">
+                            <a href="/khoa-hoc">
                                 <img src="/component-assets/images/img-1.png" alt="" class="img">
                                 <img src="/component-assets/images/img-1-hover.png" alt="" class="img-hover">
                                 <span>Các khoá học</span>

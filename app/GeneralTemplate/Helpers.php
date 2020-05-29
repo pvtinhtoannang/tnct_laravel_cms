@@ -50,7 +50,6 @@ add_action('theme_footer', 'theme_script_footer');
 
 function theme_script_footer()
 {
-
     $component_assets = url('/component-assets');
     register_script($component_assets . '/lib/bootstrap/js/popper.min.js');
     register_script($component_assets . '/lib/bootstrap/js/bootstrap.min.js');
@@ -110,7 +109,6 @@ function render_slider($id, $class = '', $id_slider_custom = '')
     if (!empty($slider_data)) {
         $slider_data = $slider_data->post_content;
         ?>
-
         <div class="tnct-slider-<?= $id ?> <?= $class ?>" id="<?= $id_slider_custom ?>">
             <?php foreach (json_decode($slider_data) as $value) { ?>
                 <a target="_blank" href="<?= $value->slide_url ?>" class="slider-item<?= $id ?> tnct-slider-item"
@@ -125,9 +123,11 @@ function render_slider($id, $class = '', $id_slider_custom = '')
 function is_tax($taxonomy = '')
 {
     global $term;
-    if ($term->taxonomy->taxonomy === $taxonomy) {
-        return true;
-    } else {
-        return false;
+    if(isset($term)){
+        if ($term->taxonomy->taxonomy === $taxonomy) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
