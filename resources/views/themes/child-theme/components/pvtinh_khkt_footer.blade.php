@@ -21,8 +21,8 @@
 
                             @endphp
                 </div>
-                <div class="address-company">
-                    @if(sizeof($dataInfoAddress)>0)
+                <div class="address-company"> 
+                    @if(count($dataInfoAddress)>0)
                         @foreach($dataInfoAddress as $value)
 
                             <div class="address"><strong>{{$value['lien_he']['title']}}
@@ -39,7 +39,7 @@
                         <?php
                         $footer_menu_1 = get_data_menu('footer_menu_1');
                         ?>
-                        @if(sizeof($footer_menu_1)>0)
+                        @if(count($footer_menu_1)>0)
                             @foreach($footer_menu_1 as $item)
                                 <li>
                                     <a href="{{ $item->link }}">{{ $item->label }}</a>
@@ -64,7 +64,7 @@
                         <?php
                         $footer_menu_2 = get_data_menu('footer_menu_2');
                         ?>
-                        @if(sizeof($footer_menu_2)>0)
+                        @if(count($footer_menu_2)>0)
                             @foreach($footer_menu_2 as $item)
                                 <li>
                                     <a href="{{ $item->link }}">{{ $item->label }}</a>
