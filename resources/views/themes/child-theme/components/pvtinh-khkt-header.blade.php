@@ -28,7 +28,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="/huong-dan">
                                 <img src="/component-assets/images/img-3.png" alt="" class="img">
                                 <img src="/component-assets/images/img-3-hover.png" alt="" class="img-hover">
                                 <span>Hướng dẫn</span>

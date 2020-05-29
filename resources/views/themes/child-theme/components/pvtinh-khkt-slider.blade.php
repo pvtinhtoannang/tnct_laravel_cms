@@ -82,8 +82,9 @@ $course_slider_menu = get_data_menu('course_slider_menu');
                             <input type="hidden" name="content_form">
                             <select name="course" class="form-control">
                                 <option value="">Khoá học mong muốn:</option>
-                                <option value="Tên khoá học">Default 1</option>
-                                <option value="Tên khoá học">Default 2</option>
+                                @foreach($courseFormContact as $course)
+                                    <option value="{{ $course->post_title }}">{{ $course->post_title }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <button type="submit" class="btn btn-form btn-custom-form">Hoàn tất</button>
