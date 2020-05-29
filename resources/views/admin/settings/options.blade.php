@@ -45,16 +45,29 @@
                                         <textarea name="{{ $option['option_name'] }}" id="{{ $option['option_name'] }}"
                                                   cols="30" rows="10" class="form-control"></textarea>
                                     @elseif($option['option_type'] === 'course' || $option['option_type'] === 'course_cat')
+                                        @php
+                                            $option_value = json_decode($option['option_value']);
+                                        @endphp
                                         @if($option['option_type'] ==='course')
-                                            @php
-                                                $option_value = json_decode($option['option_value']);
-                                            @endphp
-                                            <select name="option[][{{$option['option_name']}}]" multiple id=""
+                                            <select name="option[{{$indexOption}}][{{$option['option_name']}}][]"
+                                                    multiple id=""
                                                     class="form-control select2-course-update">
                                                 @if(!empty($option['option_value']))
                                                     @foreach($allCourse as $value)
                                                         <option value="{{ $value->ID }}"
                                                                 @foreach($option_value as $item) @if((int)$item === $value->ID)  selected @endif  @endforeach>{{$value->post_title}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        @endif
+                                        @if($option['option_type'] === 'course_cat')
+                                            <select name="option[{{$indexOption}}][{{$option['option_name']}}][]"
+                                                    multiple id=""
+                                                    class="form-control select2-course-update">
+                                                @if(!empty($option['option_value']))
+                                                    @foreach($categoryCourse as $course_cat)
+                                                        <option value="{{ $course_cat->term->term_id }}"
+                                                                @foreach($option_value as $item) @if((int)$item === $course_cat->term->term_id) selected @endif  @endforeach>{{$course_cat->term->name}}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
