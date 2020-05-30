@@ -299,6 +299,28 @@ function confirmDelete() {
     });
 }
 
+function confirmDeleteCourseCat() {
+    $('.delete-course-cat-btn').click(function (e) {
+        let term_id = $(this).attr('data-term');
+        let delete_url = '/admin/course-cat/delete/' + term_id;
+        swal.fire({
+            title: 'Bạn sắp xoá vĩnh viễn những mục này khỏi trang web của bạn.',
+            text: 'Hành động này không thể hoàn tác.',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'OK!',
+            cancelButtonText: 'Không, trở lại!',
+            reverseButtons: true
+        }).then(function (result) {
+            if (result.value) {
+                $(location).attr('href', delete_url);
+            } else if (result.dismiss === 'cancel') {
+
+            }
+        });
+    });
+}
+
 function updatePosition() {
     let new_data_section = 0;
     $("#course-builder .course-builder-item").each(function (i, el) {
@@ -447,6 +469,7 @@ jQuery(function ($) {
             ajax_upload();
             lesson_select_file();
             medialDetail();
+            confirmDeleteCourseCat();
             $('#browse-btn').on('click', function () {
                 ajax_upload();
             });

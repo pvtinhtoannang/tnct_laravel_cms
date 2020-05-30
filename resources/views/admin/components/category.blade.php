@@ -64,7 +64,7 @@
                                         <i class="la la-edit"></i>
                                     </a>
                                     <a href="javascript:;" data-term="{{ $category['term_id']}}"
-                                       class="btn btn-sm btn-clean btn-icon btn-icon-md delete-term-btn"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md delete-course-cat-btn"
                                        title="View">
                                         <i class="la la-trash"></i>
                                     </a>
