@@ -115,7 +115,7 @@ class CartController extends Controller
             "subtotal" => $cart_subtotal,
             "total" => $cart_total,
             "count" => $cart_count,
-            "payment" =>  json_encode($request->payment_method)
+            "payment" =>  $request->payment_method
         );
         $payment_content = json_encode($payment);
         if (Auth::check()) {

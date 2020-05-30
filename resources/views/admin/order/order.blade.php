@@ -39,7 +39,13 @@
                             <div class="order-totals-items-wrapper">
                                 <div class="subtotal-wrapper">
                                     <div class="mark">Phương thức thanh toán</div>
-                                    <div class="amount">VCB</div>
+                                    <div class="amount">
+                                        @php
+                                            $dataPayment =(object)json_decode($content->payment);
+                                        @endphp
+                                        {{ $dataPayment->phuong_thuc->ten_ngan_hang }}
+                                        {{ $dataPayment->phuong_thuc->so_tai_khoan }}
+                                    </div>
                                 </div>
                                 <div class="subtotal-wrapper">
                                     <div class="mark">Tạm tính</div>
@@ -58,7 +64,8 @@
                 <div class="kt-portlet">
                     <div class="kt-portlet__head kt-bg-primary">
                         <div class="kt-portlet__head-label">
-                            <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Duyệt đơn hàng #{{$order->id}}</h3>
+                            <h3 class="kt-font-bolder kt-portlet__head-title kt-font-light">Duyệt đơn hàng
+                                #{{$order->id}}</h3>
                         </div>
                     </div>
                     <div class="kt-portlet__body">

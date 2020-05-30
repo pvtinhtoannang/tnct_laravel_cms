@@ -33,18 +33,20 @@
                         <div class="card-title">Thanh toán khóa học</div>
                         <form id="payment-form" action="{{route('PAYMENT')}}" method="post">
                             <ul id="payment-methods">
-                                @foreach($payment_methods as $method)
-                                    @php $data = json_encode($method) @endphp
+                                @foreach($payment_methods as $key=> $method)
+
                                     <li>
                                         <div class="card">
                                             <div class="card-header">
                                                 <div class="payment-select">
                                                     <label>
                                                         <input type='radio' name='payment_method'
-                                                               value='{{ $data }}'
+                                                               value='{{ json_encode($method) }}'
                                                                data-toggle="collapse" data-target="#collapseOne"
                                                                aria-expanded="true" aria-controls="collapseOne"
-                                                               checked/>
+                                                               @if($key == 0) checked @endif
+
+                                                        />
                                                         {{$method['phuong_thuc']['ten_ngan_hang']}}
                                                     </label>
                                                 </div>

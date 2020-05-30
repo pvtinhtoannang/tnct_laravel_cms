@@ -1440,29 +1440,29 @@
                                         </div>
                                     </div>
                                 </a>
-                                <a href="#" class="kt-notification__item">
+                                <a href="{{route('GET_COURSE_ROUTE')}}" class="kt-notification__item">
                                     <div class="kt-notification__item-icon">
                                         <i class="flaticon2-rocket-1 kt-font-danger"></i>
                                     </div>
                                     <div class="kt-notification__item-details">
                                         <div class="kt-notification__item-title kt-font-bold">
-                                            My Activities
+                                            Khoá học
                                         </div>
                                         <div class="kt-notification__item-time">
-                                            Logs and notifications
+                                            Danh sách khoá học
                                         </div>
                                     </div>
                                 </a>
-                                <a href="#" class="kt-notification__item">
+                                <a href="{{route('GET_POSTS_ROUTE')}}" class="kt-notification__item">
                                     <div class="kt-notification__item-icon">
                                         <i class="flaticon2-hourglass kt-font-brand"></i>
                                     </div>
                                     <div class="kt-notification__item-details">
                                         <div class="kt-notification__item-title kt-font-bold">
-                                            My Tasks
+                                            Bài viết
                                         </div>
                                         <div class="kt-notification__item-time">
-                                            latest tasks and projects
+                                            Danh sách bài viết
                                         </div>
                                     </div>
                                 </a>

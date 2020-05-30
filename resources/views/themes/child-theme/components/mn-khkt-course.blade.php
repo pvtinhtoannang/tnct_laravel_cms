@@ -76,7 +76,7 @@
                             <button type="submit" id="buy-now" class="buy-now-button">Mua ngay</button>
                             <div class="btn-wrapper">
                                 <a href="javascript:;" class="cart-btn" id="add-to-cart">Thêm giỏ hàng</a>
-                                <a href="" class="student-ask-support-label cart-btn">Tôi cần tư vấn</a>
+                                <a href="/lien-he" class="student-ask-support-label cart-btn">Tôi cần tư vấn</a>
                             </div>
                             {{ csrf_field() }}
                         </form>
