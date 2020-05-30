@@ -120,6 +120,13 @@ class CartController extends Controller
             "payment" =>  $request->payment_method
         );
         $payment_content = json_encode($payment);
+        dump($items);
+
+
+        $bank = json_decode($request->payment_method);
+        $ten_tai_khoan = $bank->phuong_thuc->ten_tai_khoan;
+        $ten_ngan_hang = $bank->phuong_thuc->ten_ngan_hang;
+        $so_tai_khoan = $bank->phuong_thuc->so_tai_khoan;
         if (Auth::check()) {
             $user_id = Auth::user()->id;
             $order = $this->order->create([
@@ -132,12 +139,13 @@ class CartController extends Controller
             Cart::destroy();
 
             $objEmail = new \stdClass();
-            $objEmail->name = Auth::user()->name;
             $objEmail->items = $items;
             $objEmail->cart_id = $orderID;
             $objEmail->cart_subtotal = $cart_subtotal;
             $objEmail->cart_total = $cart_total;
-            $objEmail->payment_method = $request->payment_method;
+            $objEmail->ten_ngan_hang = $ten_ngan_hang;
+            $objEmail->so_tai_khoan = $so_tai_khoan;
+            $objEmail->ten_tai_khoan = $ten_tai_khoan;
             if(Mail::to(Auth::user()->email)->send(new OrderEmail($objEmail))){}
             return redirect()->route('GET_MY_ACCOUNT')->with('success', 'Đặt mua khoá học thành công.');
 

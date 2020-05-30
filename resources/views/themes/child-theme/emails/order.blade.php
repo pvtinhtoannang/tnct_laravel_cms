@@ -158,7 +158,8 @@
                                                         </tr>
                                                         <tr style="margin-bottom: 30px">
                                                             <td class="esd-block-button es-p15t es-p10b" align="center">
-                                                                <a href="https://viewstripo.email/" class="es-button"
+                                                                <a href="https://tnctcms.dev/tai-khoan"
+                                                                   class="es-button"
                                                                    target="_blank"
                                                                    style="  font-size: 16px;
                                                                             border-top-width: 10px;
@@ -230,19 +231,20 @@ background-color: #efefef;
                                                                        align="left">
                                                                     <tbody>
                                                                     <tr>
+
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%; padding: 0 15px;">Mã đơn hàng #:</span>
+                                                                            <span style="font-size: 14px; line-height: 150%; padding: 0 15px;">Mã đơn hàng:</span>
                                                                         </td>
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">945645546</span>
+                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">#{{$requestEmail->cart_id}}</span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Ngày đặt hàng:</span>
+                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Ngày đặt hàng: </span>
                                                                         </td>
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Oct 21, 2017</span>
+                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">{{ date('d-m-Y')  }}</span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -250,7 +252,7 @@ background-color: #efefef;
                                                                             <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Tổng tiền:</span>
                                                                         </td>
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">$80.67</span>
+                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">{{ $requestEmail->cart_total }} VNĐ</span>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
@@ -285,7 +287,8 @@ background-color: #efefef;
                                                         <tr>
                                                             <td class="esd-block-text es-p20t es-p10b es-p20r es-p20l"
                                                                 align="left">
-                                                                <h4 style="padding: 0 15px;">PHƯƠNG THỨC THANH TOÁN:</h4>
+                                                                <h4 style="padding: 0 15px;">PHƯƠNG THỨC THANH
+                                                                    TOÁN:</h4>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -300,7 +303,9 @@ background-color: #efefef;
                                                                             <span style="font-size: 14px; line-height: 150%; padding: 0 15px;">Tên ngân hàng:</span>
                                                                         </td>
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Vietcombank</span>
+                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">
+                                                                                {{ $requestEmail->ten_ngan_hang }}
+                                                                            </span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -308,7 +313,7 @@ background-color: #efefef;
                                                                             <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Chủ tài khoản:</span>
                                                                         </td>
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Phan Văn Tính</span>
+                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">{{ $requestEmail->ten_tai_khoan }}</span>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -316,7 +321,7 @@ background-color: #efefef;
                                                                             <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">Số tài khoản:</span>
                                                                         </td>
                                                                         <td>
-                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">1231232132321</span>
+                                                                            <span style="font-size: 14px; line-height: 150%;padding: 0 15px;">{{ $requestEmail->so_tai_khoan }}</span>
                                                                         </td>
                                                                     </tr>
                                                                     </tbody>
@@ -409,84 +414,94 @@ background-color: #efefef;
                                         <!--[if mso]></td></tr></table><![endif]-->
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="esd-structure es-p20r es-p20l" esd-general-paddings-checked="false"
-                                        align="left">
-                                        <table width="100%" cellspacing="0" cellpadding="0">
-                                            <tbody>
-                                            <tr>
-                                                <td class="esd-container-frame" width="560" valign="top" align="center">
-                                                    <table width="100%" cellspacing="0" cellpadding="0">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td class="esd-block-spacer es-p10b" align="center"
-                                                                style="font-size:0">
-                                                                <table width="100%" height="100%" cellspacing="0"
-                                                                       cellpadding="0" border="0">
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td style="border-bottom: 1px solid #efefef; background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; height: 1px; width: 100%; margin: 0px;"></td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="esd-structure es-p5t es-p10b es-p20r es-p20l"
-                                        esd-general-paddings-checked="false" align="left">
-                                        <!--[if mso]>
-                                        <table width="560" cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td width="178" valign="top"><![endif]-->
+                                @foreach($requestEmail->items as $item)
+                                    <tr>
+                                        <td class="esd-structure es-p20r es-p20l" esd-general-paddings-checked="false"
+                                            align="left">
+                                            <table width="100%" cellspacing="0" cellpadding="0">
+                                                <tbody>
+                                                <tr>
+                                                    <td class="esd-container-frame" width="560" valign="top"
+                                                        align="center">
+                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td class="esd-block-spacer es-p10b" align="center"
+                                                                    style="font-size:0">
+                                                                    <table width="100%" height="100%" cellspacing="0"
+                                                                           cellpadding="0" border="0">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td style="border-bottom: 1px solid #efefef; background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%; height: 1px; width: 100%; margin: 0px;"></td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="esd-structure es-p5t es-p10b es-p20r es-p20l"
+                                            esd-general-paddings-checked="false" align="left">
+                                            <!--[if mso]>
+                                            <table width="560" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td width="178" valign="top"><![endif]-->
 
-                                        <!--[if mso]></td>
-                                        <td width="20"></td>
-                                        <td width="362" valign="top"><![endif]-->
-                                        <table cellspacing="0" cellpadding="0" align="right" style="width: 100%">
-                                            <tbody>
-                                            <tr>
-                                                <td class="esd-container-frame" width="362" align="left">
-                                                    <table width="100%" cellspacing="0" cellpadding="0">
-                                                        <tbody>
-                                                        <tr>
-                                                            <td class="esd-block-text" align="left">
-                                                                <p><br></p>
-                                                                <table style="width: 100%;" class="cke_show_border"
-                                                                       cellspacing="1" cellpadding="1" border="0">
-                                                                    <tbody>
-                                                                    <tr>
-                                                                        <td>Natural Balance L.I.D. Sweet Potato &
-                                                                            Venison
-                                                                        </td>
-                                                                        <td style="text-align: center;" width="60">1
-                                                                        </td>
-                                                                        <td style="text-align: center;" width="100">
-                                                                            $20.00
-                                                                        </td>
-                                                                    </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                                <p><br></p>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                        <!--[if mso]></td></tr></table><![endif]-->
-                                    </td>
-                                </tr>
-
+                                            <!--[if mso]></td>
+                                            <td width="20"></td>
+                                            <td width="362" valign="top"><![endif]-->
+                                            <table cellspacing="0" cellpadding="0" align="right" style="width: 100%">
+                                                <tbody>
+                                                <tr>
+                                                    <td class="esd-container-frame" width="362" align="left">
+                                                        <table width="100%" cellspacing="0" cellpadding="0">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td class="esd-block-text" align="left">
+                                                                    <p><br></p>
+                                                                    <table style="width: 100%;" class="cke_show_border"
+                                                                           cellspacing="1" cellpadding="1" border="0">
+                                                                        <tbody>
+                                                                        <tr>
+                                                                            <td>{{ $item['name']}}
+                                                                            </td>
+                                                                            @php
+                                                                                    $date_expires_data = \App\Option::where('option_name', 'date_expires')->first();
+                                                                                    if (!empty($date_expires_data)) {
+                                                                                        $date_expires = strtotime(\Carbon\Carbon::now()->addDays((int)$date_expires_data->option_value));
+                                                                                    } else {
+                                                                                        $date_expires = strtotime(\Carbon\Carbon::now()->addDays(30));
+                                                                                    }
+                                                                            @endphp
+                                                                            <td style="text-align: center;" width="140">
+                                                                                {{ date('d-m-Y',$date_expires) }}
+                                                                            </td>
+                                                                            <td style="text-align: center;" width="140">
+                                                                                {{ $item['price'] }}
+                                                                            </td>
+                                                                        </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <p><br></p>
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--[if mso]></td></tr></table><![endif]-->
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </td>
@@ -524,7 +539,8 @@ background-color: #efefef;
                                                                             style="margin: auto"></a></td>
                                                         </tr>
                                                         <tr width="100%" style="text-align: center">
-                                                            <td  width="100%"  class="esd-block-text es-p10t es-p5b es-m-txt-c">
+                                                            <td width="100%"
+                                                                class="esd-block-text es-p10t es-p5b es-m-txt-c">
                                                                 <p>Số 11/11D, hẻm 518, Đường Bùi Hữu Nghĩa, Quận Bình
                                                                     Thủy, Tp. Cần Thơ.</p>
                                                             </td>
