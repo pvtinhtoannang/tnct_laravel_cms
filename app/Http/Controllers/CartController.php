@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Option;
 use App\Order;
-use Gloudemans\Shoppingcart\Facades\Cart;
+use App\Mail\OrderEmail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\Mail;
 
 class CartController extends Controller
 {
@@ -120,11 +122,23 @@ class CartController extends Controller
         $payment_content = json_encode($payment);
         if (Auth::check()) {
             $user_id = Auth::user()->id;
-            $this->order->create([
+            $order = $this->order->create([
                 'user_id' => $user_id,
                 'order_content' => $payment_content
             ]);
+
+            $orderID = $order->id;
+
             Cart::destroy();
+
+            $objEmail = new \stdClass();
+            $objEmail->name = Auth::user()->name;
+            $objEmail->items = $items;
+            $objEmail->cart_id = $orderID;
+            $objEmail->cart_subtotal = $cart_subtotal;
+            $objEmail->cart_total = $cart_total;
+            $objEmail->payment_method = $request->payment_method;
+            if(Mail::to(Auth::user()->email)->send(new OrderEmail($objEmail))){}
             return redirect()->route('GET_MY_ACCOUNT')->with('success', 'Đặt mua khoá học thành công.');
 
         } else {
