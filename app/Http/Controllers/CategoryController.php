@@ -6,11 +6,12 @@ use App\Post;
 use App\Term;
 use App\Taxonomy;
 use App\TermRelationships;
+use App\User;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private $term, $tax, $taxonomy, $post;
+    private $term, $tax, $taxonomy, $post, $user;
 
     /**
      * CategoryController constructor.
@@ -21,6 +22,7 @@ class CategoryController extends Controller
         $this->term = new Term();
         $this->taxonomy = new Taxonomy();
         $this->post = new Post();
+        $this->user = new User();
     }
 
     /**
@@ -38,12 +40,14 @@ class CategoryController extends Controller
      */
     function addCategory(Request $request)
     {
+        $this->user->authorizeRoles('add_category_post');
         $this->term->addTerm($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax);
         return redirect()->route('GET_CATEGORY_ROUTE');
     }
 
     function getEditCategory($id)
     {
+        $this->user->authorizeRoles('edit_category_post');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',
@@ -59,6 +63,7 @@ class CategoryController extends Controller
 
     function updateCategory(Request $request, $id)
     {
+        $this->user->authorizeRoles('edit_category_post');
         $this->term->updateTerm($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax, $id);
         return redirect()->route('GET_CATEGORY_EDIT_ROUTE', [$id])->with('update', 'Chuyên mục đã được cập nhật.');
     }
@@ -70,6 +75,7 @@ class CategoryController extends Controller
             'sub_title' => '',
             'description' => 'Thao tác không hợp lệ.'
         );
+        $this->user->authorizeRoles('delete_category_post');
         if ($this->taxonomy->deleteTermTaxonomyInObject($id)) {
             if ($this->term->deleteTerm($id)) {
                 return redirect()->route('GET_CATEGORY_ROUTE')->with('update', 'Chuyên mục đã được cập nhật.');
