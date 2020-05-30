@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\User;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    private $post_type, $course, $post_controller;
+    private $post_type, $course, $post_controller, $user;
 
 
     /**
@@ -18,6 +19,7 @@ class CourseController extends Controller
         $this->post_type = 'course';
         $this->course = new Course();
         $this->post_controller = new PostController();
+        $this->user = new User();
     }
 
     /**
@@ -46,6 +48,7 @@ class CourseController extends Controller
      */
     function getCourseEditor()
     {
+        $this->user->authorizeRoles('add_course');
         return view('admin.course.course.course-editor', ['post_type' => $this->post_type]);
     }
 
@@ -79,6 +82,7 @@ class CourseController extends Controller
      */
     function getEditCourse($id)
     {
+        $this->user->authorizeRoles('edit_course');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',
@@ -155,6 +159,7 @@ class CourseController extends Controller
      */
     function getActionDeleteCourse($id)
     {
+        $this->user->authorizeRoles('delete_course');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',

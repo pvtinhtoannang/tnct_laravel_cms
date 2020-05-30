@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Taxonomy;
 use App\Term;
+use App\User;
 use Illuminate\Http\Request;
 
 class CourseCategoryController extends Controller
 {
-    private $term, $tax, $taxonomy;
+    private $term, $tax, $taxonomy, $user;
 
     /**
      * CategoryController constructor.
@@ -18,6 +19,7 @@ class CourseCategoryController extends Controller
         $this->tax = 'course_cat';
         $this->term = new Term();
         $this->taxonomy = new Taxonomy();
+        $this->user = new User();
     }
 
     /**
@@ -25,6 +27,7 @@ class CourseCategoryController extends Controller
      */
     function getCourseCategory()
     {
+
         return view('admin.course.course-category.course-cat', ['categories' => $this->taxonomy->fetchCategoryTree(0, '', '', $this->tax)]);
     }
 
@@ -34,12 +37,14 @@ class CourseCategoryController extends Controller
      */
     function addCourseCategory(Request $request)
     {
+        $this->user->authorizeRoles('add_course_cat');
         $this->term->addTerm($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax);
         return redirect()->route('GET_COURSE_CATEGORY_ROUTE');
     }
 
     function getEditCourseCategory($id)
     {
+        $this->user->authorizeRoles('edit_course_cat');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',

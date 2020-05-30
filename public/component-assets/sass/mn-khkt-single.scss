@@ -17,4 +17,23 @@
             margin-bottom: 30px;
         }
     }
+    .post-content{
+        text-align: justify;
+        p{
+            margin-bottom: 30px;
+        }
+    }
+}
+@media screen and (max-width: 992px) {
+    .mn-khkt-single {
+        padding: 60px 0;
+        background-color: #EEF1F2;
+
+        .entry-content {
+            border-radius: 7px;
+            background-color: #fff;
+            padding: 48px 15px 22px 15px;
+
+        }
+    }
 }

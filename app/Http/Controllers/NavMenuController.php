@@ -9,12 +9,13 @@ use App\Page;
 use App\Menu;
 use App\Taxonomy;
 use App\PositionMenu;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class NavMenuController extends Controller
 {
-    private $menu, $position_menu, $post, $page, $tag, $taxonomy, $course;
+    private $menu, $position_menu, $post, $page, $tag, $taxonomy, $course, $user;
 
     public function __construct()
     {
@@ -25,10 +26,12 @@ class NavMenuController extends Controller
         $this->tag = new Tag();
         $this->taxonomy = new Taxonomy();
         $this->course = new Course();
+        $this->user = new User();
     }
 
     public function getViewNavMenu()
     {
+        $this->user->authorizeRoles('view_menu');
         $postion_menu_first = $this->position_menu->getAllPostionMenu()->first();
         $position_menu = $this->position_menu->getAllPostionMenu();
         $pages = $this->page->latest()->get();
@@ -37,7 +40,6 @@ class NavMenuController extends Controller
         $category = $this->taxonomy->category()->get();
         $category_course = $this->taxonomy->name('course_cat')->get();
         $coursed = $this->course->get();
-//return $coursed
 
         $menus = Menu::where('position_menu_id', $postion_menu_first->id)->whereNull('parent_id')->orderBy("sort", "ASC")->with('childrenMenus')->get();
         return view('admin.appearance.nav-menu', [
@@ -55,6 +57,7 @@ class NavMenuController extends Controller
 
     public function getMenuPosition($id)
     {
+        $this->user->authorizeRoles('view_menu');
         return $menus = $this->position_menu->getPositionMenuByID($id);
     }
 
@@ -89,7 +92,7 @@ class NavMenuController extends Controller
 
     public function addPositionMenu(Request $request)
     {
-
+        $this->user->authorizeRoles('add_menu');
         $rules = [
             'name' => 'required|unique:positions_menu',
             'display_name' => 'required',
@@ -114,6 +117,7 @@ class NavMenuController extends Controller
 
     public function updateMenuItem(Request $request)
     {
+        $this->user->authorizeRoles('update_menu');
         $id = $request->id;
         $link = $request->link;
         $label = $request->label;
@@ -126,6 +130,7 @@ class NavMenuController extends Controller
 
     public function addMenuItem(Request $request)
     {
+        $this->user->authorizeRoles('add_menu');
         $label = $request->label;
         $link = $request->link;
         $position = $request->position;
@@ -136,6 +141,7 @@ class NavMenuController extends Controller
 
     function saveMenuItem(array $arrMenu, $parent_id = null, $sort = 0)
     {
+        $this->user->authorizeRoles('update_menu');
         foreach ($arrMenu as $key => $item) {
             $parent = $item['id'];
             $sort = $key;
@@ -150,6 +156,7 @@ class NavMenuController extends Controller
 
     public function saveMenu(Request $request)
     {
+        $this->user->authorizeRoles('update_menu');
         $data = $request->data;
         return $this->saveMenuItem($request->data);
     }
@@ -157,11 +164,14 @@ class NavMenuController extends Controller
 
     public function deleteMenuItem(Request $request)
     {
+        $this->user->authorizeRoles('delete_menu');
+
         return $this->menu->deleteMenuItem($request->id);
     }
 
     public function updateMenuPosition(Request $request)
     {
+        $this->user->authorizeRoles('update_menu');
         $id = $request->update_id;
         $name = $request->name;
         $display_name = $request->display_name;

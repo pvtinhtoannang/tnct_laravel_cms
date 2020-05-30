@@ -58,6 +58,7 @@ class PostController extends Controller
      */
     function getEditPost($id)
     {
+        $this->user->authorizeRoles('edit_post');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',
@@ -114,6 +115,7 @@ class PostController extends Controller
             } else if ($status === 'trash') {
                 $status = 'trash';
             } else if ($status === 'delete') {
+                $this->user->authorizeRoles('delete_post');
                 $this->post->post_id($id)->delete();
             } else {
                 return view('admin.errors.admin-error', ['error_responses' => $responses]);

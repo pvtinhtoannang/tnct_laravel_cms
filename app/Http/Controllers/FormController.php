@@ -4,20 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Form;
 use App\FormMeta;
+use App\User;
 use Illuminate\Http\Request;
 
 class FormController extends Controller
 {
-    private $form, $form_meta;
+    private $form, $form_meta, $user;
 
     public function __construct()
     {
         $this->form = new Form();
+        $this->user = new User();
         $this->form_meta = new FormMeta();
     }
 
     public function getFormData($id)
     {
+        $this->user->authorizeRoles('view_form');
         $data = $this->form->getAllDataForm($id);
         return view('admin.forms.form', ['data' => $data]);
     }

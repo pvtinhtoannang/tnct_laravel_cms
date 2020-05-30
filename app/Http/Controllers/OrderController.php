@@ -18,12 +18,14 @@ class OrderController extends Controller
 
     function index()
     {
+        $this->user->authorizeRoles('view_orders');
         $orders = $this->order->get();
         return view('admin.order.orders', ['orders' => $orders]);
     }
 
     function getOrder($id)
     {
+        $this->user->authorizeRoles('update_orders');
         $order = $this->order->find($id);
         $order_content = json_decode($order->order_content);
         return view('admin.order.order', ['order' => $order, 'content' => $order_content]);

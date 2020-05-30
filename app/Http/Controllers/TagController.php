@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\Term;
+use App\User;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    private $term, $tag, $tax;
+    private $term, $tag, $tax, $user;
 
     /**
      * TagController constructor.
@@ -18,6 +19,7 @@ class TagController extends Controller
         $this->tax = 'post_tag';
         $this->term = new Term();
         $this->tag = new Tag();
+        $this->user = new User();
     }
 
     /**
@@ -35,6 +37,7 @@ class TagController extends Controller
      */
     function addTag(Request $request)
     {
+        $this->user->authorizeRoles('add_tag_post');
         $this->term->addTerm($request->tag_name, $request->tag_slug, $request->tag_description, 0, $this->tax);
         return redirect()->route('GET_TAG_ROUTE');
     }

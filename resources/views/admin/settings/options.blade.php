@@ -281,9 +281,4 @@
                 </div>
             </div>
         </div>
-        <div class="hidden">
-            <div id="hidden-input-image">
-                @include('admin.settings.options.hidden-repeater-image-option')
-            </div>
-        </div>
 @endsection

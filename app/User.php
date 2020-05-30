@@ -78,16 +78,21 @@ class User extends Authenticatable
 
     public function authorizeRoles($permission_name)
     {
-
         $roles_name = [];
         $roles = $this->getNameRole();
         if (!empty($roles)) {
             foreach ($roles as $key => $role) {
                 $roles_name[$key] = $role['name'];
+//                if($role->name === 'administrator'){
+//                    return $role;
+//                }
             }
         }
-        return $this->checkPermission($permission_name) || abort(401, 'Bạn không có quyền truy cập hành động này!');
-
+        if (!empty($this->checkPermission($permission_name))) {
+            return $this->checkPermission($permission_name);
+        } else {
+            abort(401, 'Bạn không có quyền truy cập hành động này!');
+        }
     }
 
     /**
@@ -112,20 +117,7 @@ class User extends Authenticatable
 
     public function checkPermission($permission)
     {
-        $permissions = self::find(Auth::user()->id)->permissions()->where('permissions.name', $permission)->first();
-        if (empty($permissions)) {
-            $role_user = $this->getNameRole();
-            $role_id = $role_user[0]->id;
-            $role = $this->role->where('id', $role_id)->first();
-            $permission_arr = $role->permission;
-            foreach ($permission_arr as $key => $value) {
-                if ($value['name'] == $permission) {
-                    $permissions[$key] = $value['name'];
-                } else {
-                    $permissions = null;
-                }
-            }
-        }
+        $permissions = self::find(Auth::user()->id)->permissions()->where('permissions.name', '=',$permission)->first();
         return $permissions;
     }
 
@@ -182,7 +174,7 @@ class User extends Authenticatable
      */
     public function checkPermissionForPost($post_id)
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             $permissions = self::find(Auth::user()->id)->postsCourses()->get();
             $date_now = strtotime(Carbon::now());
             $check_true = 0;
@@ -190,7 +182,7 @@ class User extends Authenticatable
 
                 if ((int)$permission->ID === (int)$post_id) {
                     $check_true = 1;
-                }else{
+                } else {
                     $check_true = 0;
                 }
                 if ((int)$permission->pivot->date_expires > (int)$date_now) {
@@ -205,7 +197,7 @@ class User extends Authenticatable
             } else {
                 return 0;
             }
-        }else{
+        } else {
             return 0;
         }
 
