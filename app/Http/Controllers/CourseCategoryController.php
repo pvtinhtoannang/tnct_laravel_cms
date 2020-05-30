@@ -59,4 +59,22 @@ class CourseCategoryController extends Controller
         return redirect()->route('GET_COURSE_CAT_EDIT_ROUTE', [$id])->with('update', 'Chuyên mục đã được cập nhật.');
     }
 
+    function deleteCourseCategory($id)
+    {
+        $responses = array(
+            'title' => 'Lỗi',
+            'sub_title' => '',
+            'description' => 'Thao tác không hợp lệ.'
+        );
+        if ($this->taxonomy->deleteTermTaxonomyInObject($id)) {
+            if ($this->term->deleteTerm($id)) {
+                return redirect()->route('GET_COURSE_CATEGORY_ROUTE')->with('update', 'Chuyên mục đã được cập nhật.');
+            } else {
+                return view('admin.errors.admin-error', ['error_responses' => $responses]);
+            }
+        } else {
+            return view('admin.errors.admin-error', ['error_responses' => $responses]);
+        }
+    }
+
 }
