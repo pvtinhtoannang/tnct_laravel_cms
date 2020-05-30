@@ -60,12 +60,14 @@ class CourseCategoryController extends Controller
 
     function updateCourseCategory(Request $request, $id)
     {
+        $this->user->authorizeRoles('edit_course_cat');
         $this->term->updateTerm($request->category_name, $request->category_slug, $request->category_description, $request->category_parent, $this->tax, $id);
         return redirect()->route('GET_COURSE_CAT_EDIT_ROUTE', [$id])->with('update', 'Chuyên mục đã được cập nhật.');
     }
 
     function deleteCourseCategory($id)
     {
+        $this->user->authorizeRoles('delete_course_cat');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',
