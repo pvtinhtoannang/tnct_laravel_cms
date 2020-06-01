@@ -1,6 +1,14 @@
 @php
     $option = new \App\Option();
     $dataInfoAddress = $option->getField('thong_tin_lien_he');
+    $ft_website_name = $option->getField('ft_website_name');
+    $ft_phone_number = $option->getField('ft_phone_number');
+    $ft_fanpage_url = $option->getField('ft_fanpage_url');
+    $ft_social_network_facebook = $option->getField('ft_social_network_facebook');
+    $ft_social_network_youtube = $option->getField('ft_social_network_youtube');
+    $ft_social_network_zalo = $option->getField('ft_social_network_zalo');
+    $ft_social_network_vimeo = $option->getField('ft_social_network_vimeo');
+
 @endphp
 <section class="pvtinh_khkt_footer">
     <div class="container">
@@ -14,17 +22,13 @@
                         </a>
                     </div>
                     <div class="title-footer-logo">
-                        <h3>DAILYTHUEGIAMINH.COM</h3>
-                        <span>HOTLINE: 090 133 4444</span>
+                        <h3>{{ $ft_website_name }}</h3>
+                        <span>{{ $ft_phone_number }}</span>
                     </div>
-                    @php
-
-                            @endphp
                 </div>
                 <div class="address-company">
                     @if(count($dataInfoAddress)>0)
                         @foreach($dataInfoAddress as $value)
-
                             <div class="address"><strong>{{$value['lien_he']['title']}}
                                     : </strong>{{$value['lien_he']['content']}}
                             </div>
@@ -81,27 +85,28 @@
                     </ul>
                 </nav>
             </div>
+
             <div class="footer-item">
                 <div class="box-fanpage">
                     <div id="fb-root"></div>
                     <script async defer crossorigin="anonymous"
                             src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v7.0"></script>
-                    <div class="fb-page" data-href="https://www.facebook.com/thuegiaminh" data-tabs="timeline"
+                    <div class="fb-page" data-href="{{ $ft_fanpage_url }}" data-tabs="timeline"
                          data-width="" data-height="190" data-small-header="false" data-adapt-container-width="true"
                          data-hide-cover="false" data-show-facepile="true">
-                        <blockquote cite="https://www.facebook.com/thuegiaminh" class="fb-xfbml-parse-ignore"><a
-                                    href="https://www.facebook.com/thuegiaminh">Đại Lý Thuế Gia Minh</a></blockquote>
+                        <blockquote cite="{{ $ft_fanpage_url }}" class="fb-xfbml-parse-ignore"><a
+                                    href="{{ $ft_fanpage_url }}">Đại Lý Thuế Gia Minh</a></blockquote>
                     </div>
 
                     <p>Theo dõi chúng tôi</p>
 
                     <div class="list-socials-network">
                         <ul>
-                            <li><a href="#"><img src="/component-assets/images/facebook-letter-logo.png" alt=""></a>
+                            <li><a title="{{$ft_social_network_facebook}}" href="{{ $ft_social_network_facebook }}" target="_blank"><img src="/component-assets/images/facebook-letter-logo.png" alt="{{ $ft_social_network_facebook }}"></a>
                             </li>
-                            <li><a href="#"><img src="/component-assets/images/youtube-icon.png" alt=""></a></li>
-                            <li><a href="#"><img src="/component-assets/images/zalo.png" alt=""></a></li>
-                            <li><a href="#"><img src="/component-assets/images/vimeo.png" alt=""></a></li>
+                            <li><a title="{{$ft_social_network_youtube}}" href="{{ $ft_social_network_youtube }}" target="_blank"><img src="/component-assets/images/youtube-icon.png" alt="{{ $ft_social_network_youtube }}"></a></li>
+                            <li><a title="{{$ft_social_network_zalo}}" href="{{ $ft_social_network_zalo }}" target="_blank"><img src="/component-assets/images/zalo.png" alt="{{ $ft_social_network_zalo }}"></a></li>
+                            <li><a title="{{$ft_social_network_vimeo}}" href="{{ $ft_social_network_vimeo }}" target="_blank"><img src="/component-assets/images/vimeo.png" alt="{{ $ft_social_network_vimeo }}"></a></li>
                         </ul>
                     </div>
                 </div>

@@ -25,17 +25,13 @@
       ul.rates, .avg-rate, .name {
         color: #FFF;
       }
-
-
       .title-kh, .price {
         color: #FFF;
 
         span, a {
           color: #FFF;
         }
-
       }
-
     }
   }
 
@@ -60,7 +56,6 @@
       top: 30px;
       left: 15px;
       border-radius: 3px;
-
       display: block;
       height: 22px;
       width: 53px;
@@ -118,13 +113,16 @@
       font-weight: 300;
       font-size: 16px;
       color: #000;
-      -webkit-transition: all .5s ease;
-      transition: all .5s ease;
+      -webkit-transition: all 0.5s ease;
+      transition: all 0.5s ease;
+      display: flex;
+      width: 100%;
+      align-items: flex-end;
 
       del {
         font-size: 12px;
         opacity: 0.5;
-
+        margin: 0 15px 0 0;
         sup {
 
         }
@@ -153,20 +151,25 @@
       line-height: 1.4;
 
       a {
-        @include textWithEllipsis(16, 1.3, 2);
+        font-size: 16px;
+        line-height: 1.3;
+        display: block;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-height: 41.6px;
+        color: #000000;
+        -webkit-transition: all 0.5s ease;
+        transition: all 0.5s ease;
         span {
           color: #012f8f;
           padding-right: 5px;
           -webkit-transition: all .5s ease;
           transition: all .5s ease;
         }
-
-        color: #000000;
-        -webkit-transition: all .5s ease;
-        transition: all .5s ease;
-
       }
-
     }
   }
 
@@ -225,9 +228,9 @@
       }
 
       .price {
+
         ins, del {
           display: block;
-          width: 100%;
         }
       }
 

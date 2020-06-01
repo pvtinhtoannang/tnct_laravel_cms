@@ -6,6 +6,10 @@ body {
   background-color: #eef1f2;
 }
 
+html {
+  font-size: 16px;
+}
+
 .pvtinh-khkt-header {
   background-image: url(../images/bg-header.jpg);
   background-size: cover;
@@ -220,6 +224,9 @@ body {
 .pvtinh-khkt-header .login-button button.menu-mobile {
   display: none;
 }
+.pvtinh-khkt-header .login-button a.dropdown-item {
+  font-size: 16px;
+}
 @media screen and (max-width: 1024px) {
   .pvtinh-khkt-header .header-content .logo-header {
     -webkit-flex-basis: 140px;
@@ -252,6 +259,7 @@ body {
   }
   .pvtinh-khkt-header .menu-header-content .login-button button.menu-mobile {
     display: block;
+    width: 45px;
   }
 }
 @media screen and (max-width: 580px) {
@@ -260,6 +268,7 @@ body {
     -moz-flex-basis: 65px;
     -ms-flex-basis: 65px;
     flex-basis: 65px;
+    margin-right: 30px;
   }
   .pvtinh-khkt-header .menu-header-content {
     -webkit-flex-basis: calc(100% - 65px);
@@ -427,6 +436,12 @@ body {
 .khoahoc-item .box-information .info-right {
   padding: 0 20px;
 }
+@media screen and (min-width: 1200px) {
+  .khoahoc-item .box-information .info-right {
+    flex-basis: 64%;
+    -webkit-flex-basis: 64%;
+  }
+}
 .khoahoc-item .box-information ul.rates, .khoahoc-item .box-information .avg-rate {
   display: inline-block;
   font-size: 15px;
@@ -444,10 +459,14 @@ body {
   color: #000;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
+  display: flex;
+  width: 100%;
+  align-items: flex-end;
 }
 .khoahoc-item .box-information .price del {
   font-size: 12px;
   opacity: 0.5;
+  margin: 0 15px 0 0;
 }
 .khoahoc-item .box-information .price sup {
   font-size: 7px;
@@ -466,6 +485,15 @@ body {
   line-height: 1.4;
 }
 .khoahoc-item .box-information .title-kh a {
+  font-size: 16px;
+  line-height: 1.3;
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 41.6px;
   color: #000000;
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
@@ -520,7 +548,6 @@ body {
 }
 .khoahoc-item.khoahoc-bottom .box-information .price ins, .khoahoc-item.khoahoc-bottom .box-information .price del {
   display: block;
-  width: 100%;
 }
 .khoahoc-item.khoahoc-bottom .box-information .box-avatar {
   width: 35px;
@@ -795,6 +822,7 @@ body {
 }
 .pvtinh_khkt_footer .box-fanpage p {
   margin-bottom: 15px;
+  margin-top: 20px;
 }
 .pvtinh_khkt_footer .list-socials-network ul {
   -webkit-flex-wrap: wrap;
@@ -841,6 +869,7 @@ body {
 
 .mn-khkt-account {
   padding: 60px 0;
+  background-color: #fff;
 }
 .mn-khkt-account .user-avatar {
   background-color: #686f7a;
@@ -898,6 +927,10 @@ body {
   margin-bottom: 15px;
 }
 
+.mn-khkt-my-courses {
+  background-color: #fff;
+  padding: 60px 0;
+}
 .mn-khkt-my-courses .sec-heading {
   background-color: #012f8f;
   padding: 40px 0;
@@ -909,6 +942,9 @@ body {
   font-weight: 500;
 }
 
+.pvtinh-khkt-slider {
+  padding: 0 0 30px 0;
+}
 .pvtinh-khkt-slider .slider-khkt-content {
   display: flex;
   display: -ms-flex;
@@ -940,16 +976,16 @@ body {
   background-position: center;
   background-repeat: repeat;
   background-size: cover;
-  padding: 20px 15px;
+  padding: 15px 15px;
 }
 .pvtinh-khkt-slider .slider-left, .pvtinh-khkt-slider .slider-right {
-  flex-basis: 275px;
-  -webkit-flex-basis: 275px;
+  flex-basis: 290px;
+  -webkit-flex-basis: 290px;
   display: inline-block;
 }
 .pvtinh-khkt-slider .slider-center {
-  -webkit-flex-basis: 535px;
-  flex-basis: 535px;
+  -webkit-flex-basis: 490px;
+  flex-basis: 490px;
   overflow: hidden;
 }
 .pvtinh-khkt-slider .slider-center .slick-dotted.slick-slider {
@@ -997,7 +1033,7 @@ body {
   -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   border-left: 1px solid transparent;
-  padding: 10px 0 10px 40px;
+  padding: 7px 0 7px 40px;
 }
 .pvtinh-khkt-slider .category-home ul li:hover {
   border-left: 1px solid #012f8f;
@@ -1049,8 +1085,17 @@ body {
   font-weight: 300;
   text-align: center;
 }
+.pvtinh-khkt-slider form.contact-form-home .input-group.mb-2 {
+  margin-bottom: 10px;
+}
+.pvtinh-khkt-slider form.contact-form-home .form-group {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 .pvtinh-khkt-slider form.contact-form-home input, .pvtinh-khkt-slider form.contact-form-home .input-group-text, .pvtinh-khkt-slider form.contact-form-home select {
   background-color: #e6edf7;
+  font-size: 15px;
+  height: 35px;
 }
 .pvtinh-khkt-slider form.contact-form-home .input-group-text {
   border: none;
@@ -1063,6 +1108,7 @@ body {
 }
 .pvtinh-khkt-slider form.contact-form-home .input-group-prepend, .pvtinh-khkt-slider form.contact-form-home input {
   height: 35px;
+  font-size: 15px;
 }
 .pvtinh-khkt-slider form.contact-form-home .btn-custom-form {
   background-color: #ef487c;
@@ -1073,6 +1119,7 @@ body {
   margin: auto;
   min-width: 120px;
   color: #FFF;
+  font-size: 15px;
 }
 @media screen and (max-width: 1024px) {
   .pvtinh-khkt-slider .category-home ul li {
@@ -1672,6 +1719,36 @@ button.btn-custom:hover {
   flex-basis: 30%;
   text-align: right;
 }
+.mn-khkt-checkout #payment-form #payment-methods li .payment-select input {
+  margin-right: 20px;
+}
+.mn-khkt-checkout #payment-form #payment-methods li .card {
+  border: none;
+}
+.mn-khkt-checkout #payment-form #payment-methods li .card .card-header {
+  background-color: transparent;
+  border: none;
+}
+.mn-khkt-checkout #payment-form #payment-methods li .payment-method {
+  background-color: #dfdcde;
+  color: #515151;
+  border-radius: 2px;
+  line-height: 1.4;
+  padding: 12px 15px;
+  position: relative;
+}
+.mn-khkt-checkout #payment-form #payment-methods li .payment-method:after {
+  content: "";
+  display: block;
+  border: 1em solid #dfdcde;
+  border-right-color: transparent;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  position: absolute;
+  top: -0.75em;
+  left: 0;
+  margin: -1em 0 0 2em;
+}
 .mn-khkt-checkout #payment-form .btn-wrapper {
   text-align: right;
 }
@@ -1827,7 +1904,7 @@ button.btn-custom:hover {
   width: 100%;
   height: 100%;
 }
-.mn-khkt-learning .learning-container .left-content .viewer-wrapper {
+.mn-khkt-learning .learning-container .left-content .viewer-wrapper, .mn-khkt-learning .learning-container .left-content .iframe-file {
   width: 100%;
   height: calc(100vh - 290px);
   background-color: #3D3D3D;
@@ -1981,6 +2058,102 @@ button.btn-custom:hover {
 }
 .mn-khkt-learning .app-dashboard-content {
   overflow: hidden;
+}
+
+.mn-khkt-course-archive {
+  padding: 60px 0;
+  background-color: #fff;
+}
+.mn-khkt-course-archive .archive-title {
+  font-size: 36px;
+  font-weight: 600;
+  color: #464646;
+  line-height: 1.4;
+  margin-bottom: 30px;
+}
+
+.mn-khkt-archive {
+  background-color: #fff;
+  padding: 60px 0;
+}
+.mn-khkt-archive .archive-title {
+  font-size: 36px;
+  font-weight: 600;
+  color: #464646;
+  line-height: 1.4;
+  margin-bottom: 30px;
+}
+.mn-khkt-archive .post-box {
+  border-radius: 7px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 30px;
+}
+.mn-khkt-archive .post-box .mask {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+}
+.mn-khkt-archive .post-box .box-img {
+  height: 200px;
+}
+.mn-khkt-archive .post-box .box-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.mn-khkt-archive .post-box .box-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px 0 20px 20px;
+  width: 100%;
+}
+.mn-khkt-archive .post-box .box-content .title {
+  font-size: 15px;
+}
+.mn-khkt-archive .post-box .box-content .title a {
+  color: #fff;
+}
+
+.mn-khkt-single {
+  padding: 60px 0;
+  background-color: #EEF1F2;
+}
+.mn-khkt-single .entry-content {
+  border-radius: 7px;
+  background-color: #fff;
+  padding: 48px 45px 22px 48px;
+  overflow: hidden;
+}
+.mn-khkt-single .entry-content .entry-title {
+  text-align: center;
+  font-size: 21px;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 30px;
+}
+.mn-khkt-single .post-content {
+  text-align: justify;
+}
+.mn-khkt-single .post-content p {
+  margin-bottom: 30px;
+}
+
+@media screen and (max-width: 992px) {
+  .mn-khkt-single {
+    padding: 60px 0;
+    background-color: #EEF1F2;
+  }
+  .mn-khkt-single .entry-content {
+    border-radius: 7px;
+    background-color: #fff;
+    padding: 48px 15px 22px 15px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

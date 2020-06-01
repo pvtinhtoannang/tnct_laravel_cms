@@ -74,7 +74,7 @@ $option = new \App\Option();
                         <button class="" data-toggle="modal" data-target="#registerModal">Đăng ký</button>
                     @endif
 
-                    <button class="menu-mobile"><i class="fa fa-bars"></i> Menu</button>
+                    <button class="menu-mobile"><i class="fa fa-bars"></i></button>
                 </div>
                 @include ('themes.child-theme.login')
             </div>

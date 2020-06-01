@@ -4,6 +4,7 @@
 <section class="pvtinh_khkt_khoahochot">
     <div class="container">
         @foreach($listCourseCat as $index=> $catCourse)
+
             <div class="khoahoc-repeat">
                 <div class="row">
                     @foreach($catCourse->posts as $key=>$post)
@@ -18,23 +19,6 @@
                                 </div>
 
                                 <div class="box-information">
-                                    <div class="info-left">
-                                        <div class="box-avatar">
-                                            <img src="/component-assets/images/avatar.jpg"
-                                                 alt="{{ $post->post_title }}">
-                                        </div>
-                                        <div class="information-author">
-                                            <div class="name">Th.S Ngô Tuấn Hà</div>
-                                            <ul class="rates">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                            </ul>
-                                            <span class="avg-rate">4.6</span>
-                                        </div>
-                                    </div>
                                     <div class="info-right">
                                         <h3 class="title-kh"><a href="/{{ $post->post_name }}"
                                                                 title="{{ $post->post_title }}"><span>[VIP]</span>{{ $post->post_title }}
@@ -62,7 +46,7 @@
                         </div>
                     @endforeach
                     @foreach($catCourse->posts as $key=>$post)
-                        @if($key == 5)
+                        @if($key === 5)
                             @break
                         @endif
                         @if($key>=2)
@@ -95,31 +79,14 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="info-right">
-                                            <div class="box-avatar">
-                                                <img src="/component-assets/images/avatar.jpg" alt="">
-                                            </div>
-                                            <div class="information-author">
-                                                <div class="name">Th.S Ngô Tuấn Hà</div>
-                                                <ul class="rates">
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                    <li class="fa fa-star"></li>
-                                                </ul>
-                                                <span class="avg-rate">4.6</span>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
-
                         @endif
                     @endforeach
                 </div>
             </div>
-            @break
         @endforeach
     </div>
 </section>

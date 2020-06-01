@@ -241,6 +241,7 @@
 
         button.menu-mobile {
           display: block;
+          width: 45px;
         }
       }
     }
@@ -249,6 +250,7 @@
     .header-content {
       .logo-header {
         @include flex-basis(65px);
+        margin-right: 30px;
       }
     }
     .menu-header-content {
