@@ -6,6 +6,11 @@ use App\User;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -22,6 +27,7 @@ class UserController extends Controller
 //        $request->user()->authorizeRoles(['administrator']);
         return view('admin.users.my-profile');
     }
+
 
     public function updateMyProfile(Request $request)
     {
@@ -46,6 +52,10 @@ class UserController extends Controller
         }
     }
 
+    public function getLoginSocialGuide()
+    {
+        return view('admin.users.login-social-guide');
+    }
 
     /**
      * lấy thông tin user
@@ -91,8 +101,6 @@ class UserController extends Controller
         $role_id = $request->role_id;
         $email_old = $this->user->getUserbyID($id)->email;
         $this->user->updateRoleByUserID($id, $role_id);
-
-
         if (!empty($password) && !empty($name) && !empty($email_new)) {
             $this->user->updatePassword($request->password, $id, '');
             if (!$email_old !== $email_new) {
@@ -118,6 +126,111 @@ class UserController extends Controller
                 return redirect()->back()->with('messages', 'Vui lòng nhập thông tin!');
             }
         }
+    }
 
+    public function redirectToGoogleProvider()
+    {
+        $parameters = ['access_type' => 'offline'];
+        return Socialite::driver('google')->scopes(["https://www.googleapis.com/auth/drive"])->with($parameters)->redirect();
+    }
+
+    /**
+     * Chuyển hướng người dùng sang OAuth Provider.
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectToProvider($provider)
+    {
+        if (!session()->has('pre_url')) {
+            session()->put('pre_url', URL::previous());
+        } else {
+            if (URL::previous() != URL::to('/')) session()->put('pre_url', URL::previous());
+        }
+        return Socialite::driver($provider)->redirect();
+    }
+
+    /**
+     * Lấy thông tin từ Provider, kiểm tra nếu người dùng đã tồn tại trong CSDL
+     * thì đăng nhập, ngược lại nếu chưa thì tạo người dùng mới trong SCDL.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+        $authUser = $this->findOrCreateUser($user, $provider);
+        $token = Str::random(60);
+        Auth::login($authUser, true);
+        $user_update = User::find(Auth::user()->id);
+        $user_update->update(['refresh_token' => hash('sha256', $token)]);
+        return Redirect::to(session()->get('pre_url'));
+    }
+
+    /**
+     * @param  $user Socialite user object
+     * @param $provider Social auth provider
+     * @return  User
+     */
+    public function findOrCreateUser($user, $provider)
+    {
+        $authUser = User::where('provider_id', $user->id)->first();
+        if ($authUser) {
+            return $authUser;
+        }
+        $checkEmail = User::where('email', $user->email)->first();
+        if ($checkEmail) {
+            return $checkEmail;
+        }
+        return User::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'provider' => $provider,
+            'provider_id' => $user->id
+        ]);
+    }
+
+
+    public function getMyAccountPage()
+    {
+        $titleWebsite = new ThemeController();
+        $title = $titleWebsite->getTitleWebsite('tai-khoan');
+        if (Auth::check()) {
+            $name_avatar_text = explode(' ', Auth::user()->name);
+            $name_last = $name_avatar_text[sizeof($name_avatar_text) - 1];
+            return view('themes.child-theme.components.mn-khkt-my-account', ['titleWebsite' => $title, 'avatar_text' => substr($name_last, 0, 1)]);
+        } else {
+            abort('401');
+        }
+    }
+
+
+    public function updatePasswordForFrontEnd(Request $request)
+    {
+        $email = $request->email;
+        $password = $request->password;
+        $password_confirm = $request->password_confirm;
+        $authUser = User::where('email', $email)->first();
+
+        if ($authUser) {
+            if ($password === $password_confirm && !empty($password_confirm) && !empty($password)) {
+                $this->user->updatePassword($password, 0, $email);
+                return redirect()->back()->with('messages', 'Đã cập nhật mật khẩu mới');
+            } else {
+                return redirect()->back()->with('errors', 'Đã có lỗi xảy ra, vui lòng kiểm tra lại thông tin!');
+            }
+        }
+    }
+
+    public function getMyCourse()
+    {
+        if (Auth::check()) {
+            $user = Auth::user();
+            $post = $user->postsCourses;
+            $titleWebsite = new ThemeController();
+            $title = $titleWebsite->getTitleWebsite('khoa-hoc');
+            return view('themes.child-theme.components.mn-khkt-my-courses', ['course' => $post, 'titleWebsite' => $title]);
+        } else {
+            abort('401');
+        }
     }
 }

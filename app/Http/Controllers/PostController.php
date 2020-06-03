@@ -6,7 +6,6 @@ use App\User;
 use App\Post;
 use App\Term;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -59,6 +58,7 @@ class PostController extends Controller
      */
     function getEditPost($id)
     {
+        $this->user->authorizeRoles('edit_post');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',
@@ -69,60 +69,6 @@ class PostController extends Controller
             return view('admin.errors.admin-error', ['error_responses' => $responses]);
         } else {
             return view('admin.post.post-edit', ['postData' => $postData]);
-        }
-    }
-
-    function getActionTrashPost($id)
-    {
-        $responses = array(
-            'title' => 'Lỗi',
-            'sub_title' => '',
-            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
-        );
-        $postData = $this->post->post_id($id)->type($this->post_type)->first();
-        if ($postData == null) {
-            return view('admin.errors.admin-error', ['error_responses' => $responses]);
-        } else {
-            $this->post->post_id($id)->update(array(
-                    'post_status' => 'trash'
-                )
-            );
-            return redirect()->back();
-        }
-    }
-
-    function getActionRestorePost($id)
-    {
-        $responses = array(
-            'title' => 'Lỗi',
-            'sub_title' => '',
-            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
-        );
-        $postData = $this->post->post_id($id)->type($this->post_type)->first();
-        if ($postData == null) {
-            return view('admin.errors.admin-error', ['error_responses' => $responses]);
-        } else {
-            $this->post->post_id($id)->update(array(
-                    'post_status' => 'draft'
-                )
-            );
-            return redirect()->back();
-        }
-    }
-
-    function getActionDeletePost($id)
-    {
-        $responses = array(
-            'title' => 'Lỗi',
-            'sub_title' => '',
-            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
-        );
-        $postData = $this->post->post_id($id)->type($this->post_type)->first();
-        if ($postData == null) {
-            return view('admin.errors.admin-error', ['error_responses' => $responses]);
-        } else {
-            $this->post->post_id($id)->delete();
-            return redirect()->back();
         }
     }
 
@@ -149,5 +95,35 @@ class PostController extends Controller
     {
         $this->post->updatePost($id, $request);
         return redirect()->route('GET_EDIT_POST_ROUTE', [$id])->with('update', 'Bài viết đã được cập nhật.');
+    }
+
+    /**
+     * @param $status
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    function updateStatus($status, $id)
+    {
+        $responses = array(
+            'title' => 'Lỗi',
+            'sub_title' => '',
+            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
+        );
+        if ($status !== '') {
+            if ($status === 'restore') {
+                $status = 'draft';
+            } else if ($status === 'trash') {
+                $status = 'trash';
+            } else if ($status === 'delete') {
+                $this->user->authorizeRoles('delete_post');
+                $this->post->post_id($id)->delete();
+            } else {
+                return view('admin.errors.admin-error', ['error_responses' => $responses]);
+            }
+            $this->post->updateStatus($id, $this->post_type, $status);
+            return redirect()->back();
+        } else {
+            return view('admin.errors.admin-error', ['error_responses' => $responses]);
+        }
     }
 }

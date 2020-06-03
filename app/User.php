@@ -5,6 +5,7 @@ namespace App;
 use App\Role;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     use Notifiable;
+
     protected $role;
 
     public function __construct(array $attributes = [])
@@ -27,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'provider_name', 'provider_id', 'remember_token', 'refresh_token'
     ];
 
     /**
@@ -68,19 +70,29 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Post', 'permission_post', 'user_id', 'post_id')->withPivot('date_expires');
     }
 
+    public function order()
+    {
+        return $this->hasMany('App\Order');
+    }
+
 
     public function authorizeRoles($permission_name)
     {
-
         $roles_name = [];
         $roles = $this->getNameRole();
         if (!empty($roles)) {
             foreach ($roles as $key => $role) {
                 $roles_name[$key] = $role['name'];
+//                if($role->name === 'administrator'){
+//                    return $role;
+//                }
             }
         }
-        return $this->checkPermission($permission_name) || abort(401, 'Bạn không có quyền truy cập hành động này!');
-
+        if (!empty($this->checkPermission($permission_name))) {
+            return $this->checkPermission($permission_name);
+        } else {
+            abort(401, 'Bạn không có quyền truy cập hành động này!');
+        }
     }
 
     /**
@@ -105,24 +117,13 @@ class User extends Authenticatable
 
     public function checkPermission($permission)
     {
-        $permissions = self::find(Auth::user()->id)->permissions()->where('permissions.name', $permission)->first();
-        if (empty($permissions)) {
-            $role_user = $this->getNameRole();
-            $role_id = $role_user[0]->id;
-            $role = $this->role->where('id', $role_id)->first();
-            $permission_arr = $role->permission;
-            foreach ($permission_arr as $key => $value) {
-                if ($value['name'] == $permission) {
-                    $permissions[$key] = $value['name'];
-                } else {
-                    $permissions = null;
-                }
-            }
-        }
+        $permissions = self::find(Auth::user()->id)->permissions()->where('permissions.name', '=',$permission)->first();
         return $permissions;
     }
 
-
+    /*
+     * Đăng ký post cho user
+     * **/
     public function registerPostForUser($user_id, $post_id)
     {
         $date_expires_data = Option::where('option_name', 'date_expires')->first();
@@ -135,30 +136,85 @@ class User extends Authenticatable
     }
 
 
+    /*
+     * Huỷ hoá đơn
+     * **/
+
+    public function detachPostForUser($user_id, $post_id)
+    {
+        return $this->find($user_id)->postsCourses()->detach($post_id);
+    }
+
+
+    /*
+     * kiểm tra truy cập của post cho user
+     * **/
+
+    public function checkPostForUser($user_id, $post_id)
+    {
+        $dateNow = strtotime(Date::now());
+        $postCourses = $this->find($user_id)->postsCourses()->where('post_id', $post_id)->first();
+        if ($postCourses !== null) {
+            if ($dateNow > $postCourses->pivot->date_expires) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
+
+
     /**
      * @param $user_id
      * @param $post_id
      * cách dùng
      * $this->user->checkPermissionForPost(Auth::user()->id, 2);
      */
-    public function checkPermissionForPost($user_id, $post_id)
+    public function checkPermissionForPost($post_id)
     {
-        $permissions = self::find(Auth::user()->id)->postsCourses()->get();
-        $date_now = strtotime(Carbon::now());
-        foreach ($permissions as $permission) {
-            if($permission->ID !== $post_id){
-                abort(401, 'Bạn không có quyền truy cập hành động này!');
+        if (Auth::check()) {
+            $permissions = self::find(Auth::user()->id)->postsCourses()->get();
+            $date_now = strtotime(Carbon::now());
+            $check_true = 0;
+            foreach ($permissions as $permission) {
+
+                if ((int)$permission->ID === (int)$post_id) {
+                    $check_true = 1;
+                } else {
+                    $check_true = 0;
+                }
+                if ((int)$permission->pivot->date_expires > (int)$date_now) {
+                    $check_true = 1;
+                } else {
+                    $check_true = 0;
+                }
             }
-            if ((int)$permission->pivot->date_expires < (int)$date_now) {
-                abort(401, 'Quyền truy cập hành động này đã hết hạn!');
+
+            if ($check_true === 1) {
+                return 1;
+            } else {
+                return 0;
             }
-            else{
-                abort(401, 'Bạn không có quyền truy cập hành động này!');
-            }
+        } else {
+            return 0;
         }
 
-
     }
+
+
+    public function updateInforRegisterPostForUser($user_id, $post_id, $activity)
+    {
+        $information = self::find($user_id)->postsCourses()->where('post_id', $post_id)->first();
+        if (!empty($information)) {
+            $this->find($user_id)->postsCourses()->detach($post_id);
+            return $this->find($user_id)->postsCourses()->attach($post_id, ['date_expires' => $information->pivot->date_expires, 'activity' => $activity]);
+        } else {
+            return false;
+        }
+    }
+
 
     public function getNameRole()
     {
@@ -260,8 +316,30 @@ class User extends Authenticatable
         $user->roles()->sync($role_id);
     }
 
+    /**
+     * @param $user_id
+     * @param array $role_id
+     * @return mixed
+     */
     public function updateRoleByUserID($user_id, $role_id = [])
     {
         return self::find($user_id)->roles()->sync($role_id);
+    }
+
+    public static function registerUser($name, $email, $password)
+    {
+        $user = self::create([
+            'name' => $name,
+            'email' => $email,
+            'password' => Hash::make($password),
+        ]);
+
+        $subscriber = Role::find(5);
+        $user->roles()->attach($subscriber);
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

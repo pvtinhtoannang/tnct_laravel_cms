@@ -97,6 +97,7 @@
 <script src="/assets/vendors/general/jquery.repeater/src/jquery.input.js" type="text/javascript"></script>
 <script src="/assets/vendors/general/jquery.repeater/src/repeater.js" type="text/javascript"></script>
 <script src="/assets/vendors/general/dompurify/dist/purify.js" type="text/javascript"></script>
+<script src="/assets/vendors/custom/jquery-ui/jquery-ui.bundle.js" type="text/javascript"></script>
 
 <!--end:: Global Optional Vendors -->
 

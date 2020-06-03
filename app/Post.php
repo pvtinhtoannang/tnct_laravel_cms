@@ -56,7 +56,8 @@ class Post extends Model
         $this->term = new Term();
     }
 
-    public function usersCourses(){
+    public function usersCourses()
+    {
         return $this->belongsToMany('App\User', 'permission_post', 'post_id', 'user_id');
     }
 
@@ -234,7 +235,12 @@ class Post extends Model
         }
         $user_id = Auth::user()->id;
         if ($id !== '') {
-            $post_name = $request->post_name;
+            $post = $this->find($id);
+            if ($post->post_name !== $request->post_name) {
+                $post_name = $this->slugGenerator($this->toSlug($request->post_name));
+            } else {
+                $post_name = $request->post_name;
+            }
         } else {
             $post_name = $this->slugGenerator($this->toSlug($request->post_title));
         }
@@ -246,6 +252,19 @@ class Post extends Model
             'post_status' => $request->post_status,
             'post_name' => $post_name,
             'post_type' => $request->post_type
+        );
+    }
+
+    /**
+     * @param $meta_key
+     * @param $meta_value
+     * @return array
+     */
+    function postMeta($meta_key, $meta_value)
+    {
+        return array(
+            'meta_key' => $meta_key,
+            'meta_value' => $meta_value,
         );
     }
 
@@ -295,7 +314,8 @@ class Post extends Model
     }
 
 
-    function updatePost($id, $request){
+    function updatePost($id, $request)
+    {
         $post = self::find($id);
         $cats = array();
         foreach ($this->taxonomyRequest($request) as $term_id) {
@@ -306,15 +326,95 @@ class Post extends Model
                 $post->meta()->create($this->thumbnailRequest($request));
             }
         } else {
+            $thumbnail = $post->meta()->find($post->thumbnail->meta_id);
             if (isset($request->thumbnail_id)) {
-                $post->meta()->update($this->thumbnailRequest($request));
+                $thumbnail->update($this->thumbnailRequest($request));
             } else {
-                $thumbnail = $post->meta()->find($post->thumbnail->meta_id);
                 $thumbnail->delete();
             }
         }
-        $update_post = $post->update($this->postRequest($request, $id));
+
+        if ($post->file === null) {
+            if (isset($request->lesson_file)) {
+                $post->file()->create($this->postMeta('lesson_file', $request->lesson_file));
+            }
+        } else {
+            $file = $post->file()->find($post->file->meta_id);
+            if (isset($request->lesson_file)) {
+                $file->update($this->postMeta('lesson_file', $request->lesson_file));
+            } else {
+                $file->delete();
+            }
+        }
+
+        if ($post->price === null) {
+            if (isset($request->course_price)) {
+                $post->price()->create($this->postMeta('course_price', $request->course_price));
+            }
+        } else {
+            $course = $post->price()->find($post->price->meta_id);
+            if (isset($request->course_price)) {
+                $course->update($this->postMeta('course_price', $request->course_price));
+            } else {
+                $course->update($this->postMeta('course_price', 0));
+            }
+        }
+
+        if ($post->sale_price === null) {
+            if (isset($request->course_sale_price)) {
+                $post->sale_price()->create($this->postMeta('course_sale_price', $request->course_sale_price));
+            }
+        } else {
+            $course = $post->sale_price()->find($post->sale_price->meta_id);
+            if (isset($request->course_sale_price)) {
+                $course->update($this->postMeta('course_sale_price', $request->course_sale_price));
+            } else {
+                $course->delete();
+            }
+        }
+
+        if ($post->hot === null) {
+            if (isset($request->course_hot)) {
+                $post->hot()->create($this->postMeta('course_hot', $request->course_hot));
+            }
+        } else {
+            $course = $post->hot()->find($post->hot->meta_id);
+            if (isset($request->course_hot)) {
+                $course->update($this->postMeta('course_hot', $request->course_hot));
+            } else {
+                $course->update($this->postMeta('course_hot', 0));
+            }
+        }
+
+        if ($post->video === null) {
+            if (isset($request->video_link)) {
+                $post->video()->create($this->postMeta('video_link', $request->video_link));
+            }
+        } else {
+            $lesson = $post->video()->find($post->video->meta_id);
+            if (isset($request->video_link)) {
+                $lesson->update($this->postMeta('video_link', $request->video_link));
+            } else {
+                $lesson->delete();
+            }
+        }
+
+
+        $post->update($this->postRequest($request, $id));
         $post->taxonomies()->wherePivot('object_id', $id)->sync($cats);
     }
 
+    function updateStatus($id, $post_type, $status)
+    {
+        $postData = $this->post_id($id)->type($post_type)->first();
+        if ($postData === null) {
+            return false;
+        } else {
+            $this->post_id($id)->update(array(
+                    'post_status' => $status
+                )
+            );
+            return true;
+        }
+    }
 }

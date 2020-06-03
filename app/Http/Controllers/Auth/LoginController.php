@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -63,7 +64,7 @@ class LoginController extends Controller
             case 'customer':
             case 'subscriber':
             default:
-                return '/login';
+                return '/';
                 break;
         }
     }
@@ -73,16 +74,31 @@ class LoginController extends Controller
     {
         $email = $request->email;
         $password = $request->password;
+
         if (Auth::attempt(['email' => $email, 'password' => $password], $request->has('remember'))) {
             return $this->redirectTo();
         } else {
-            return $data['messages'] = 'error';
+            return $data['messages'] = 'Tài khoản hoặc mật khẩu không đúng!';
         }
     }
 
     public function logout()
     {
         Auth::logout();
-        return redirect('/login');
+        return redirect('/');
+    }
+
+    public function redirectToGoogleProvider()
+    {
+        $parameters = ['access_type' => 'offline'];
+        return Socialite::driver('google')->scopes(["https://www.googleapis.com/auth/drive"])->with($parameters)->redirect();
+    }
+
+    public function handleProviderGoogleCallback()
+    {
+        $auth_user = Socialite::driver('google')->user();
+        $user = User::updateOrCreate(['email' => $auth_user->email], ['refresh_token' => $auth_user->token, 'name' => $auth_user->name]);
+        Auth:: login($user, true);
+        return redirect()->to('/');   // Redirect to a secure page
     }
 }

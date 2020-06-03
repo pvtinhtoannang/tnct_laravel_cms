@@ -29,5 +29,19 @@ class GroupSeeder extends Seeder
         DB::table('groups')->insert([
             'name' => 'Cài đặt',
         ]);
+
+        DB::table('groups')->insert([
+            'name' => 'Đơn hàng',
+        ]);
+
+        DB::table('groups')->insert([
+            'name' => 'Menu',
+        ]);
+        DB::table('groups')->insert([
+            'name' => 'Slider',
+        ]);
+        DB::table('groups')->insert([
+            'name' => 'Form Liên hệ',
+        ]);
     }
 }

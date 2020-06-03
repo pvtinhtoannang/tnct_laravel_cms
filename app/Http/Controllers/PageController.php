@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Page;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
-    private $post_type, $page;
+    private $post_type, $page, $user;
 
     /**
      * PageController constructor.
@@ -17,6 +18,7 @@ class PageController extends Controller
     {
         $this->post_type = 'page';
         $this->page = new Page();
+        $this->user = new User();
     }
 
     /**
@@ -41,65 +43,12 @@ class PageController extends Controller
         return view('admin.page.page-all', ['pages' => $pages, 'count' => $this->page->count_post($this->post_type)]);
     }
 
-    function getActionTrashPage($id)
-    {
-        $responses = array(
-            'title' => 'Lỗi',
-            'sub_title' => '',
-            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
-        );
-        $postData = $this->page->post_id($id)->first();
-        if ($postData == null) {
-            return view('admin.errors.admin-error', ['error_responses' => $responses]);
-        } else {
-            $this->page->post_id($id)->update(array(
-                    'post_status' => 'trash'
-                )
-            );
-            return redirect()->back();
-        }
-    }
-
-    function getActionRestorePage($id)
-    {
-        $responses = array(
-            'title' => 'Lỗi',
-            'sub_title' => '',
-            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
-        );
-        $postData = $this->page->post_id($id)->first();
-        if ($postData == null) {
-            return view('admin.errors.admin-error', ['error_responses' => $responses]);
-        } else {
-            $this->page->post_id($id)->update(array(
-                    'post_status' => 'draft'
-                )
-            );
-            return redirect()->back();
-        }
-    }
-
-    function getActionDeletePage($id)
-    {
-        $responses = array(
-            'title' => 'Lỗi',
-            'sub_title' => '',
-            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
-        );
-        $postData = $this->page->post_id($id)->first();
-        if ($postData == null) {
-            return view('admin.errors.admin-error', ['error_responses' => $responses]);
-        } else {
-            $this->page->post_id($id)->delete();
-            return redirect()->back();
-        }
-    }
-
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     function getPageEditor()
     {
+        $this->user->authorizeRoles('add_page');
         return view('admin.page.page-new', ['post_type' => $this->post_type]);
     }
 
@@ -109,6 +58,7 @@ class PageController extends Controller
      */
     function getEditPage($id)
     {
+        $this->user->authorizeRoles('edit_page');
         $responses = array(
             'title' => 'Lỗi',
             'sub_title' => '',
@@ -157,5 +107,35 @@ class PageController extends Controller
             }
         }
         return redirect()->route('GET_EDIT_PAGE_ROUTE', [$id])->with('update', 'Trang đã được cập nhật.');
+    }
+
+    /**
+     * @param $status
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    function updateStatus($status, $id)
+    {
+        $responses = array(
+            'title' => 'Lỗi',
+            'sub_title' => '',
+            'description' => 'Bạn đang muốn sửa một thứ không tồn tại. Có thể nó đã bị xóa?'
+        );
+        if ($status !== '') {
+            if ($status === 'restore') {
+                $status = 'draft';
+            } else if ($status === 'trash') {
+                $status = 'trash';
+            } else if ($status === 'delete') {
+                $this->user->authorizeRoles('delete_page');
+                $this->page->post_id($id)->delete();
+            } else {
+                return view('admin.errors.admin-error', ['error_responses' => $responses]);
+            }
+            $this->page->updateStatus($id, $this->post_type, $status);
+            return redirect()->back();
+        } else {
+            return view('admin.errors.admin-error', ['error_responses' => $responses]);
+        }
     }
 }

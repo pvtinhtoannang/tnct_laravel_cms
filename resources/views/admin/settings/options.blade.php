@@ -5,7 +5,7 @@
     <ul class="nav nav-tabs  nav-tabs-line nav-tabs-line-brand" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#kt_tabs_9_1" role="tab"><i
-                    class="flaticon-cogwheel-1"></i>
+                        class="flaticon-cogwheel-1"></i>
                 Cài đặt tổng quan</a>
         </li>
 
@@ -17,7 +17,6 @@
     <div class="tab-content">
         <div class="tab-pane active" id="kt_tabs_9_1" role="tabpanel">
             <h1 class="template-title">Tuỳ chọn tổng quan</h1>
-
             <form class="kt-form" method="POST" action="{{route('POST_OPTION_GENERAL')}}">
                 @csrf
                 <div class="kt-portlet__body">
@@ -33,7 +32,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-md-6">
-                            @foreach($options as $option)
+                            @foreach($options as $indexOption=>$option)
                                 <div class="form-group">
                                     <label for="{{ $option['option_name'] }}">{{ $option['option_label'] }}</label>
                                     @if($option['option_type']==='text' || $option['option_type']==='url' || $option['option_type']==='email' || $option['option_type']==='number')
@@ -45,6 +44,36 @@
                                     @elseif ($option['option_type']=='textarea')
                                         <textarea name="{{ $option['option_name'] }}" id="{{ $option['option_name'] }}"
                                                   cols="30" rows="10" class="form-control"></textarea>
+                                    @elseif($option['option_type'] === 'course' || $option['option_type'] === 'course_cat')
+                                        @php
+                                            $option_value = json_decode($option['option_value']);
+                                        @endphp
+                                        @if($option['option_type'] ==='course')
+                                            <select name="option[{{$indexOption}}][{{$option['option_name']}}][]"
+                                                    multiple id=""
+                                                    class="form-control select2-course-update">
+                                                @if(!empty($option['option_value']))
+                                                    @foreach($allCourse as $value)
+                                                        <option value="{{ $value->ID }}"
+                                                                @foreach($option_value as $item) @if((int)$item === $value->ID)  selected @endif  @endforeach>{{$value->post_title}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        @endif
+                                        @if($option['option_type'] === 'course_cat')
+                                            <select name="option[{{$indexOption}}][{{$option['option_name']}}][]"
+                                                    multiple id=""
+                                                    class="form-control select2-course-update">
+                                                @if(!empty($option['option_value']))
+                                                    @foreach($categoryCourse as $course_cat)
+                                                        <option value="{{ $course_cat->term->term_id }}"
+                                                                @foreach($option_value as $item) @if((int)$item === $course_cat->term->term_id) selected @endif  @endforeach>{{$course_cat->term->name}}</option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        @endif
+                                    @elseif($option['option_type'] =='repeater_text')
+                                        @include('admin.settings.options.repeater-text-update')
                                     @else
 
                                     @endif
@@ -66,9 +95,9 @@
 
         <div class="tab-pane" id="kt_tabs_9_3" role="tabpanel">
             <div class="row">
-                <div class="col-xs-12 col-md-4">
+                <div class="col-xs-12 col-md-7">
                     <h2 class="template-title">Thêm tuỳ chọn mới</h2>
-                    <form class="kt-form" method="POST" action="{{route('ADD_OPTION_GENERAL')}}">
+                    <form class="kt-form form-new-option" method="POST" action="{{route('ADD_OPTION_GENERAL')}}">
                         @csrf
                         <div class="kt-portlet__body">
                             <div class="form-group form-group-last">
@@ -88,23 +117,56 @@
                                        aria-describedby="option_label"
                                        value="{{ old('option_label') }}"
                                        placeholder="Nhập tiêu đề, ex: Tên website">
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
                             </div>
                             <div class="form-group">
-                                <label for="option_value">Nội dung option</label>
-                                <input required id="option_value" type="text"
-                                       name="option_value" class="form-control"
-                                       aria-describedby="option_value"
-                                       value="{{ old('option_value') }}"
-                                       placeholder="Nhập tiêu đề, ex: Công Ty TNHH DỊCH VỤ CÔNG NGHỆ TOÀN NĂNG - CHI NHÁNH CẦN THƠ">
-                            </div>
-                            <div class="form-group">
-                                <label for="option_name">Slug</label>
+                                <label for="option_name">Slug - dùng cho dev</label>
                                 <input required id="option_name" type="text"
                                        name="option_name" class="form-control"
                                        aria-describedby="option_name"
                                        value="{{ old('option_name') }}"
                                        placeholder="Slug viết không dấu và có dấu _ ở dưới, ex: tieu_de">
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+
                             </div>
+                            <div class="form-group option_value_group" id="content_option_default"
+                                 style="display: block">
+                                <label for="option_value">Nội dung option: text</label>
+                                <input id="option_value" type="text"
+                                       name="option_value" class="form-control reset-input"
+                                       aria-describedby="option_value"
+                                       value="{{ old('option_value') }}"
+                                       placeholder="Nhập tiêu đề, ex: Công Ty TNHH DỊCH VỤ CÔNG NGHỆ TOÀN NĂNG - CHI NHÁNH CẦN THƠ">
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                            </div>
+                            <div class="form-group option_value_group" id="content_option_course" style="display: none">
+                                <label for="option_value_courses">Chọn khoá học</label>
+                                <select name="option_value_course[]" class="select2 form-control" multiple
+                                        id="option_value_courses" style="width: 100%">
+                                    <option value="-1">Chọn khoá học</option>
+                                    @foreach($allCourse as $course)
+                                        <option value="{{$course->ID}}">{{$course->post_title}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+                            </div>
+                            <div class="form-group option_value_group" id="content_option_course_cat"
+                                 style="display: none">
+                                <label for="option_value_course_cat">Chọn danh mục khoá học</label>
+                                <select name="option_value_course_cat[]" class="select2 form-control" multiple
+                                        id="option_value_course_cat" style="width: 100%">
+                                    <option value="-1">Chọn danh mục khoá học</option>
+                                    @foreach($categoryCourse as $course_cat)
+                                        <option value="{{$course_cat->term->term_id}}">{{$course_cat->term->name}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+
+                            </div>
+                            <input type="hidden" value="1" id="last-id-chilren">
+                            @include('admin.settings.options.repeater-text')
+                            @include('admin.settings.options.repeater-images')
+
                             <div class="form-group">
                                 <label for="option_type">Loại option</label>
                                 <select class="form-control" name="option_type" id="option_type">
@@ -113,7 +175,13 @@
                                     <option value="email">Email</option>
                                     <option value="number">Số</option>
                                     <option value="textarea">Textarea</option>
+                                    <option value="course">Khoá học</option>
+                                    <option value="course_cat">Danh mục khoá học</option>
+                                    <option value="repeater_text">Repeater Text</option>
+                                    <option value="repeater_image">Repeater Image</option>
                                 </select>
+                                <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
+
                             </div>
 
                         </div>
@@ -124,11 +192,9 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-xs-12 col-md-8">
-
+                <div class="col-xs-12 col-md-5">
                     <!-- begin:: Content -->
                     <div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
-
                         <div class="kt-portlet kt-portlet--mobile">
                             <div class="kt-portlet__head kt-portlet__head--lg">
                                 <div class="kt-portlet__head-label">
@@ -145,8 +211,6 @@
                                             <i class="la la-long-arrow-left"></i>
                                             Quay lại trang trước
                                         </a>
-                                        &nbsp;
-
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +240,6 @@
                                         <th>#</th>
                                         <th>Tên</th>
                                         <th>Nhãn</th>
-                                        <th>Giá trị</th>
                                         <th>Loại</th>
                                     </tr>
                                     </thead>
@@ -205,19 +268,17 @@
                                                 </div>
                                             </td>
                                             <td>{{$option->option_label}}</td>
-                                            <td>{{$option->option_value}}</td>
                                             <td>{{$option->option_type}}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- end:: Content -->
+                        <!-- end:: Content -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
 @endsection

@@ -32,7 +32,7 @@ class Permission extends Model
      */
     public function users()
     {
-        return $this->belongsToMany('App\User', 'permission_user', 'user_id', 'permission_id');
+        return $this->belongsToMany('App\User', 'permission_user', 'permission_id', 'user_id');
     }
 
 
@@ -66,6 +66,5 @@ class Permission extends Model
     {
         return self::find($id)->update(['name' => $request_name, 'display_name' => $request_display_name, 'group_id' => $request_group_id]);
     }
-
 
 }

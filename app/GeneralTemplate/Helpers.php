@@ -6,9 +6,7 @@
  */
 
 use App\Page;
-use App\Post;
-use App\Option;
-use App\Term;
+use App\Attachment;
 
 function theme_head()
 {
@@ -34,14 +32,18 @@ add_action('theme_head', 'theme_styles');
 
 function theme_styles()
 {
+
     $component_assets = url('/component-assets');
     register_style($component_assets . "/lib/bootstrap/css/bootstrap.min.css");
     register_style($component_assets . "/lib/font-awesome/css/font-awesome.min.css");
     register_style($component_assets . "/lib/mmenu/jquery.mmenu.all.css");
     register_style($component_assets . "/lib/slick/slick.css");
     register_style($component_assets . "/lib/slick/slick-theme.css");
+    register_style($component_assets . "/lib/sweetalert2/sweetalert2.min.css");
     register_style($component_assets . "/css/reset.min.css");
+    register_style($component_assets . "/lib/pdfjs-dist/web/viewer.css");
     register_style($component_assets . "/css/style.css");
+    register_script($component_assets . '/lib/jquery/dist/jquery.js');
 }
 
 add_action('theme_footer', 'theme_script_footer');
@@ -49,11 +51,15 @@ add_action('theme_footer', 'theme_script_footer');
 function theme_script_footer()
 {
     $component_assets = url('/component-assets');
-    register_script($component_assets . '/lib/jquery/dist/jquery.js');
+    register_script($component_assets . '/lib/bootstrap/js/popper.min.js');
     register_script($component_assets . '/lib/bootstrap/js/bootstrap.min.js');
     register_script($component_assets . '/lib/slick/slick.min.js');
     register_script($component_assets . '/lib/mmenu/jquery.mmenu.all.min.js');
+    register_script($component_assets . '/lib/sweetalert2/sweetalert2.min.js');
+    register_script($component_assets . '/lib/pdfjs-dist/build/pdf.js');
+    register_script($component_assets . '/lib/pdfjs-dist/web/viewer.js');
     register_script($component_assets . '/js/script.js');
+
 }
 
 function is_page($page = '')
@@ -80,3 +86,69 @@ function is_tax($taxonomy = '')
         return false;
     }
 }
+function get_thumbnail_src($post)
+{
+    $uploads_url = url('/contents/uploads');
+    if ($post->thumbnail) {
+        return $uploads_url . '/' . $post->thumbnail->attachment->meta->meta_value;
+    } else {
+        return '';
+    }
+
+}
+
+function get_attachment_src($attachment_id)
+{
+    $attachment = new Attachment();
+    $uploads_url = url('/contents/uploads');
+    $attachment_data = $attachment->find($attachment_id);
+    if ($attachment_data) {
+        return $uploads_url . '/' . $attachment_data->meta->meta_value;
+    } else {
+        return '';
+    }
+}
+
+function render_slider($id, $class = '', $id_slider_custom = '')
+{
+    $slider = new \App\Slider();
+
+    $slider_data = $slider->find($id);
+
+    if (!empty($slider_data)) {
+        $slider_data = $slider_data->post_content;
+        ?>
+        <div class="tnct-slider-<?= $id ?> <?= $class ?>" id="<?= $id_slider_custom ?>">
+            <?php foreach (json_decode($slider_data) as $value) { ?>
+                <a target="_blank" href="<?= $value->slide_url ?>" class="slider-item<?= $id ?> tnct-slider-item"
+                   title="">
+                    <img src="<?= get_attachment_src($value->slide_id_images) ?>" alt="<?= $value->slide_title ?>">
+                </a>
+            <?php } ?>
+        </div>
+    <?php }
+}
+
+function is_tax($taxonomy = '')
+{
+    global $term;
+    if (isset($term)) {
+        if ($term->taxonomy->taxonomy === $taxonomy) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+function get_data_menu($name = 'primary_menu')
+{
+    $menu = new \App\PositionMenu();
+    $menuPosition = $menu->where('name', $name)->first();
+    if (!empty($menuPosition)) {
+        return $menuPosition->menu;
+    }else{
+        return array();
+    }
+}
+

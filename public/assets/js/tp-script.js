@@ -1,5 +1,6 @@
 "use strict"
 
+
 var KTDatatablesPermission = function () {
     var initTablePermission = function () {
         var table = $('#permission');
@@ -259,9 +260,108 @@ var PvtinhUserManagement = function () {
         }
     }
 }();
-
-
 var PvtinhMenuManagement = function () {
+
+    var createSelect2MenuCategoriesCourse = function () {
+        $('#menu_course_cat').select2({
+            placeholder: "Chọn một hoặc nhiều chuyên mục khoá học"
+        });
+    }
+    var createSelect2MenuCourse = function () {
+        $('#menu_course').select2({
+            placeholder: "Chọn một hoặc nhiều khoá học"
+        });
+    }
+    var handleAddMenuItemForCategoryCourse = function () {
+        $('.btn-add-course-cat-to-menu').click(function () {
+            var data = $('#menu_course_cat').select2('data');
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
+
+            $.each(data, function (key, value) {
+                var label = value.text;
+                var link = value.id;
+                var html = '';
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = res.label;
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+            });
+            $('#menu_categories').val(null).trigger('change');
+
+            if (data !== null) {
+                alertSuccessAddMenuItem();
+            }
+
+        });
+    }
+    var handleAddMenuItemForCourse = function () {
+        $('.btn-add-course-to-menu').click(function () {
+            var data = $('#menu_course').select2('data');
+            var __token = $('meta[name="csrf-token"]').attr('content');
+            var position = $('#postion_menu').val();
+
+            $.each(data, function (key, value) {
+                var label = value.text;
+                var link = value.id;
+                var html = '';
+                $.ajax({
+                    method: "POST",
+                    url: "/admin/ajax-add-menu",
+                    data: {_token: __token, label: label, link: link, position: position}
+                })
+                    .done(function (res) {
+                        var id_html = res.id;
+                        var label_html = res.label;
+                        var label_link = res.link;
+                        console.log(id_html);
+                        if (id_html !== undefined) {
+                            html = '<li class="dd-item" data-id="' + id_html + '">\n' +
+                                '    <span class="dd-handle"><i class="fa fa-arrows-alt"></i></span>\n' +
+                                '    <span class="dd3-content">\n' +
+                                '        <span data-id="' + id_html + '">' + label_html + '</span>\n' +
+                                '        <a class="edit-button" data-id="' + id_html + '"\n' +
+                                '        data-label="' + label_html + '" href="javascript:;"\n' +
+                                '        data-link="' + label_link + '" data-toggle="modal"\n' +
+                                '        data-target="#modalEditMenuItem"><i class="flaticon-edit"></i></a>\n' +
+                                '        <a class="del-button" href="javascript:;" data-id="' + id_html + '"><i\n' +
+                                '        class="flaticon-delete"></i></a>\n' +
+                                '    </span>\n' +
+                                '</li>';
+                            $('ol.dd-list-parent').append(html);
+                        }
+                    });
+            });
+            $('#menu_posts').val(null).trigger('change');
+
+            if (data !== null) {
+                alertSuccessAddMenuItem();
+            }
+
+        });
+    }
 
     var createSelect2MenuPages = function () {
         $('#menu_pages').select2({
@@ -280,9 +380,10 @@ var PvtinhMenuManagement = function () {
     }
     var createSelect2MenuCategories = function () {
         $('#menu_categories').select2({
-            placeholder: "Chọn một hoặc chuyên mục"
+            placeholder: "Chọn một hoặc nhiều chuyên mục"
         });
     }
+
     var createStructMenu = function () {
         $('.dd').nestable({ /* config options */});
     }
@@ -301,8 +402,6 @@ var PvtinhMenuManagement = function () {
             inputUrlName.val(label);
             inputMenuID.val(id);
             inputMenuUrl.val(link);
-
-
         });
 
         $('button.btn-save-editMenuItem').click(function () {
@@ -672,11 +771,11 @@ var PvtinhMenuManagement = function () {
             $.ajax({
                 type: "POST",
                 url: "/admin/ajax-save-menu",
-                data:  {_token: __token, data: data},
+                data: {_token: __token, data: data},
                 cache: false,
                 success: function (data) {
                     alertUpdateMenuItem();
-                    }, error: function (xhr, status, error) {
+                }, error: function (xhr, status, error) {
                     alertErrorAddMenuItem();
                 },
             });
@@ -690,7 +789,7 @@ var PvtinhMenuManagement = function () {
             $.ajax({
                 type: "POST",
                 url: "/admin/ajax-delete-menu-item",
-                data:  {_token: __token, id: id},
+                data: {_token: __token, id: id},
                 cache: false,
                 success: function (data) {
                     alertDeleteMenuItem();
@@ -702,11 +801,10 @@ var PvtinhMenuManagement = function () {
         });
     }
 
-
     var updatePositionMenu = function () {
         $('.btn-edit-menu-position').click(function () {
             var id = $(this).data('id');
-            var url = '/admin/ajax-get-menu-position/'+id;
+            var url = '/admin/ajax-get-menu-position/' + id;
             $.ajax({
                 type: "GET",
                 url: url,
@@ -732,7 +830,7 @@ var PvtinhMenuManagement = function () {
             $.ajax({
                 type: "POST",
                 url: url,
-                data:  {_token: __token, id: id, name: update_name, display_name: update_display_name},
+                data: {_token: __token, id: id, name: update_name, display_name: update_display_name},
                 success: function (res) {
                     $('#update_name').val(data.name);
                     $('#update_display_name').val(data.display_name);
@@ -744,6 +842,7 @@ var PvtinhMenuManagement = function () {
             });
         });
     }
+
 
     return {
         init: function () {
@@ -762,6 +861,464 @@ var PvtinhMenuManagement = function () {
             saveMenuItemToMenuPosition();
             deleteMenuItem();
             updatePositionMenu();
+            createSelect2MenuCategoriesCourse();
+            createSelect2MenuCourse();
+            handleAddMenuItemForCategoryCourse();
+            handleAddMenuItemForCourse();
+        }
+    }
+}();
+var PvtinhSliderManagement = function () {
+    var RepeaterSlider = function () {
+        $('#kt_repeater_1').repeater({
+            initEmpty: false,
+            show: function () {
+                $(this).slideDown();
+            },
+
+            hide: function (deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
+        });
+    }
+    var addNewSlide = function () {
+        $('.btn-add-slide-item').click(function () {
+            var indexB = 0;
+            $.each($('.item-repeater'), function (index, value) {
+                indexB = index + 1;
+                $(this).attr("data-repeat-item", indexB);
+                $(this).find('.btn-choose-file').attr('data-repeat', indexB);
+            });
+
+            $('#name').val(JSON.stringify($('.repeater').repeaterVal()));
+        });
+    }
+    var featured_image_select = function () {
+        var data_id = 0;
+        $(document).on("click", "button.btn-choose-file", function () {
+            let featured_image_modal = $('#insert-media-modal');
+            featured_image_modal.modal('show');
+            data_id = $(this).attr('data-repeat');
+        });
+
+        let attachments = $('ul.attachments');
+        let media_button_select = $('#insert-media-modal #media-button-select');
+        media_button_select.click(function () {
+            let featured_image_modal = $('#insert-media-modal');
+            featured_image_modal.modal('show');
+            $.each($('#insert-media-modal li.attachment'), function (index, value) {
+                if ($(this).hasClass('selected')) {
+                    var src = $(this).attr('data-src');
+                    var id = $(this).attr('data-id');
+                    $.each($('.item-repeater'), function (index, value) {
+                        let indexB = index * 1 + 1;
+                        let dataIdB = data_id * 1;
+                        if (indexB === dataIdB) {
+                            $(this).find('.slide-image').empty();
+                            $(this).find('.slide-image').append('<img src="' + src + '" />');
+                            $(this).find('.id-images').val(id);
+                        }
+                    });
+                    attachments.find('.selected').removeClass('selected');
+                    attachments.find('[aria-checked="true"]').attr('aria-checked', 'false');
+                    featured_image_modal.modal('hide');
+                }
+            });
+        });
+    }
+    var saveAllSlide = function () {
+
+        $('.btn-save-slide').click(function () {
+            var data = $('.repeater').repeaterVal();
+            console.log(data);
+            var errors = 0;
+            var id_slider = $(this).data('id');
+            var post_title = $(this).data('title');
+            var post_status = 'publish';
+            var post_name = $(this).data('name');
+            var post_type = 'slider';
+            var post_content;
+
+            $.each(data, function (index, value) {
+                post_content = value;
+                $.each(value, function (i, item) {
+                    if (item.slide_url === '') {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+
+                        toastr.warning("Bạn quên nhập liên kết");
+                        errors = 1;
+                    }
+                    if (item.slide_title === '') {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.warning("Bạn quên nhập tiêu đề");
+                        errors = 1;
+                    }
+                    if (item.slide_id_images === '') {
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.error("Bạn quên nhập hình ảnh!");
+                        errors = 1;
+                    } else {
+                        errors = 0;
+                    }
+                });
+            });
+            if (errors === 1) {
+                toastr.options = {
+                    "closeButton": false,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "5000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                toastr.error("Vui lòng nhập hình ảnh cho slide vừa thêm!");
+            } else {
+                var __token = $('meta[name="csrf-token"]').attr('content');
+                $.ajax({
+                    type: "POST",
+                    url: '/admin/slider/' + id_slider,
+                    data: {
+                        _token: __token,
+                        post_content: post_content,
+                        post_title: post_title,
+                        post_status: post_status,
+                        post_name: post_name,
+                        post_type: post_type,
+                    },
+                    success: function (res) {
+                        errors = 0;
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": false,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        };
+                        toastr.success("Slider đã thêm vào!!!");
+                    }, error: function (xhr, status, error) {
+                        alertErrorAddMenuItem();
+                    },
+                });
+
+            }
+        });
+    }
+    return {
+        init: function () {
+            RepeaterSlider();
+            addNewSlide();
+            featured_image_select();
+            saveAllSlide();
+        }
+    }
+}();
+
+var PvtinhOptionManagement = function () {
+
+    let slideUpOptionValue = function () {
+        $('#content_option_default').slideUp('slow');
+        $('#content_option_course').slideUp('slow');
+        $('#content_option_course_cat').slideUp('slow');
+        $('#repeater-list-group').slideUp('slow');
+        $('#repeater-image-list-group').slideUp('slow');
+    }
+
+    let resetInput = function () {
+        $('.reset-input').val('');
+        $('.reset-input').text('');
+        $('.repeater-item-text').find('input').val('');
+    }
+    let resetSelect2 = function () {
+        $('#option_value_courses').val('null').trigger('change');
+        $('#option_value_course_cat').val('null').trigger('change');
+        $('#option_value_courses').select2({
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Chọn một khoá học'
+            }
+        });
+        $('.select2-course-update').select2({
+
+        });
+        $('#option_value_course_cat').select2({
+            placeholder: {
+                id: '-1', // the value of the option
+                text: 'Chọn một danh mục khoá học'
+            }
+        });
+    }
+    resetSelect2();
+    let RepeaterOptions = function () {
+        $('.form-new-option #option_type').change(function () {
+            let option_value = $(this).val();
+            resetSelect2();
+            resetInput();
+            if (option_value === 'course') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#content_option_course').slideDown('slow');
+            } else if (option_value === 'course_cat') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#content_option_course_cat').slideDown('slow');
+            } else if (option_value === 'repeater_text') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#repeater-list-group').slideDown('slow');
+            } else if (option_value === 'repeater_image') {
+                slideUpOptionValue();
+                resetSelect2();
+                $('#repeater-image-list-group').slideDown('slow');
+            } else {
+                slideUpOptionValue();
+                $('#content_option_default').slideDown('slow');
+            }
+        });
+    };
+    var createNameInputForRepeaterText = function () {
+        var label = '';
+        var slug = '';
+        var value = '';
+        $('.repeater-list-group-repeater-text .repeater-item-text').each(function (i) {
+            if (i == '0') {
+                $(this).find('.btn-delete-item-input').addClass('disabled')
+            }
+            label = 'repeater[column][' + i + '][repeater_label]';
+            slug = 'repeater[column][' + i + '][repeater_slug]';
+            value = 'repeater[column][' + i + '][repeater_value]';
+            $(this).find('.input-label-repeater-text').attr('name', label);
+            $(this).find('.input-slug-repeater-text').attr('name', slug);
+            $(this).find('.input-value-repeater-text').attr('name', value);
+
+            if (i >= '1') {
+                $(this).removeClass('repeater-item-text-0');
+                $(this).find('.btn-delete-item-input').removeClass('disabled')
+            }
+        });
+    }
+    var notifcationDeleted = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.success("Đã xoá!!!");
+    }
+    var notifcationAdded = function () {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr.success("Đã thêm!!!");
+    }
+
+    var createNewInputForRepeaterText = function () {
+        $(document).on('click', 'a.btn-add-item-repeater-text', function () {
+            var html_item_input_text = $(this).parents('.repeater-list-group-repeater-text').find('.repeater-item-text-0').clone();
+            $(this).parents('.repeater-list-group-repeater-text').find('.repeater-list-input').append(html_item_input_text);
+            console.log(html_item_input_text);
+            createNameInputForRepeaterText();
+            console.log('Đã thêm mới');
+            notifcationAdded();
+        });
+    }
+    var deleteInputForRepeaterText = function () {
+        $(document).on('click', 'a.btn-delete-item-input', function () {
+            $(this).parents('.repeater-item-text').remove();
+            createNameInputForRepeaterText();
+            console.log('Đã xoá');
+            notifcationDeleted();
+        });
+    }
+    var createInputUpdate = function () {
+        $(document).on('click', 'a.btn-add-item-update', function () {
+            let repeater_list_input = $(this).parents('.repeater_update_parent').find('.repeater-list-input-0').clone();
+            $(this).parents('.repeater_update_parent').find('.repeater-list-group-repeater-text-update').append(repeater_list_input);
+            var label = '';
+            var slug = '';
+            var value = '';
+            let indexOption = $(this).data('index-option');
+            $(this).parents('.repeater_update_parent').find('.repeater-list-group-repeater-text-update .repeater-list-input').each(function (i) {
+
+                if (i === '0') {
+                    $(this).find('.btn-delete-item-input').addClass('disabled')
+                }
+                var option_name = $(this).find('.input-label-repeater-text').data('name');
+                console.log(option_name);
+                $(this).find('.input-label-repeater-text').attr('name', 'option[' + indexOption + '][' + option_name + '][0][label]');
+                $(this).find('.input-label-repeater-text').attr('name', 'option[' + indexOption + '][' + option_name + '][0][name]');
+                $(this).find('.input-label-parent-repeater').attr('name', 'option[' + indexOption + '][' + option_name + '][' + i + '][label]');
+                $(this).find('.input-name-parent-repeater').attr('name', 'option[' + indexOption + '][' + option_name + '][' + i + '][name]');
+
+                label = 'option[' + indexOption + '][' + $(this).find('.input-label-repeater-text').data('name') + ']['+i+'][column]['+i+'][repeater_label]';
+                slug = 'option[' + indexOption + '][' + $(this).find('.input-value-repeater-text').data('name') + ']['+i+'][column]['+i+'][repeater_slug]';
+                value = 'option[' + indexOption + '][' + $(this).find('.input-slug-repeater-text').data('name') + ']['+i+'][column]['+i+'][repeater_value]';
+
+                $(this).find('.repeater-item-text').each(function (j) {
+                    label = 'option[' + indexOption + '][' + $(this).find('.input-label-repeater-text').data('name') + ']['+i+'][column]['+j+'][repeater_label]';
+                    slug = 'option[' + indexOption + '][' + $(this).find('.input-value-repeater-text').data('name') + ']['+i+'][column]['+j+'][repeater_slug]';
+                    value = 'option[' + indexOption + '][' + $(this).find('.input-slug-repeater-text').data('name') + ']['+i+'][column]['+j+'][repeater_value]';
+                    $(this).find('.input-label-repeater-text').attr('name', label);
+                    $(this).find('.input-slug-repeater-text').attr('name', slug);
+                    $(this).find('.input-value-repeater-text').attr('name', value);
+                });
+
+                if (i >= 1) {
+                    console.log($(this));
+                    $(this).removeClass('repeater-list-input-0');
+                    $(this).find('.btn-delete-item-input').removeClass('disabled')
+                }
+            });
+            console.log('Đã thêm mới');
+            notifcationAdded();
+        });
+
+        $(document).on('click', 'a.delete-item-repeate-update', function () {
+            $(this).parents('.repeater-list-input').remove();
+            console.log('Đã xoá');
+            notifcationDeleted();
+        });
+        var portlet = new KTPortlet('.custom_kt-portlet');
+    }
+
+
+    var resetDataUpdateParentID = function () {
+        $('.repeater_update_parent .append-repeater_list_parent .repeater-list-children').each(function (i) {
+            $(this).attr('data-parent-id', i);
+            $(this).find('.repeater-item-text').attr('data-id', i + i);
+            $(this).find('.btn-add-item').attr('data-id', i + i);
+            $(this).find('.btn-delete-item-input').attr('data-id', i + i);
+            $(this).find('.btn-delete-item-parent').attr('data-parent-id', i);
+
+            if (i > 0) {
+                $(this).removeClass('repeater-list-children-0');
+                $(this).find('.btn-delete-item-parent').removeClass('disabled');
+            }
+        });
+    }
+    var resetDataUpdateChildrenID = function () {
+        $('.repeater_update_parent .repeater-item-text').each(function (i) {
+            $(this).attr('data-id', i);
+            $(this).find('.btn-delete-item-input').attr('data-id', i);
+            if (i > 0) {
+                $(this).removeClass('repeater-item-text-0');
+                $(this).find('.btn-delete-item-input').removeClass('disabled');
+            }
+        });
+    }
+
+    $('.repeater_update_parent .append-repeater_list_parent').each(function (i) {
+        $(this).attr('data-parent-id', i);
+        $(this).find('.repeater-item-text').attr('data-id', i + i);
+        $(this).find('.btn-add-item').attr('data-id', i + i);
+        $(this).find('.btn-delete-item-input').attr('data-id', i + i);
+        $(this).find('.btn-delete-item-parent').attr('data-parent-id', i);
+    });
+    let addNewItemRepeatImage = function () {
+        $(document).on('click', 'a.btn-add-item-images', function () {
+            var html_repeater = $('#hidden-input-image').find('.repeater-item-text').clone();
+            $(this).parents('.repeater-list-group').find('repeater-list-input').append(html_repeater);
+        });
+    }
+    return {
+        init: function () {
+            RepeaterOptions();
+            createNewInputForRepeaterText();
+            deleteInputForRepeaterText();
+            createInputUpdate();
+            addNewItemRepeatImage();
         }
     }
 }();
@@ -774,6 +1331,8 @@ jQuery(document).ready(function () {
     PvtinhPermissionForUser.init();
     PvtinhUserManagement.init();
     PvtinhMenuManagement.init();
+    PvtinhSliderManagement.init();
+    PvtinhOptionManagement.init();
 });
 
 

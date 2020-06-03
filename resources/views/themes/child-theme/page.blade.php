@@ -1,0 +1,13 @@
+@if(is_page('tai-khoan'))
+    @include ('themes.child-theme.components.mn-khkt-mn-khkt-my-acount')
+@elseif(is_page('khoa-hoc-cua-toi'))
+    @include ('themes.child-theme.components.mn-khkt-my-courses')
+@elseif(is_page('mat-khau-moi'))
+    @include ('themes.child-theme.components.mat-khau-moi')
+@elseif(is_page('khoa-hoc'))
+    @include ('themes.child-theme.components.mn-khkt-course-archive')
+@elseif(is_page('lien-he'))
+    @include ('themes.child-theme.components.pvtinh-khkt-contact-page')
+@else
+    @include ('themes.child-theme.components.mn-khkt-single')
+@endif

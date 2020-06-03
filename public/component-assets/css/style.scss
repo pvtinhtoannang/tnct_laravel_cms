@@ -1,7 +1,31 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@200;300;400;500;600;700&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
+    /*font family chính của website*/
+    font-family: 'Sarabun', sans-serif;
+    background-color: #eef1f2;
 }
 
-@import '../sass/mixin';
+html {
+    font-size: 16px;
+
+}
+
+@import '../sass/mixin2';
+@import '../sass/pvtinh-khkt-header';
+@import '../sass/pvtinh_khkt_timkhoahoc';
+@import '../sass/pvtinh_khkt_khoahochot';
+@import '../sass/pvtinh_khkt_taisaochon';
+@import '../sass/pvtinh_khkt_partner';
+@import '../sass/pvtinh_khkt_footer';
+@import '../sass/mn-khkt-my-account';
+@import '../sass/mn-khkt-my-courses';
+@import '../sass/pvtinh-khkt-slider';
+@import '../sass/pvtinh-login';
+@import '../sass/mn-khkt-course';
+@import '../sass/mn-khkt-cart';
+@import '../sass/mn-khkt-checkout';
+@import '../sass/mn-khkt-learning';
+@import '../sass/mn-khkt-course-archive';
+@import '../sass/mn-khkt-archive';
+@import '../sass/mn-khkt-single';

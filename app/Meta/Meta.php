@@ -15,4 +15,9 @@ class Meta extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    function key($key)
+    {
+        return $this->where('meta_key', $key)->first();
+    }
 }

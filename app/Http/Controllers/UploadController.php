@@ -60,6 +60,42 @@ class UploadController extends Controller
         }
     }
 
+    function FileSizeConvert($bytes)
+    {
+        $bytes = floatval($bytes);
+        $arBytes = array(
+            0 => array(
+                "UNIT" => "TB",
+                "VALUE" => pow(1024, 4)
+            ),
+            1 => array(
+                "UNIT" => "GB",
+                "VALUE" => pow(1024, 3)
+            ),
+            2 => array(
+                "UNIT" => "MB",
+                "VALUE" => pow(1024, 2)
+            ),
+            3 => array(
+                "UNIT" => "KB",
+                "VALUE" => 1024
+            ),
+            4 => array(
+                "UNIT" => "B",
+                "VALUE" => 1
+            ),
+        );
+
+        foreach ($arBytes as $arItem) {
+            if ($bytes >= $arItem["VALUE"]) {
+                $result = $bytes / $arItem["VALUE"];
+                $result = str_replace(".", ",", strval(round($result, 2))) . " " . $arItem["UNIT"];
+                break;
+            }
+        }
+        return $result;
+    }
+
     /**
      * @param Request $request
      */
@@ -78,6 +114,7 @@ class UploadController extends Controller
         $file_name = '';
         foreach ($files as $key => $file) {
             $file_name = $file->getClientOriginalName();
+            $file_size = $file->getSize();
             $file_extension = $file->getClientOriginalExtension();
             $file_basename = basename($file_name, '.' . $file_extension);
             $file_name_generator = $this->fileNameGenerator($this->uploads_path, $file_name, $file_basename, $file_extension);
@@ -88,7 +125,7 @@ class UploadController extends Controller
                 'post_author' => $user_id,
                 'post_content' => '',
                 'post_title' => $file_basename,
-                'post_excerpt' => '',
+                'post_excerpt' => $file_name,
                 'post_status' => 'inherit',
                 'post_name' => $post_name,
                 'post_type' => $this->post_type
@@ -98,7 +135,47 @@ class UploadController extends Controller
                 'meta_key' => 'attached_file',
                 'meta_value' => $this->year . '/' . $this->month . '/' . $file_name_generator,
             );
-            $attachment->meta()->create($metaRequest);
+            $attachment->attached_file()->create($metaRequest);
+            $attachment->attachment_type()->create([
+                'meta_key' => 'attachment_type',
+                'meta_value' => $file_extension,
+            ]);
+            $attachment->attachment_size()->create([
+                'meta_key' => 'attachment_size',
+                'meta_value' => $this->FileSizeConvert($file_size),
+            ]);
         }
+    }
+
+    function getAttachedFile(Request $request)
+    {
+        $size = '';
+        $type = '';
+        $caption = '';
+        $description = '';
+        $path = '';
+        $attachment = $this->attachment->find($request->id);
+        if ($attachment->attachment_size) {
+            $size = $attachment->attachment_size->meta_value;
+        }
+        if ($attachment->attachment_type) {
+            $type = $attachment->attachment_type->meta_value;
+        }
+        if ($attachment->attachment_caption) {
+            $caption = $attachment->attachment_caption->meta_value;
+        }
+        if ($attachment->attachment_description) {
+            $description = $attachment->attachment_description->meta_value;
+        }
+        if ($attachment->attached_file) {
+            $path = $attachment->attached_file->meta_value;
+        }
+        $attachment['size'] = $size;
+        $attachment['type'] = $type;
+        $attachment['caption'] = $caption;
+        $attachment['description'] = $description;
+        $attachment['path'] = $path;
+        $attachment['upload_by'] = $attachment->author->name;
+        return $attachment;
     }
 }
