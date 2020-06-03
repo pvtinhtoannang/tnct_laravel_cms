@@ -230,59 +230,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="card">
-                                    <div class="card-header" id="headingTwo8">
-                                        <div class="card-title collapsed" data-toggle="collapse"
-                                             data-target="#collapseTwo8" aria-expanded="false"
-                                             aria-controls="collapseTwo8">
-                                            <i class="flaticon-apps"></i> Khoá học
-                                        </div>
-                                    </div>
-                                    <div id="collapseTwo8" class="collapse" aria-labelledby="headingTwo1"
-                                         data-parent="#side-sortables">
-                                        <div class="card-body">
-                                            <div class="form-group row">
-                                                <!--begin::Portlet-->
-                                                <select class="form-control m-select2 d-block"
-                                                        style="width: 100%" multiple id="menu_course"
-                                                        name="menu_course[]">
-                                                    @foreach($coursed as $course)
-                                                        <option value="{{ $course->post_name }}">{{ $course->post_title }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <button type="button"  class="btn btn-brand btn-elevate btn-elevate-air btn-add-course-to-menu"> Thêm vào menu </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header" id="headingTwo9">
-                                        <div class="card-title collapsed" data-toggle="collapse"
-                                             data-target="#collapseTwo9" aria-expanded="false"
-                                             aria-controls="collapseTwo9">
-                                            <i class="flaticon-bag"></i> Chuyên mục khoá học
-                                        </div>
-                                    </div>
-                                    <div id="collapseTwo9" class="collapse" aria-labelledby="headingTwo1"
-                                         data-parent="#side-sortables">
-                                        <div class="card-body">
-                                            <div class="form-group row">
-                                                <!--begin::Portlet-->
-                                                <select class="form-control m-select2 d-block"
-                                                        style="width: 100%" multiple id="menu_course_cat"
-                                                        name="menu_course_cat[]">
-                                                    @foreach($category_course as $category)
-                                                        <option
-                                                                value="{{ $category->term->slug }}">{{ $category->term->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <button type="button"  class="btn btn-brand btn-elevate btn-elevate-air btn-add-course-cat-to-menu"> Thêm vào menu </button>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                             <!--end::Accordion-->

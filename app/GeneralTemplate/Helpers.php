@@ -127,7 +127,7 @@ function render_slider($id, $class = '', $id_slider_custom = '')
             <?php } ?>
         </div>
     <?php }
-} 
+}
 
 function get_data_menu($name = 'primary_menu')
 {
