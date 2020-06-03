@@ -127,19 +127,7 @@ function render_slider($id, $class = '', $id_slider_custom = '')
             <?php } ?>
         </div>
     <?php }
-}
-
-function is_tax($taxonomy = '')
-{
-    global $term;
-    if (isset($term)) {
-        if ($term->taxonomy->taxonomy === $taxonomy) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
+} 
 
 function get_data_menu($name = 'primary_menu')
 {
