@@ -45,39 +45,10 @@ class OptionController extends Controller
 
         $repeater = $request->repeater;
 
-        if(!empty($repeater['column'])){
+        if($repeater['label'] !==  null){
             $option_value = '['.json_encode($repeater).']';
-        }
-
-        if (!empty($option_label_parent) && !empty($option_slug_parent)) {
-            for ($j = 0; $j < sizeof($option_label_parent['label']); $j++) {
-                if ($option_label_parent['label'] !== null) {
-                    $label = $option_label_parent['label'];
-                }
-            }
-            for ($j = 0; $j < sizeof($option_slug_parent['slug']); $j++) {
-                $slug = $option_slug_parent['slug'];
-            }
-
-            $pos = 0;
-            $children = '';
-            for ($k = 0; $k < sizeof($label); $k++) {
-                $key = $slug[$k];
-                $value = $label[$k];
-                dump($key);
-                dump($value);
-                if (!is_array($key) && !is_array($value)) {
-                    $pos = $k;
-                    if ($value != null) {
-                        $option_value_arr[$pos][$key] = $value;
-                    }
-                } else {
-
-                }
-            }
-
-//            $option_value = json_encode($option_value_arr);
-            return $option_value;
+        }else{
+            $option_value = $option_value_text;
         }
 
         if (!empty($option_value_course) && sizeof($option_value_course) > 0) {
@@ -88,7 +59,9 @@ class OptionController extends Controller
         if (!empty($option_value_course_cat) && $option_value_course_cat > 0) {
             $option_value = json_encode($option_value_course_cat);
         }
-
+        if(empty($option_value)){
+            $option_value = 'Đang cập nhật';
+        }
         if (!empty($option_label) && !empty($option_value) && !empty($option_name) && !empty($option_type)) {
             if ($this->option->addNewOption($option_name, $option_value, $option_type, $option_label)) {
                 return redirect()->back()->with('messages', 'Cập nhật thành công!');
