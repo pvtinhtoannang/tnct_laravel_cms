@@ -761,7 +761,7 @@ var PvtinhMenuManagement = function () {
             saveMenuItemToMenuPosition();
             deleteMenuItem();
             updatePositionMenu();
-       
+
         }
     }
 }();
