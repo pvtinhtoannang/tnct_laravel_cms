@@ -1135,7 +1135,7 @@ var PvtinhOptionManagement = function () {
             } else if (option_value === 'repeater_image') {
                 slideUpOptionValue();
                 resetSelect2();
-                $('#repeater-image-list-group').slideDown('slow');
+                $('#repeater-list-group').slideDown('slow');
             } else {
                 slideUpOptionValue();
                 $('#content_option_default').slideDown('slow');

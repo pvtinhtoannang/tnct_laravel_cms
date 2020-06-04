@@ -74,6 +74,8 @@
                                         @endif
                                     @elseif($option['option_type'] =='repeater_text')
                                         @include('admin.settings.options.repeater-text-update')
+                                    @elseif($option['option_type'] =='repeater_image')
+                                        @include('admin.settings.options.repeater-images-update')
                                     @else
 
                                     @endif
