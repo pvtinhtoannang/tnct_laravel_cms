@@ -75,7 +75,7 @@
                                     </span>
                                 </h5>
                             </div>
-                            <div id="collapse-{{$i}}" class="collapse @if($i === 0) show @endif"
+                            <div id="collapse-{{$i}}" class="collapse"
                                  aria-labelledby="heading-{{$i}}"
                                  data-parent="#course-content-accordion">
                                 <ul class="section-list">

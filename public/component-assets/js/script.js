@@ -75,10 +75,21 @@ function deleteItemFromCart() {
     });
 }
 
+function current_section() {
+    $(".collapse").each(function (i, el) {
+        $(this).children('ul').children('li').each(function (i2, el2) {
+            if ($(this).hasClass('current-item')) {
+                $(this).parent().parent().addClass('show');
+            }
+        });
+    });
+}
+
 jQuery(function ($) {
     try {
         addToCart();
         deleteItemFromCart();
+        current_section();
         //slick dùng để tạo slide
         $('.list-timkhoahoc').slick({
             dots: false,
