@@ -47,14 +47,19 @@
                         ?>
 
                         @if($file_type === 'drive')
-                                <iframe src="/read-file/{{ $current_lesson->ID }}" frameborder="0" class="iframe-file"></iframe>
+                            <iframe src="/read-file/{{ $current_lesson->ID }}" frameborder="0"
+                                    class="iframe-file"></iframe>
                         @else
-                                <iframe src="/get-file/{{ $current_lesson->ID }}" frameborder="0"  class="iframe-file"></iframe>
+                            <iframe src="/get-file/{{ $current_lesson->ID }}" frameborder="0"
+                                    class="iframe-file"></iframe>
                         @endif
 
                     @endif
                 @endif
-                <div class="container-fluid">
+                <div class="lesson-content">
+                    <div class="container">
+                        {!! $current_lesson->post_content !!}
+                    </div>
                 </div>
             </div>
             <div class="right-content">
