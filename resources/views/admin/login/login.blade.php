@@ -35,7 +35,7 @@ License: You must have a valid license purchased only from themeforest(the above
                     <div class="kt-login__container">
                         <div class="kt-login__body">
                             <div class="kt-login__logo">
-                                <a href="#">
+                                <a href="/">
                                     <img src="{{ asset('assets/media/company-logos/logo-2.png') }}">
                                 </a>
                             </div>
@@ -100,7 +100,7 @@ License: You must have a valid license purchased only from themeforest(the above
                  style="background-image: url({{ asset('assets/media/bg/bg-4.jpg') }});">
                 <div class="kt-login__section">
                     <div class="kt-login__block">
-                        <h3 class="kt-login__title">Toàn Năng Cần Thơ</h3>
+                        <h3 class="kt-login__title">CTY TNHH DV Đại Tây Nam</h3>
                         <div class="kt-login__desc">
                             Tận tâm - Tận lực - Thiết thực - Hiệu quả
                             <br>"Hỗ trợ hết mình - tận tình hướng dẫn"
